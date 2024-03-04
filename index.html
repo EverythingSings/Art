@@ -1,57 +1,79 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>EverythingSings.Art</title>
-    <style>
-        body { margin: 0; overflow: hidden; }
-        canvas { width: 100%; height: 100% }
-    </style>
+   <title>Code.EverythingSings.Art</title>
+   <style>
+       body { margin: 0; overflow: hidden; background-color: #101010; }
+       canvas { width: 100%; height: 100% }
+   </style>
 </head>
 <body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script>
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.z = 5;
-        const renderer = new THREE.WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+   <script>
+       // Setup scene
+       const scene = new THREE.Scene();
+       const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+       camera.position.z = 10;
+       const renderer = new THREE.WebGLRenderer();
+       renderer.setSize(window.innerWidth, window.innerHeight);
+       document.body.appendChild(renderer.domElement);
 
-        const material1 = new THREE.MeshPhongMaterial({ color: 0xff0000, flatShading: true });
-        const material2 = new THREE.MeshPhongMaterial({ color: 0x00ff00, flatShading: true });
-        const material3 = new THREE.MeshPhongMaterial({ color: 0x0000ff, flatShading: true });
+       // Create materials
+       const materials = [];
+       for (let i = 0; i < 10; i++) {
+           const material = new THREE.MeshPhongMaterial({
+               color: Math.random() * 0xffffff,
+               flatShading: false,
+               shininess: 75
+           });
+           materials.push(material);
+       }
 
-        const geometry1 = new THREE.TorusKnotGeometry(1, 0.3, 100, 16);
-        const geometry2 = new THREE.TorusKnotGeometry(0.7, 0.2, 64, 32);
-        const geometry3 = new THREE.TorusKnotGeometry(0.5, 0.1, 32, 64);
+       // Create geometries
+       const geometries = [
+           new THREE.TorusKnotGeometry(1.5, 0.5, 100, 16),
+           new THREE.TorusKnotGeometry(1.2, 0.4, 80, 24),
+           new THREE.TorusKnotGeometry(0.9, 0.3, 64, 32),
+           new THREE.TorusKnotGeometry(0.6, 0.2, 48, 40)
+       ];
 
-        const mesh1 = new THREE.Mesh(geometry1, material1);
-        const mesh2 = new THREE.Mesh(geometry2, material2);
-        const mesh3 = new THREE.Mesh(geometry3, material3);
+       // Create meshes
+       const meshes = [];
+       for (let i = 0; i < geometries.length; i++) {
+           const mesh = new THREE.Mesh(geometries[i], materials[i % materials.length]);
+           meshes.push(mesh);
+           scene.add(mesh);
+       }
 
-        scene.add(mesh1);
-        scene.add(mesh2);
-        scene.add(mesh3);
+       // Create pedestal
+       const pedestalGeometry = new THREE.CylinderGeometry(2, 2, 1, 32);
+       const pedestalMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, flatShading: true });
+       const pedestal = new THREE.Mesh(pedestalGeometry, pedestalMaterial);
+       pedestal.position.y = -2;
+       scene.add(pedestal);
 
-        const light1 = new THREE.PointLight(0xffffff, 1, 100);
-        light1.position.set(5, 5, 5);
-        scene.add(light1);
+       // Add lights
+       const light1 = new THREE.PointLight(0xffffff, 1, 100);
+       light1.position.set(5, 5, 5);
+       scene.add(light1);
 
-        const light2 = new THREE.PointLight(0xffffff, 1, 100);
-        light2.position.set(-5, -5, -5);
-        scene.add(light2);
+       const light2 = new THREE.PointLight(0xffffff, 1, 100);
+       light2.position.set(-5, -5, -5);
+       scene.add(light2);
 
-        function animate() {
-            requestAnimationFrame(animate);
-            mesh1.rotation.x += 0.01;
-            mesh1.rotation.y += 0.01;
-            mesh2.rotation.x -= 0.02;
-            mesh2.rotation.y -= 0.02;
-            mesh3.rotation.x += 0.03;
-            mesh3.rotation.y += 0.03;
-            renderer.render(scene, camera);
-        }
-        animate();
-    </script>
+       // Animation loop
+       function animate() {
+           requestAnimationFrame(animate);
+
+           meshes.forEach((mesh, index) => {
+               mesh.rotation.x += 0.01 * (index + 1);
+               mesh.rotation.y += 0.01 * (index + 1);
+               mesh.material.color.setHSL(Date.now() * 0.0001 % 1, 1, 0.5);
+           });
+
+           renderer.render(scene, camera);
+       }
+       animate();
+   </script>
 </body>
 </html>
