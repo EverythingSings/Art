@@ -64,14 +64,15 @@
     document.body.appendChild(renderer.domElement);
     const buttonElement = document.getElementById('website');
 
-    const pages = [
-      'test.html',
-      'index.html'
-    ]
-
     document.getElementById('randomSceneButton').addEventListener('click', function () {
-      const randomPage = pages[Math.floor(Math.random() * pages.length)];
-      window.location.href = randomPage;
+      fetch('pages.json')
+        .then(response => response.json())
+        .then(data => {
+          const pages = data.pages;
+          const randomPage = pages[Math.floor(Math.random() * pages.length)];
+          window.location.href = randomPage;
+        })
+        .catch(error => console.error('Error loading the pages list:', error));
     });
 
 

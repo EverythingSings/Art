@@ -64,11 +64,6 @@
     document.body.appendChild(renderer.domElement);
     const buttonElement = document.getElementById('website');
 
-    // const pages = [
-    //   'test.html',
-    //   'index.html'
-    // ]
-
     document.getElementById('randomSceneButton').addEventListener('click', function () {
       fetch('pages.json')
         .then(response => response.json())
