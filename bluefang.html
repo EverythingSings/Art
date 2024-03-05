@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Code.EverythingSings.Art</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #101010;
+      position: relative;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    .button-container {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1;
+    }
+
+    #website {
+      color: black;
+      font-family: montserrat;
+      font-weight: bolder;
+      text-decoration: none;
+      padding: 16px 24px;
+      background-color: rgba(194, 194, 194, 0.5);
+      border-radius: 8px;
+    }
+
+    #title {
+      position: absolute;
+      border-radius: 8px;
+      background-color: #10101075;
+      padding: 2rem;
+      margin: 2rem;
+      color: white;
+      font-size: 48px;
+    }
+
+    #randomSceneButton {
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body id="randomSceneButton">
+  <h1 id="title">Click to Be Transported Elsewhere</h1>
+  <div class="button-container">
+    <a href="http://EverythingSings.Art" id="website">EverythingSings.Art</a>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 10;
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+    const buttonElement = document.getElementById('website');
+
+    document.getElementById('randomSceneButton').addEventListener('click', function () {
+      fetch('pages.json')
+        .then(response => response.json())
+        .then(data => {
+          const pages = data.pages;
+          const randomPage = pages[Math.floor(Math.random() * pages.length)];
+          window.location.href = randomPage;
+        })
+        .catch(error => console.error('Error loading the pages list:', error));
+    });
+
+
+    const materials = [];
+    for (let i = 0; i < 10; i++) {
+      const material = new THREE.MeshPhongMaterial({
+        color: Math.random() * 0xffffff,
+        flatShading: false,
+        shininess: 75
+      });
+      materials.push(material);
+    }
+
+    const geometries = [
+      new THREE.TorusKnotGeometry(2.4, 0.02, 384, 12),
+      new THREE.TorusKnotGeometry(2.2, 0.02, 384, 10),
+      new THREE.TorusKnotGeometry(2, 0.02, 384, 8),
+      new THREE.TorusKnotGeometry(1.2, 0.02, 192, 24),
+      new THREE.TorusKnotGeometry(0.6, 0.02, 96, 36),
+      new THREE.TorusKnotGeometry(0.3, 0.02, 48, 48),
+      new THREE.TorusKnotGeometry(0.2, 0.02, 36, 36),
+      new THREE.TorusKnotGeometry(0.1, 0.02, 24, 24),
+
+
+    ];
+
+    const meshes = [];
+    for (let i = 0; i < geometries.length; i++) {
+      const mesh = new THREE.Mesh(geometries[i], materials[i % materials.length]);
+      meshes.push(mesh);
+      scene.add(mesh);
+    }
+
+    const light1 = new THREE.PointLight(0xffffff, 1, 100);
+    light1.position.set(5, 5, 5);
+    scene.add(light1);
+
+    const light2 = new THREE.PointLight(0xffffff, 1, 100);
+    light2.position.set(-5, -5, -5);
+    scene.add(light2);
+
+    function getColorFromTime(time) {
+      const hue = (time * 0.0001) % 1;
+      return `hsl(${hue * 360}, 100%, 50%)`;
+    }
+
+    function getContrastingColor(bgColor) {
+      const rgb = bgColor.match(/\d+/g).map(Number);
+      const luminance = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255;
+      return luminance > 0.5 ? '#000000' : '#ffffff';
+    }
+
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      const currentTime = Date.now();
+      const currentColor = getColorFromTime(currentTime);
+
+      meshes.forEach((mesh, index) => {
+        mesh.rotation.x += 0.01 * (index + 1);
+        mesh.rotation.y += 0.01 * (index + 1);
+
+        mesh.material.color.setStyle(currentColor);
+
+        const meshWorldPosition = new THREE.Vector3();
+        mesh.getWorldPosition(meshWorldPosition);
+        const buttonX = (meshWorldPosition.x + 5) * window.innerWidth / 20;
+        const buttonY = (meshWorldPosition.y + 5) * window.innerHeight / 20;
+        buttonElement.style.left = `${buttonX}px`;
+        buttonElement.style.top = `${buttonY}px`;
+
+        buttonElement.style.backgroundColor = currentColor;
+
+        const computedBgColor = window.getComputedStyle(buttonElement).backgroundColor;
+        buttonElement.style.color = getContrastingColor(computedBgColor);
+
+      });
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+</body>
+
+</html>
