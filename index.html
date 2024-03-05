@@ -75,6 +75,14 @@
         .catch(error => console.error('Error loading the pages list:', error));
     });
 
+    window.addEventListener('resize', onWindowResize, false);
+
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
 
     const materials = [];
     for (let i = 0; i < 10; i++) {
@@ -136,9 +144,8 @@
         mesh.getWorldPosition(meshWorldPosition);
         const buttonX = (meshWorldPosition.x + 5) * window.innerWidth / 20;
         const buttonY = (meshWorldPosition.y + 5) * window.innerHeight / 20;
-        buttonElement.style.left = `${buttonX}px`;
-        buttonElement.style.top = `${buttonY}px`;
-
+        buttonElement.style.left = `${Math.min(buttonX, window.innerWidth - buttonElement.offsetWidth)}px`;
+        buttonElement.style.top = `${Math.min(buttonY, window.innerHeight - buttonElement.offsetHeight)}px`;
         buttonElement.style.backgroundColor = currentColor;
 
         const computedBgColor = window.getComputedStyle(buttonElement).backgroundColor;
@@ -150,6 +157,7 @@
     }
 
     animate();
+    onWindowResize();
   </script>
 </body>
 
