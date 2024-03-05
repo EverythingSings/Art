@@ -16,7 +16,7 @@
       height: 100%;
     }
 
-    #button-container {
+    .button-container {
       position: absolute;
       bottom: 20px;
       right: 20px;
@@ -42,12 +42,16 @@
       color: white;
       font-size: 48px;
     }
+
+    #randomSceneButton {
+      cursor: pointer;
+    }
   </style>
 </head>
 
-<body>
+<body id="randomSceneButton">
   <h1 id="title">Order & Chaos</h1>
-  <div id="button-container">
+  <div class="button-container">
     <a href="http://EverythingSings.Art" id="website">EverythingSings.Art</a>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -59,6 +63,16 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
     const buttonElement = document.getElementById('website');
+
+    const pages = [
+      'test.html',
+      'index.html'
+    ]
+
+    document.getElementById('randomSceneButton').addEventListener('click', function () {
+      const randomPage = pages[Math.floor(Math.random() * pages.length)];
+      window.location.href = randomPage;
+    });
 
 
     const materials = [];
