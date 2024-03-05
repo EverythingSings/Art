@@ -87,10 +87,16 @@
     }
 
     const geometries = [
-      new THREE.TorusKnotGeometry(2.4, 0.02, 384, 12),
-      new THREE.TorusKnotGeometry(1.2, 0.02, 192, 24),
-      new THREE.TorusKnotGeometry(0.6, 0.02, 96, 36),
-      new THREE.TorusKnotGeometry(0.3, 0.02, 48, 48)
+      new THREE.TorusKnotGeometry(0.7, 0.02, 768, 0),
+      new THREE.TorusKnotGeometry(0.8, 0.02, 384, 12),
+      new THREE.TorusKnotGeometry(0.9, 0.02, 192, 24),
+      new THREE.TorusKnotGeometry(1.0, 0.02, 96, 36),
+      new THREE.TorusKnotGeometry(1.1, 0.02, 48, 48),
+      new THREE.TorusKnotGeometry(1.2, 0.02, 24, 60),
+      new THREE.TorusKnotGeometry(1.3, 0.02, 12, 72),
+      new THREE.TorusKnotGeometry(1.4, 0.02, 6, 84),
+      new THREE.TorusKnotGeometry(1.5, 0.02, 3, 96),
+      new THREE.TorusKnotGeometry(1.6, 0.02, 1, 108),
     ];
 
     const meshes = [];
@@ -127,8 +133,8 @@
       const currentColor = getColorFromTime(currentTime);
 
       meshes.forEach((mesh, index) => {
-        mesh.rotation.x += 0.01 * (index + 1);
-        mesh.rotation.y += 0.01 * (index + 1);
+        mesh.rotation.x += 0.004 * (index + 1);
+        mesh.rotation.y += 0.004 * (index + 1);
 
         mesh.material.color.setStyle(currentColor);
 
