@@ -64,14 +64,20 @@
     document.body.appendChild(renderer.domElement);
     const buttonElement = document.getElementById('website');
 
-    const pages = [
-      'test.html',
-      'index.html'
-    ]
+    // const pages = [
+    //   'test.html',
+    //   'index.html'
+    // ]
 
     document.getElementById('randomSceneButton').addEventListener('click', function () {
-      const randomPage = pages[Math.floor(Math.random() * pages.length)];
-      window.location.href = randomPage;
+      fetch('pages.json')
+        .then(response => response.json())
+        .then(data => {
+          const pages = data.pages;
+          const randomPage = pages[Math.floor(Math.random() * pages.length)];
+          window.location.href = randomPage;
+        })
+        .catch(error => console.error('Error loading the pages list:', error));
     });
 
 
@@ -79,43 +85,22 @@
     for (let i = 0; i < 10; i++) {
       const material = new THREE.MeshPhongMaterial({
         color: Math.random() * 0xffffff,
-        flatShading: false,
-        shininess: 75
-      });
-      materials.push(material);
-    }
-
-    const geometries = [
-      new THREE.TorusKnotGeometry(2.4, 0.02, 384, 12),
-      new THREE.TorusKnotGeometry(1.2, 0.02, 192, 24),
-      new THREE.TorusKnotGeometry(0.6, 0.02, 96, 36),
-      new THREE.TorusKnotGeometry(0.3, 0.02, 48, 48)
-    ];
-
-    const meshes = [];
-    for (let i = 0; i < geometries.length; i++) {
+        flatShading: false, shininess: 75
+      }); materials.push(material);
+    } const geometries = [new
+      THREE.TorusKnotGeometry(2.4, 0.02, 384, 12), new THREE.TorusKnotGeometry(1.2, 0.02, 192, 24), new
+      THREE.TorusKnotGeometry(0.6, 0.02, 96, 36), new THREE.TorusKnotGeometry(0.3, 0.02, 48, 48)]; const meshes = []; for
+      (let i = 0; i < geometries.length; i++) {
       const mesh = new THREE.Mesh(geometries[i], materials[i % materials.length]);
-      meshes.push(mesh);
-      scene.add(mesh);
-    }
-
-    const light1 = new THREE.PointLight(0xffffff, 1, 100);
-    light1.position.set(5, 5, 5);
-    scene.add(light1);
-
-    const light2 = new THREE.PointLight(0xffffff, 1, 100);
-    light2.position.set(-5, -5, -5);
-    scene.add(light2);
-
-    function getColorFromTime(time) {
-      const hue = (time * 0.0001) % 1;
-      return `hsl(${hue * 360}, 100%, 50%)`;
-    }
-
-    function getContrastingColor(bgColor) {
-      const rgb = bgColor.match(/\d+/g).map(Number);
-      const luminance = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255;
-      return luminance > 0.5 ? '#000000' : '#ffffff';
+      meshes.push(mesh); scene.add(mesh);
+    } const light1 = new THREE.PointLight(0xffffff, 1, 100); light1.position.set(5, 5,
+      5); scene.add(light1); const light2 = new THREE.PointLight(0xffffff, 1, 100); light2.position.set(-5, -5, -5);
+    scene.add(light2); function getColorFromTime(time) {
+      const hue = (time * 0.0001) % 1; return `hsl(${hue * 360}, 100%,
+    50%)`;
+    } function getContrastingColor(bgColor) {
+      const rgb = bgColor.match(/\d+/g).map(Number); const luminance = (0.299
+        * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255; return luminance > 0.5 ? '#000000' : '#ffffff';
     }
 
 
