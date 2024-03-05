@@ -1,7 +1,9 @@
+let config = null;
+
 const setupScene = () => {
   const bodyElement = document.body;
   const configJSON = bodyElement.dataset.config;
-  const config = JSON.parse(configJSON ?? '{}');
+  config = JSON.parse(configJSON ?? '{}');
 
 
   const scene = new THREE.Scene();
@@ -32,12 +34,37 @@ const createMeshes = (scene) => {
     shininess: 75
   }));
 
-  const geometries = [
-    new THREE.TorusKnotGeometry(2.4, 0.02, 384, 12),
-    new THREE.TorusKnotGeometry(1.2, 0.02, 192, 24),
-    new THREE.TorusKnotGeometry(0.6, 0.02, 96, 36),
-    new THREE.TorusKnotGeometry(0.3, 0.02, 48, 48)
-  ];
+  const createRandomGeometries = (count, minRadius, maxRadius, minTubularSegments, maxTubularSegments, minRadialSegments, maxRadialSegments, minP, maxP, minQ, maxQ) => {
+    const geometries = [];
+
+    for (let i = 0; i < count; i++) {
+      const radius = Math.random() * (maxRadius - minRadius) + minRadius;
+      const tube = 0.02;
+      const tubularSegments = Math.floor(Math.random() * (maxTubularSegments - minTubularSegments + 1)) + minTubularSegments;
+      const radialSegments = Math.floor(Math.random() * (maxRadialSegments - minRadialSegments + 1)) + minRadialSegments;
+      const p = Math.floor(Math.random() * (maxP - minP + 1)) + minP;
+      const q = Math.floor(Math.random() * (maxQ - minQ + 1)) + minQ;
+
+      const geometry = new THREE.TorusKnotGeometry(radius, tube, tubularSegments, radialSegments, p, q);
+      geometries.push(geometry);
+    }
+
+    return geometries;
+  };
+
+
+  const geometries = createRandomGeometries(
+    config.count ?? 7,
+    config.minRadius ?? 0.3,
+    config.maxRadius ?? 2.4,
+    config.minTubularSegments ?? 48,
+    config.maxTubularSegments ?? 384,
+    config.minRadialSegments ?? 12,
+    config.maxRadialSegments ?? 48,
+    config.minP ?? 2,
+    config.maxP ?? 10,
+    config.minQ ?? 3,
+    config.maxQ ?? 12);
 
   return geometries.map((geometry, i) => {
     const mesh = new THREE.Mesh(geometry, materials[i % materials.length]);
@@ -51,8 +78,8 @@ const updateMeshPositions = (meshes, buttonElement) => {
   const currentColor = `hsl(${(currentTime * 0.0001) % 1 * 360}, 100%, 50%)`;
 
   meshes.forEach((mesh, index) => {
-    mesh.rotation.x += 0.01 * (index + 1);
-    mesh.rotation.y += 0.01 * (index + 1);
+    mesh.rotation.x += 0.001 * (index + 1);
+    mesh.rotation.y += 0.001 * (index + 1);
     mesh.material.color.setStyle(currentColor);
   });
 
