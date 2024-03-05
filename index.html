@@ -61,10 +61,10 @@
     }
 
     const geometries = [
-      new THREE.TorusKnotGeometry(1.5, 0.5, 100, 16),
-      new THREE.TorusKnotGeometry(1.2, 0.4, 80, 24),
-      new THREE.TorusKnotGeometry(0.9, 0.3, 64, 32),
-      new THREE.TorusKnotGeometry(0.6, 0.2, 48, 40)
+      new THREE.TorusKnotGeometry(2.4, 0.02, 384, 12),
+      new THREE.TorusKnotGeometry(1.2, 0.02, 192, 24),
+      new THREE.TorusKnotGeometry(0.6, 0.02, 96, 36),
+      new THREE.TorusKnotGeometry(0.3, 0.02, 48, 48)
     ];
 
     const meshes = [];
@@ -73,12 +73,6 @@
       meshes.push(mesh);
       scene.add(mesh);
     }
-
-    const pedestalGeometry = new THREE.CylinderGeometry(2, 2, 1, 32);
-    const pedestalMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, flatShading: false });
-    const pedestal = new THREE.Mesh(pedestalGeometry, pedestalMaterial);
-    pedestal.position.y = -2;
-    scene.add(pedestal);
 
     const light1 = new THREE.PointLight(0xffffff, 1, 100);
     light1.position.set(5, 5, 5);
