@@ -9,7 +9,6 @@
       overflow: hidden;
       background-color: #101010;
       position: relative;
-      /* Add this line */
     }
 
     canvas {
@@ -19,12 +18,9 @@
 
     #button-container {
       position: absolute;
-      /* Add this line */
       bottom: 20px;
-      /* Adjust the position as needed */
       right: 20px;
       z-index: 1;
-      /* Ensure the button is on top of the Three.js scene */
     }
 
     #website {
@@ -64,7 +60,6 @@
       materials.push(material);
     }
 
-    // Create geometries
     const geometries = [
       new THREE.TorusKnotGeometry(1.5, 0.5, 100, 16),
       new THREE.TorusKnotGeometry(1.2, 0.4, 80, 24),
@@ -72,7 +67,6 @@
       new THREE.TorusKnotGeometry(0.6, 0.2, 48, 40)
     ];
 
-    // Create meshes
     const meshes = [];
     for (let i = 0; i < geometries.length; i++) {
       const mesh = new THREE.Mesh(geometries[i], materials[i % materials.length]);
@@ -80,14 +74,12 @@
       scene.add(mesh);
     }
 
-    // Create pedestal
     const pedestalGeometry = new THREE.CylinderGeometry(2, 2, 1, 32);
     const pedestalMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff, flatShading: false });
     const pedestal = new THREE.Mesh(pedestalGeometry, pedestalMaterial);
     pedestal.position.y = -2;
     scene.add(pedestal);
 
-    // Add lights
     const light1 = new THREE.PointLight(0xffffff, 1, 100);
     light1.position.set(5, 5, 5);
     scene.add(light1);
@@ -96,7 +88,6 @@
     light2.position.set(-5, -5, -5);
     scene.add(light2);
 
-    // Animation loop
     function getColorFromTime(time) {
       const hue = (time * 0.0001) % 1;
       return `hsl(${hue * 360}, 100%, 50%)`;
@@ -119,10 +110,8 @@
         mesh.rotation.x += 0.01 * (index + 1);
         mesh.rotation.y += 0.01 * (index + 1);
 
-        // Update the sculpture's color based on the current time
         mesh.material.color.setStyle(currentColor);
 
-        // Update the button's properties based on the current mesh
         const meshWorldPosition = new THREE.Vector3();
         mesh.getWorldPosition(meshWorldPosition);
         const buttonX = (meshWorldPosition.x + 5) * window.innerWidth / 20;
@@ -130,14 +119,11 @@
         buttonElement.style.left = `${buttonX}px`;
         buttonElement.style.top = `${buttonY}px`;
 
-        // Update the button's color based on the current time
         buttonElement.style.backgroundColor = currentColor;
 
-        // Get the computed background color and update the button's text color
         const computedBgColor = window.getComputedStyle(buttonElement).backgroundColor;
         buttonElement.style.color = getContrastingColor(computedBgColor);
 
-        // Add breathing effect to the button
         const breathingScale = 1 + 0.1 * Math.sin(currentTime * 0.005);
         buttonElement.style.transform = `scale(${breathingScale})`;
       });
