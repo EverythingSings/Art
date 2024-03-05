@@ -118,8 +118,6 @@
         const computedBgColor = window.getComputedStyle(buttonElement).backgroundColor;
         buttonElement.style.color = getContrastingColor(computedBgColor);
 
-        const breathingScale = 1 + 0.1 * Math.sin(currentTime * 0.005);
-        buttonElement.style.transform = `scale(${breathingScale})`;
       });
 
       renderer.render(scene, camera);
