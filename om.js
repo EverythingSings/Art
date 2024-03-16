@@ -1,0 +1,304 @@
+const mouse = new THREE.Vector2();
+
+document.addEventListener('mousemove', (event) => {
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+});
+
+const setupScene = () => {
+  const bodyElement = document.body;
+  const configJSON = bodyElement.dataset.config;
+  config = JSON.parse(configJSON ?? '{}');
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.z = config.cameraZ ?? 8;
+  const renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  const controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.05;
+  controls.screenSpacePanning = false;
+  controls.minDistance = 1;
+  controls.maxDistance = 100;
+
+  const composer = new THREE.EffectComposer(renderer);
+  const renderPass = new THREE.RenderPass(scene, camera);
+  composer.addPass(renderPass);
+
+  const copyPass = new THREE.ShaderPass(THREE.CopyShader);
+  composer.addPass(copyPass);
+
+  const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+  composer.addPass(bloomPass);
+
+  return { scene, camera, renderer, composer, controls };
+};
+class ParticleSystem {
+  constructor(scene, sculptureColor) {
+    this.particleCount = 22222;
+    this.sculptureColor = sculptureColor;
+
+    this.init();
+    scene.add(this.mesh);
+  }
+
+  init() {
+    const geometry = new THREE.InstancedBufferGeometry();
+    const positions = new THREE.BufferAttribute(new Float32Array(4 * 3), 3);
+    positions.setXYZ(0, -0.5, 0.5, 0.0);
+    positions.setXYZ(1, 0.5, 0.5, 0.0);
+    positions.setXYZ(2, -0.5, -0.5, 0.0);
+    positions.setXYZ(3, 0.5, -0.5, 0.0);
+    geometry.setAttribute('position', positions);
+
+    const uvs = new THREE.BufferAttribute(new Float32Array(4 * 2), 2);
+    uvs.setXYZ(0, 0.0, 0.0);
+    uvs.setXYZ(1, 1.0, 0.0);
+    uvs.setXYZ(2, 0.0, 1.0);
+    uvs.setXYZ(3, 1.0, 1.0);
+    geometry.setAttribute('uv', uvs);
+
+    geometry.setIndex(new THREE.BufferAttribute(new Uint16Array([0, 1, 2, 2, 1, 3]), 1));
+
+    const offsets = new Float32Array(this.particleCount * 3);
+    const colors = new Float32Array(this.particleCount * 3);
+    const sizes = new Float32Array(this.particleCount);
+
+    for (let i = 0; i < this.particleCount; i++) {
+      offsets[i * 3] = (Math.random() - 0.5) * 10;
+      offsets[i * 3 + 1] = (Math.random() - 0.5) * 10;
+      offsets[i * 3 + 2] = (Math.random() - 0.5) * 10;
+
+      colors[i * 3] = this.sculptureColor.r;
+      colors[i * 3 + 1] = this.sculptureColor.g;
+      colors[i * 3 + 2] = this.sculptureColor.b;
+
+      sizes[i] = Math.random() * 0.1 + 0.05;
+    }
+
+    geometry.setAttribute('offset', new THREE.InstancedBufferAttribute(offsets, 3));
+    geometry.setAttribute('color', new THREE.InstancedBufferAttribute(colors, 3));
+    geometry.setAttribute('size', new THREE.InstancedBufferAttribute(sizes, 1));
+
+    const material = new THREE.ShaderMaterial({
+      uniforms: {
+        time: { value: 0 },
+        mouse: { value: new THREE.Vector2() }
+      },
+      vertexShader: `
+        uniform float time;
+        attribute vec3 offset;
+        attribute vec3 color;
+        attribute float size;
+        varying vec3 vColor;
+
+        void main() {
+          vColor = color;
+          vec3 pos = position;
+          pos.x += sin(time * 0.001 + offset.x * 0.1) * 0.1;
+          pos.y += cos(time * 0.001 + offset.y * 0.1) * 0.1;
+          pos.z += sin(time * 0.001 + offset.z * 0.1) * 0.1;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(pos + offset, 1.0);
+          gl_PointSize = size;
+        }
+      `,
+      fragmentShader: `
+        varying vec3 vColor;
+
+        void main() {
+          float distanceToCenter = distance(gl_PointCoord, vec2(0.5));
+          float strength = 1.0 - distanceToCenter;
+          gl_FragColor = vec4(vColor, strength);
+        }
+      `,
+      blending: THREE.AdditiveBlending,
+      depthTest: false,
+      transparent: true
+    });
+
+    this.mesh = new THREE.InstancedMesh(geometry, material, this.particleCount);
+  }
+
+  update(time, mouse, sculptureColor) {
+    this.mesh.material.uniforms.time.value = time;
+    this.mesh.material.uniforms.mouse.value = mouse;
+
+    const offsets = this.mesh.geometry.attributes.offset.array;
+    const colors = this.mesh.geometry.attributes.color.array;
+
+    for (let i = 0; i < this.particleCount; i++) {
+      const x = offsets[i * 3];
+      const y = offsets[i * 3 + 1];
+      const z = offsets[i * 3 + 2];
+
+      const distanceX = mouse.x * 5 - x;
+      const distanceY = mouse.y * 5 - y;
+
+      offsets[i * 3] += distanceX * 0.000008; // speed for x-axis
+      offsets[i * 3 + 1] += distanceY * 0.0000008; // speed for y-axis
+      offsets[i * 3 + 2] += Math.sin(time * 0.000000008 + x * 0.05) * 0.005; // speed for z-axis
+
+      colors[i * 3] = sculptureColor.r;
+      colors[i * 3 + 1] = sculptureColor.g;
+      colors[i * 3 + 2] = sculptureColor.b;
+    }
+
+    this.mesh.geometry.attributes.offset.needsUpdate = true;
+    this.mesh.geometry.attributes.color.needsUpdate = true;
+  }
+}
+
+const createLights = (scene) => {
+  const lightPositions = [
+    { x: 5, y: 5, z: 5 },
+    { x: -5, y: -5, z: -5 }
+  ];
+  lightPositions.forEach(({ x, y, z }) => {
+    const light = new THREE.PointLight(0xffffff, 1, 100);
+    light.position.set(x, y, z);
+    scene.add(light);
+  });
+};
+
+class Sculpture {
+  constructor(scene, config) {
+    this.config = config;
+    this.materials = new Array(10).fill().map(() => new THREE.MeshPhongMaterial({
+      color: Math.random() * 0xffffff,
+      flatShading: false,
+      shininess: 75
+    }));
+
+    this.meshes = this.createMeshes();
+    this.meshes.forEach(mesh => scene.add(mesh));
+  }
+
+  createMeshes() {
+    return this.createRandomGeometries().map((geometry, i) => {
+      const mesh = new THREE.Mesh(geometry, this.materials[i % this.materials.length]);
+      return mesh;
+    });
+  }
+
+  createRandomGeometries() {
+    const geometries = [];
+
+    for (let i = 0; i < this.config.count; i++) {
+      const radius = Math.random() * (this.config.maxRadius - this.config.minRadius) + this.config.minRadius;
+      const tube = 0.02;
+      const tubularSegments = Math.floor(Math.random() * (this.config.maxTubularSegments - this.config.minTubularSegments + 1)) + this.config.minTubularSegments;
+      const radialSegments = Math.floor(Math.random() * (this.config.maxRadialSegments - this.config.minRadialSegments + 1)) + this.config.minRadialSegments;
+      const p = Math.floor(Math.random() * (this.config.maxP - this.config.minP + 1)) + this.config.minP;
+      const q = Math.floor(Math.random() * (this.config.maxQ - this.config.minQ + 1)) + this.config.minQ;
+
+      const geometry = new THREE.TorusKnotGeometry(radius, tube, tubularSegments, radialSegments, p, q);
+      geometries.push(geometry);
+    }
+
+    return geometries;
+  }
+
+  update(currentColor) {
+    this.meshes.forEach((mesh, index) => {
+      mesh.rotation.x += 0.001 * (index + 1);
+      mesh.rotation.y += 0.001 * (index + 1);
+      mesh.material.color.copy(currentColor);
+    });
+  }
+}
+
+const onWindowResize = (camera, renderer, composer) => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  composer.setSize(window.innerWidth, window.innerHeight);
+};
+
+const animate = (sculpture, particleSystem, scene, camera, renderer, composer, controls, buttonElement) => {
+  let lastTime = 0;
+
+  const animateLoop = (time) => {
+    requestAnimationFrame(animateLoop);
+
+    const deltaTime = time - lastTime;
+    lastTime = time;
+
+    const currentColor = new THREE.Color(`hsl(${(time * 0.0001) % 1 * 360}, 100%, 50%)`);
+    sculpture.update(currentColor);
+    particleSystem.update(time * 0.001, mouse, currentColor);
+
+    controls.update();
+
+    composer.render();
+
+    buttonElement.style.backgroundColor = currentColor.getStyle();
+    const computedBgColor = window.getComputedStyle(buttonElement).backgroundColor;
+    const rgb = computedBgColor.match(/\d+/g).map(Number);
+    const luminance = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255;
+    buttonElement.style.color = luminance > 0.5 ? '#000000' : '#ffffff';
+  };
+
+  animateLoop(0);
+};
+
+const setupGUI = (sculpture, particleSystem) => {
+  const gui = new GUI();
+
+  const sculptureFolder = gui.addFolder('Sculpture');
+  sculptureFolder.add(sculpture.config, 'count', 1, 20, 1).onChange(() => {
+    scene.remove(...sculpture.meshes);
+    sculpture.meshes = sculpture.createMeshes();
+    sculpture.meshes.forEach(mesh => scene.add(mesh));
+  });
+  sculptureFolder.add(sculpture.config, 'minRadius', 0.1, 5, 0.1);
+  sculptureFolder.add(sculpture.config, 'maxRadius', 0.1, 5, 0.1);
+  sculptureFolder.add(sculpture.config, 'minTubularSegments', 1, 500, 1);
+  sculptureFolder.add(sculpture.config, 'maxTubularSegments', 1, 500, 1);
+  sculptureFolder.add(sculpture.config, 'minRadialSegments', 1, 100, 1);
+  sculptureFolder.add(sculpture.config, 'maxRadialSegments', 1, 100, 1);
+  sculptureFolder.add(sculpture.config, 'minP', 1, 20, 1);
+  sculptureFolder.add(sculpture.config, 'maxP', 1, 20, 1);
+  sculptureFolder.add(sculpture.config, 'minQ', 1, 20, 1);
+  sculptureFolder.add(sculpture.config, 'maxQ', 1, 20, 1);
+
+  const particlesFolder = gui.addFolder('Particles');
+  particlesFolder.add(particleSystem, 'particleCount', 1000, 100000, 1).onChange(() => {
+    scene.remove(particleSystem.mesh);
+    particleSystem.init();
+    scene.add(particleSystem.mesh);
+  });
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  const { scene, camera, renderer, composer, controls } = setupScene();
+  const buttonElement = document.getElementById('website');
+  createLights(scene);
+  const initialColor = new THREE.Color(`hsl(${(Date.now() * 0.0001) % 1 * 360}, 100%, 50%)`);
+  const particleSystem = new ParticleSystem(scene, initialColor);
+  const sculpture = new Sculpture(scene, {
+    count: config.count ?? 7,
+    minRadius: config.minRadius ?? 0.3,
+    maxRadius: config.maxRadius ?? 2.4,
+    minTubularSegments: config.minTubularSegments ?? 48,
+    maxTubularSegments: config.maxTubularSegments ?? 384,
+    minRadialSegments: config.minRadialSegments ?? 12,
+    maxRadialSegments: config.maxRadialSegments ?? 48,
+    minP: config.minP ?? 2,
+    maxP: config.maxP ?? 10,
+    minQ: config.minQ ?? 3,
+    maxQ: config.maxQ ?? 12
+  });
+  window.addEventListener('resize', () => onWindowResize(camera, renderer, composer), false);
+  onWindowResize(camera, renderer, composer);
+  setupGUI(sculpture, particleSystem);
+  animate(sculpture, particleSystem, scene, camera, renderer, composer, controls, buttonElement);
+  document.getElementById('randomSceneButton').addEventListener('click', function () {
+    fetch('pages.json')
+      .then(response => response.json())
+      .then(data => window.location.href = data.pages[Math.floor(Math.random() * data.pages.length)])
+      .catch(error => console.error('Error loading the pages list:', error));
+  });
+});
