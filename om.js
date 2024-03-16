@@ -1,5 +1,5 @@
 const mouse = new THREE.Vector2();
-
+let scene;
 document.addEventListener('mousemove', (event) => {
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -10,7 +10,7 @@ const setupScene = () => {
   const configJSON = bodyElement.dataset.config;
   config = JSON.parse(configJSON ?? '{}');
 
-  const scene = new THREE.Scene();
+  scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.z = config.cameraZ ?? 8;
   const renderer = new THREE.WebGLRenderer();
@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
   onWindowResize(camera, renderer, composer);
   setupGUI(sculpture, particleSystem);
   animate(sculpture, particleSystem, scene, camera, renderer, composer, controls, buttonElement);
-  document.getElementById('randomSceneButton').addEventListener('click', function () {
+  document.getElementById('title').addEventListener('click', function () {
     fetch('pages.json')
       .then(response => response.json())
       .then(data => window.location.href = data.pages[Math.floor(Math.random() * data.pages.length)])
