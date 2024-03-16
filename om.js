@@ -242,27 +242,29 @@ const animate = (sculpture, particleSystem, scene, camera, renderer, composer, c
   };
 
   animateLoop(0);
+}
+
+const recreateSculpture = (sculpture) => {
+  scene.remove(...sculpture.meshes);
+  sculpture.meshes = sculpture.createMeshes();
+  sculpture.meshes.forEach(mesh => scene.add(mesh));
 };
 
 const setupGUI = (sculpture, particleSystem) => {
   const gui = new GUI();
 
   const sculptureFolder = gui.addFolder('Sculpture');
-  sculptureFolder.add(sculpture.config, 'count', 1, 20, 1).onChange(() => {
-    scene.remove(...sculpture.meshes);
-    sculpture.meshes = sculpture.createMeshes();
-    sculpture.meshes.forEach(mesh => scene.add(mesh));
-  });
-  sculptureFolder.add(sculpture.config, 'minRadius', 0.1, 5, 0.1);
-  sculptureFolder.add(sculpture.config, 'maxRadius', 0.1, 5, 0.1);
-  sculptureFolder.add(sculpture.config, 'minTubularSegments', 1, 500, 1);
-  sculptureFolder.add(sculpture.config, 'maxTubularSegments', 1, 500, 1);
-  sculptureFolder.add(sculpture.config, 'minRadialSegments', 1, 100, 1);
-  sculptureFolder.add(sculpture.config, 'maxRadialSegments', 1, 100, 1);
-  sculptureFolder.add(sculpture.config, 'minP', 1, 20, 1);
-  sculptureFolder.add(sculpture.config, 'maxP', 1, 20, 1);
-  sculptureFolder.add(sculpture.config, 'minQ', 1, 20, 1);
-  sculptureFolder.add(sculpture.config, 'maxQ', 1, 20, 1);
+  sculptureFolder.add(sculpture.config, 'count', 1, 20, 1).onChange(() => recreateSculpture(sculpture));
+  sculptureFolder.add(sculpture.config, 'minRadius', 0.1, 5, 0.1).onChange(() => recreateSculpture(sculpture));
+  sculptureFolder.add(sculpture.config, 'maxRadius', 0.1, 5, 0.1).onChange(() => recreateSculpture(sculpture));
+  sculptureFolder.add(sculpture.config, 'minTubularSegments', 1, 500, 1).onChange(() => recreateSculpture(sculpture));
+  sculptureFolder.add(sculpture.config, 'maxTubularSegments', 1, 500, 1).onChange(() => recreateSculpture(sculpture));
+  sculptureFolder.add(sculpture.config, 'minRadialSegments', 1, 100, 1).onChange(() => recreateSculpture(sculpture));
+  sculptureFolder.add(sculpture.config, 'maxRadialSegments', 1, 100, 1).onChange(() => recreateSculpture(sculpture));
+  sculptureFolder.add(sculpture.config, 'minP', 1, 20, 1).onChange(() => recreateSculpture(sculpture));
+  sculptureFolder.add(sculpture.config, 'maxP', 1, 20, 1).onChange(() => recreateSculpture(sculpture));
+  sculptureFolder.add(sculpture.config, 'minQ', 1, 20, 1).onChange(() => recreateSculpture(sculpture));
+  sculptureFolder.add(sculpture.config, 'maxQ', 1, 20, 1).onChange(() => recreateSculpture(sculpture));
 
   const particlesFolder = gui.addFolder('Particles');
   particlesFolder.add(particleSystem, 'particleCount', 1000, 100000, 1).onChange(() => {
