@@ -4,42 +4,6 @@
 <head>
   <style>
     body {
-      margin: 0;
-      overflow: hidden;
-      background: #000
-    }
-
-    #c {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%)
-    }
-
-    #t {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      color: #fff;
-      font-family: monospace;
-      font-size: 16px
-    }
-  </style>
-</head>
-
-<body><canvas id="c"></canvas>
-  <div id="t"></div>
-  <script>c.width = window.innerWidth; c.height = window.innerHeight; const ctx = c.getContext("2d"); const n = Math.floor(Math.random() * 9) + 3; const r = () => Math.random() * 2 - 1; const p = Array.from({ length: n }, () => ({ x: r(), y: r(), z: r(), vx: r() / 100, vy: r() / 100, vz: r() / 100 })); const d = 10; let t = 0; function a() { ctx.clearRect(0, 0, c.width, c.height); p.forEach(e => { const { x, y, z, vx, vy, vz } = e; const X = x * Math.cos(t) - z * Math.sin(t); const Z = z * Math.cos(t) + x * Math.sin(t); const s = d / (d - Z); ctx.beginPath(); ctx.arc(c.width / 2 + X * c.width / 4 * s, c.height / 2 + y * c.height / 4 * s, s * 5, 0, 2 * Math.PI); ctx.fillStyle = `hsl(${Math.atan2(y, X) * 180 / Math.PI + 180},100%,70%)`; ctx.fill(); e.x += vx; e.y += vy; e.z += vz; if (Math.abs(e.x) > 1 || Math.abs(e.y) > 1 || Math.abs(e.z) > 1) { e.x = r(); e.y = r(); e.z = r() } }); t += .01; document.querySelector("#t").textContent = `Particles: ${n}`; requestAnimationFrame(a) } a(); window.addEventListener("click", () => p.push({ x: r(), y: r(), z: r(), vx: r() / 100, vy: r() / 100, vz: r() / 100 }))</script>
-
-</body>
-
-</html>
-<!DOCTYPE html>
-<html>
-
-<head>
-  <style>
-    body {
       background: #000;
       display: flex;
       align-items: center;
@@ -111,7 +75,6 @@
       transition: transform 0.3s ease;
       width: 250px;
       animation: pulse 2s infinite, rotate 20s linear infinite, bg 10s ease infinite;
-      z-index: 1000;
     }
 
     button::before {
@@ -152,10 +115,9 @@
 </head>
 
 <body>
-  <a href="https://en.wikipedia.org/wiki/Special:Random">
-
-    <button data-text="EverythingSings.Art" title="EverythingSings.Art">
-    </button>
+  <a href="https://en.wikipedia.org/wiki/Special:Random"></a>
+  <button data-text="EverythingSings.Art" title="EverythingSings.Art">
+  </button>
   </a>
 </body>
 
