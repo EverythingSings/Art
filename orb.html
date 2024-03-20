@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    body {
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .orb {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 50%, #ff4081, #f50057);
+      animation: pulse 4s ease-in-out infinite;
+      cursor: pointer;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+
+      50% {
+        transform: scale(1.2);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="orb"></div>
+
+  <script>
+    const orb = document.querySelector('.orb');
+    const colors = ['#ff4081', '#f50057', '#d500f9', '#651fff', '#3d5afe', '#2979ff', '#00b0ff', '#00e5ff', '#1de9b6', '#00e676'];
+
+    orb.addEventListener('click', function () {
+      const randomColor1 = colors[Math.floor(Math.random() * colors.length)];
+      const randomColor2 = colors[Math.floor(Math.random() * colors.length)];
+
+      this.style.background = `radial-gradient(circle at 50% 50%, ${randomColor1}, ${randomColor2})`;
+
+      const newOrb = this.cloneNode(true);
+      document.body.appendChild(newOrb);
+
+      newOrb.style.position = 'absolute';
+      newOrb.style.left = `${Math.random() * window.innerWidth}px`;
+      newOrb.style.top = `${Math.random() * window.innerHeight}px`;
+      newOrb.style.transform = `translate(-50%, -50%) scale(${Math.random() * 0.5 + 0.5})`;
+    });
+  </script>
+</body>
+
+</html>
