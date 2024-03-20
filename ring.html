@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Celestial Canvas</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #000;
+    }
+
+    canvas {
+      cursor: crosshair;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    let stars = JSON.parse(localStorage.getItem('stars')) || [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    function drawStar(x, y, size, hue) {
+      ctx.fillStyle = `hsl(${hue}, 100%, 80%)`;
+      ctx.beginPath();
+      ctx.arc(x, y, size, 0, 2 * Math.PI);
+      ctx.shadowColor = `hsl(${hue}, 100%, 80%)`;
+      ctx.shadowBlur = 20;
+      ctx.fill();
+    }
+
+    function drawConstellation(star1, star2) {
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+      ctx.lineWidth = 0.5;
+      ctx.beginPath();
+      ctx.moveTo(star1.x, star1.y);
+      ctx.lineTo(star2.x, star2.y);
+      ctx.stroke();
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      stars.forEach(star => drawStar(star.x, star.y, star.size, star.hue));
+
+      for (let i = 0; i < stars.length - 1; i++) {
+        for (let j = i + 1; j < stars.length; j++) {
+          const star1 = stars[i];
+          const star2 = stars[j];
+          const dx = star1.x - star2.x;
+          const dy = star1.y - star2.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 200) {
+            drawConstellation(star1, star2);
+          }
+        }
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    function placeStar(e) {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const size = Math.random() * 2 + 0.5;
+      const hue = Math.random() * 360;
+      stars.push({ x, y, size, hue });
+      localStorage.setItem('stars', JSON.stringify(stars));
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    canvas.addEventListener('click', placeStar);
+
+    resizeCanvas();
+    animate();
+  </script>
+</body>
+
+</html>
