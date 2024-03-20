@@ -2,30 +2,24 @@
 <html>
 
 <head>
-  <title>Code.EverythingSings.Art</title>
-  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #000
+    }
+
+    #c {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%)
+    }
+  </style>
 </head>
 
-<body id="randomSceneButton" data-config='{
-  "cameraZ": 7,
-   "count": 4,
-    "minRadius": 0.3,
-     "maxRadius": 2.4,
-      "minTubularSegments": 48,
-       "maxTubularSegments": 384,
-        "minRadialSegments": 12,
-         "maxRadialSegments": 48,
-          "minP": 2,
-           "maxP": 10,
-            "minQ": 3,
-             "maxQ": 12
-            }'>
-  <h1 id="title">Click to be Transported Elsewhere</h1>
-  <div class="button-container">
-    <a href="http://EverythingSings.Art" id="website">EverythingSings.Art</a>
-  </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="script.js"></script>
+<body><canvas id="c"></canvas>
+  <script>c.width = window.innerWidth; c.height = window.innerHeight; const ctx = c.getContext("2d"); const n = Math.floor(Math.random() * 5) + 3; const r = () => Math.random() * 2 - 1; const p = Array.from({ length: n }, () => ({ x: r(), y: r(), z: r() })); const d = 10; let t = 0; function a() { ctx.clearRect(0, 0, c.width, c.height); p.forEach(e => { const { x, y, z } = e; const X = x * Math.cos(t) - z * Math.sin(t); const Z = z * Math.cos(t) + x * Math.sin(t); const s = d / (d - Z); ctx.beginPath(); ctx.arc(c.width / 2 + X * c.width / 4 * s, c.height / 2 + y * c.height / 4 * s, s * 5, 0, 2 * Math.PI); ctx.fillStyle = `hsl(${Math.atan2(y, X) * 180 / Math.PI + 180},100%,50%)`; ctx.fill() }); t += .01; requestAnimationFrame(a) } a()</script>
 </body>
 
 </html>
