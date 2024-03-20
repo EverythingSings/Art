@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Ephemeral Beauty</title>
+  <style>
+    body {
+      background: #000;
+      overflow: hidden;
+    }
+
+    .light {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      background: #fff;
+      opacity: 0;
+      animation: glow 3s infinite;
+    }
+
+    @keyframes glow {
+      0% {
+        opacity: 0;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+        transform: scale(2);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <script>
+    const colors = ['#ff6b6b', '#f06595', '#cc5de8', '#845ef7', '#5c7cfa', '#339af0', '#22b8cf', '#20c997', '#51cf66', '#94d82d', '#fcc419'];
+
+    function createLight() {
+      const light = document.createElement('div');
+      light.className = 'light';
+      light.style.left = `${Math.random() * window.innerWidth}px`;
+      light.style.top = `${Math.random() * window.innerHeight}px`;
+      light.style.background = colors[Math.floor(Math.random() * colors.length)];
+      light.style.animationDelay = `${Math.random() * 3}s`;
+      document.body.appendChild(light);
+      setTimeout(() => {
+        light.remove();
+      }, 3000);
+    }
+
+    setInterval(createLight, 100);
+  </script>
+</body>
+
+</html>
