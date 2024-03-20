@@ -1,0 +1,29 @@
+<html>
+
+<head>
+  <style>
+    body {
+      background: black;
+      color: white;
+      font-family: monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    Copy code #wisdom {
+      opacity: 0;
+      transition: opacity 2s;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="wisdom"></div>
+  <script> const insights = ["In the vast expanse of the universe, you are a fleeting miracle.", "Embrace the uncertainty, for it is the cradle of growth.", "The only true constant is change itself.", "Find beauty in the imperfections, for they make life unique.", "In giving, we receive. In receiving, we learn to give.", "The journey is the destination, unfolding with each step.", "Silence speaks volumes, listen to its wisdom.", "Happiness is not a goal, it's a byproduct of a life well-lived.", "The only limits are the ones we place upon ourselves.", "In the end, it's not the years in your life, but the life in your years."]; function displayRandomInsight() { const wisdom = document.getElementById('wisdom'); wisdom.innerHTML = insights[Math.floor(Math.random() * insights.length)]; wisdom.style.opacity = 1; } setTimeout(displayRandomInsight, 1000); </script>
+</body>
+
+</html>
