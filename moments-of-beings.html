@@ -8,6 +8,7 @@
       margin: 0;
       height: 100vh;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       background: #f0f0f0;
@@ -20,46 +21,48 @@
       text-align: center;
       opacity: 0;
       transition: opacity 5s ease-in-out;
+      margin-bottom: 2em;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #8db9ca;
+      color: #fff;
+      text-decoration: none;
+      font-family: serif;
+      font-size: 1.2em;
+      border-radius: 5px;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    .button:hover {
+      background-color: #a3c4bc;
     }
   </style>
 </head>
 
 <body>
-  <div id="text"></div>
-
-  <script>
-    const insights = [
-      "In the midst of movement and chaos, keep stillness inside of you.",
-      "Smile, breathe, and go slowly.",
-      "Happiness is the absence of striving for happiness.",
-      "Life isn't as serious as the mind makes it out to be.",
-      "Wherever you are, be there totally.",
-      "The only true wisdom is in knowing you know nothing.",
-      "As you start to walk on the way, the way appears."
-    ];
+  <div id="text"></div> <a href="http://EverythingSings.Art" class="button">Visit EverythingSings.Art</a>
+  <script> const insights = ["In the midst of movement and chaos, keep stillness inside of you.", "Smile, breathe, and go slowly.", "Happiness is the absence of striving for happiness.", "Life isn't as serious as the mind makes it out to be.", "Wherever you are, be there totally.", "The only true wisdom is in knowing you know nothing.", "As you start to walk on the way, the way appears."];
 
     const colors = ['#e6d5b8', '#c2d8b9', '#a3c4bc', '#8db9ca', '#e6ebe0'];
 
     function showInsight() {
       const insight = insights[Math.floor(Math.random() * insights.length)];
-
       document.getElementById('text').innerHTML = insight;
       document.getElementById('text').style.opacity = 1;
-
       setTimeout(fadeInsight, 5000);
     }
 
     function fadeInsight() {
       document.getElementById('text').style.opacity = 0;
-
       setTimeout(changeBackground, 5000);
     }
 
     function changeBackground() {
       const color = colors[Math.floor(Math.random() * colors.length)];
-
       document.body.style.background = color;
-
       setTimeout(showInsight, 5000);
     }
 
