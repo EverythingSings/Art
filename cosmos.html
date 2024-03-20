@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Essence</title>
+  <style>
+    body {
+      background: black;
+      overflow: hidden;
+      margin: 0;
+      cursor: pointer;
+    }
+
+    canvas {
+      position: absolute;
+    }
+
+    #quote {
+      position: absolute;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      width: 100%;
+      top: 20px;
+      font-size: 18px;
+      text-shadow: 0 0 10px white;
+      opacity: 0;
+      transition: opacity 2s;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+  <div id="quote"></div>
+
+  <script>
+    const quotes = [
+      "In the vastness of space and immensity of time, it is my joy to share a planet and an epoch with you.",
+      "The cosmos is within us. We are made of star-stuff. We are a way for the universe to know itself.",
+      "Imagination is more important than knowledge. Knowledge is limited. Imagination encircles the world.",
+      "The most beautiful experience we can have is the mysterious. It is the fundamental emotion which stands at the cradle of true art and true science.",
+      "Look up at the stars and not down at your feet. Try to make sense of what you see, and wonder about what makes the universe exist. Be curious.",
+    ];
+
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    let w, h, particles;
+
+    function init() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+
+      particles = [];
+      for (let i = 0; i < Math.min(w, h) / 4; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    function Particle() {
+      this.x = Math.random() * w;
+      this.y = Math.random() * h;
+      this.vx = Math.random() * 4 - 2;
+      this.vy = Math.random() * 4 - 2;
+      this.life = Math.random() * 200 + 50;
+      this.radius = Math.random() * 2 + 0.5;
+    }
+
+    Particle.prototype.update = function () {
+      this.x += this.vx;
+      this.y += this.vy;
+      this.vx *= 0.99;
+      this.vy *= 0.99;
+      this.life--;
+
+      if (this.life <= 0 || this.radius < 0.1) {
+        this.x = Math.random() * w;
+        this.y = Math.random() * h;
+        this.vx = Math.random() * 4 - 2;
+        this.vy = Math.random() * 4 - 2;
+        this.life = Math.random() * 200 + 50;
+        this.radius = Math.random() * 2 + 0.5;
+      }
+    }
+
+    Particle.prototype.draw = function () {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `hsla(${this.x / w * 360}, 100%, 50%, ${this.life / 250})`;
+      ctx.fill();
+    }
+
+    function updateQuote() {
+      const quote = quotes[Math.floor(Math.random() * quotes.length)];
+      document.getElementById('quote').textContent = quote;
+      document.getElementById('quote').style.opacity = 1;
+      setTimeout(() => document.getElementById('quote').style.opacity = 0, 5000);
+    }
+
+    function loop() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      ctx.fillRect(0, 0, w, h);
+
+      for (let p of particles) {
+        p.update();
+        p.draw();
+      }
+
+      requestAnimationFrame(loop);
+    }
+
+    window.addEventListener('resize', init);
+    canvas.addEventListener('click', updateQuote);
+
+    init();
+    loop();
+    updateQuote();
+
+    if (!localStorage.visitCount) localStorage.visitCount = 0;
+    localStorage.visitCount = parseInt(localStorage.visitCount) + 1;
+    console.log(`You have connected with the cosmos ${localStorage.visitCount} times.`);
+  </script>
+</body>
+
+</html>
