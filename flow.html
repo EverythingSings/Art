@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ebb and Flow</title>
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/simplex-noise/2.4.0/simplex-noise.min.js"></script>
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', function () {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    const noise = new SimplexNoise();
+    let frames = 0;
+    let hue = 0;
+
+    let particleArray = [];
+    const particleCount = 5000;
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.speed = 0;
+        this.velocity = Math.random() * 0.5;
+        this.size = Math.random() * 2.5 + 0.2;
+        this.color = 'hsl(' + hue + ', 100%, 50%)';
+      }
+      update() {
+        this.speed = (noise.noise2D(this.x / 200, this.y / 200) + 1) / 2 * 0.05;
+        let movement = (2.5 - this.speed) + this.velocity;
+        this.x += movement;
+        this.y += movement;
+        if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) this.respawn();
+      }
+      respawn() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+      }
+    }
+
+    function init() {
+      for (let i = 0; i < particleCount; i++) {
+        particleArray.push(new Particle);
+      }
+    }
+    init();
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < particleArray.length; i++) {
+        particleArray[i].update();
+        particleArray[i].draw();
+      }
+      hue += 0.5;
+      frames++;
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    let touched = false;
+    document.body.addEventListener('touchstart', function (e) {
+      if (!touched) {
+        touched = true;
+        for (let i = 0; i < particleArray.length; i++) {
+          particleArray[i].velocity = Math.random() < 0.5 ? -Math.random() * 3 - 0.1 : Math.random() * 3 + 0.1;
+        }
+      }
+    });
+
+    document.body.addEventListener('mousedown', function (e) {
+      if (!touched) {
+        touched = true;
+        for (let i = 0; i < particleArray.length; i++) {
+          particleArray[i].velocity = Math.random() < 0.5 ? -Math.random() * 3 - 0.1 : Math.random() * 3 + 0.1;
+        }
+      }
+    });
+
+  </script>
+</body>
+
+</html>

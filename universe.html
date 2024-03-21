@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Eternal Flow</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: black;
+    }
+
+    canvas {
+      position: absolute;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+
+  <script>
+    const PHI = (1 + Math.sqrt(5)) / 2;
+    const TWO_PI = Math.PI * 2;
+
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    let w, h, particles;
+
+    function setup() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+      particles = [];
+
+      for (let i = 0; i < 100; i++) {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          vx: 0,
+          vy: 0,
+          color: `hsl(${Math.random() * 360}, 100%, 80%)`,
+          size: 2 + Math.random() * 8
+        });
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+
+      particles.forEach(p => {
+        // Apply golden ratio to velocity
+        p.vx += 0.01 * Math.cos(p.x * PHI);
+        p.vy += 0.01 * Math.sin(p.y * PHI);
+
+        // Update position 
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Wrap around edges
+        if (p.x < 0) p.x = w;
+        if (p.y < 0) p.y = h;
+        if (p.x > w) p.x = 0;
+        if (p.y > h) p.y = 0;
+
+        // Draw particle
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, TWO_PI);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+
+        // Connect nearby particles with lines
+        particles.forEach(other => {
+          const dx = other.x - p.x;
+          const dy = other.y - p.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 100) {
+            ctx.strokeStyle = p.color;
+            ctx.lineWidth = 1 - dist / 100;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(other.x, other.y);
+            ctx.stroke();
+          }
+        });
+      });
+
+      requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', setup);
+
+    setup();
+    draw();
+  </script>
+</body>
+
+</html>
