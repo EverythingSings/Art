@@ -14,29 +14,4 @@ fetch('pages.json')
       li.appendChild(link);
       dropdownMenu.appendChild(li);
     });
-
-    // Search functionality
-    const searchInput = document.getElementById('search-input');
-    const searchResults = document.getElementById('search-results');
-
-    searchInput.addEventListener('input', () => {
-      const searchTerm = searchInput.value.toLowerCase();
-      searchResults.innerHTML = '';
-
-      if (searchTerm.length > 0) {
-        const filteredPages = pages.filter(page => page.toLowerCase().includes(searchTerm));
-
-        filteredPages.forEach(page => {
-          const li = document.createElement('li');
-          const link = document.createElement('a');
-          link.href = page;
-          link.textContent = page.replace('.html', '');
-          li.appendChild(link);
-          searchResults.appendChild(li);
-        });
-      }
-    });
   })
-  .catch(error => {
-    console.error('Error fetching pages data:', error);
-  });

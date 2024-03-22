@@ -1,14 +1,21 @@
+body {
+  font-family: monospace;
+}
+
 nav {
   display: flex;
-  justify-content: space-between;
+  gap: 4rem;
   align-items: center;
   padding: 20px;
   background-color: #333;
-  color: #fff;
+  color: #fafafa;
+  min-height: 40px;
 }
 
 .logo a {
-  color: #fff;
+  color: #fafafa;
+  display: flex;
+  align-items: center;
   text-decoration: none;
   font-size: 24px;
   font-weight: bold;
@@ -22,15 +29,17 @@ nav {
 .dropdown {
   position: relative;
   margin-right: 20px;
+  font-size: 18px;
 }
 
 .dropdown-toggle {
-  color: #fff;
+  color: #fafafa;
   text-decoration: none;
   padding: 10px;
-  border-radius: 4px;
+  border-radius: 1rem;
   background-color: #555;
   cursor: pointer;
+  padding: 1rem;
 }
 
 .dropdown-menu {
@@ -56,40 +65,6 @@ nav {
 }
 
 .dropdown-menu a {
-  color: #333;
-  text-decoration: none;
-}
-
-.search-container {
-  position: relative;
-}
-
-#search-input {
-  padding: 8px;
-  width: 200px;
-  border-radius: 4px;
-  border: none;
-}
-
-#search-results {
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 200px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  padding: 12px;
-  z-index: 1;
-  top: 100%;
-  left: 0;
-  margin-top: 10px;
-  display: none;
-}
-
-#search-results li {
-  list-style: none;
-  padding: 4px 0;
-}
-
-#search-results a {
   color: #333;
   text-decoration: none;
 }
