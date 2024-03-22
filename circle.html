@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!-- Declare the document type as HTML -->
+
+<html lang="en">
+<!-- Set the language of the document to English -->
+
+<head>
+  <meta charset="UTF-8">
+  <!-- Set the character encoding to UTF-8 -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Set the viewport to adjust to different screen sizes -->
+
+  <title>Shared Canvas</title>
+  <!-- Set the title of the webpage -->
+
+  <style>
+    /* Set the canvas to fill the window */
+    canvas {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    /* Style the link */
+    #link {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      color: white;
+      text-decoration: none;
+      font-family: sans-serif;
+    }
+  </style>
+  <!-- Define the styles for the canvas and link -->
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+  <!-- Create a canvas element with the id "canvas" -->
+
+  <a href="http://EverythingSings.Art" target="_blank" id="link">EverythingSings.Art</a>
+  <!-- Create a link to EverythingSings.Art that opens in a new tab -->
+
+  <script>
+    // Get the canvas element
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Set the canvas size to match the window
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Generate a random color
+    function randomColor() {
+      return `hsl(${Math.random() * 360}, 100%, 50%)`;
+    }
+
+    // Draw a circle at the given coordinates
+    function drawCircle(x, y) {
+      const radius = Math.random() * 50 + 10;
+      ctx.beginPath();
+      ctx.arc(x, y, radius, 0, 2 * Math.PI);
+      ctx.fillStyle = randomColor();
+      ctx.fill();
+    }
+
+    // Clear the canvas with a semi-transparent black rectangle
+    function clear() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    // Draw circles on mouse click
+    canvas.addEventListener('click', (e) => {
+      drawCircle(e.clientX, e.clientY);
+    });
+
+    // Continuously clear the canvas
+    setInterval(clear, 100);
+  </script>
+  <!-- Define the JavaScript code to create the interactive canvas experience -->
+</body>
+
+</html>

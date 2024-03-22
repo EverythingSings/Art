@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Fractal Flows</title>
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: black;
+      overflow: hidden;
+    }
+
+    canvas {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    #link {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      color: white;
+      font-family: sans-serif;
+    }
+
+    #link a {
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+  <div id="link"><a href="http://EverythingSings.Art" target="_blank">&rarr; Enter the Flow</a></div>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    const colors = ['#ff6b6b', '#f06595', '#cc5de8', '#845ef7', '#5c7cfa', '#339af0', '#22b8cf', '#20c997', '#51cf66'];
+
+    class FlowField {
+      constructor() {
+        this.size = 20;
+        this.reset();
+      }
+
+      reset() {
+        this.rows = Math.floor(window.innerHeight / this.size) + 1;
+        this.cols = Math.floor(window.innerWidth / this.size) + 1;
+        this.field = new Array(this.rows * this.cols).fill(0).map(Math.random);
+      }
+
+      getVector(x, y) {
+        let col = Math.floor(x / this.size);
+        let row = Math.floor(y / this.size);
+        return this.field[row * this.cols + col];
+      }
+    }
+
+    class Particle {
+      constructor(x, y) {
+        this.pos = { x, y };
+        this.vel = { x: 0, y: 0 };
+        this.acc = { x: 0, y: 0 };
+        this.maxSpeed = 4;
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+        this.prevPos = { ...this.pos };
+      }
+
+      update(field) {
+        let { x, y } = this.pos;
+        let v = field.getVector(x, y);
+        let angle = v * Math.PI * 4;
+
+        this.acc.x = Math.cos(angle) * 0.1;
+        this.acc.y = Math.sin(angle) * 0.1;
+
+        this.vel.x += this.acc.x;
+        this.vel.y += this.acc.y;
+
+        let speed = Math.sqrt(this.vel.x ** 2 + this.vel.y ** 2);
+        if (speed > this.maxSpeed) {
+          this.vel.x = (this.vel.x / speed) * this.maxSpeed;
+          this.vel.y = (this.vel.y / speed) * this.maxSpeed;
+        }
+
+        this.prevPos.x = x;
+        this.prevPos.y = y;
+
+        this.pos.x += this.vel.x;
+        this.pos.y += this.vel.y;
+
+        if (this.pos.x < 0 || this.pos.x > window.innerWidth ||
+          this.pos.y < 0 || this.pos.y > window.innerHeight) {
+          this.pos.x = Math.random() * window.innerWidth;
+          this.pos.y = Math.random() * window.innerHeight;
+          this.vel.x = 0;
+          this.vel.y = 0;
+        }
+      }
+
+      draw() {
+        ctx.strokeStyle = this.color;
+        ctx.beginPath();
+        ctx.moveTo(this.pos.x, this.pos.y);
+        ctx.lineTo(this.prevPos.x, this.prevPos.y);
+        ctx.stroke();
+      }
+    }
+
+    let field = new FlowField();
+    let particles = [];
+
+    function init() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      field.reset();
+      particles = [];
+      for (let i = 0; i < 500; i++) {
+        particles.push(new Particle(Math.random() * window.innerWidth, Math.random() * window.innerHeight));
+      }
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      particles.forEach(p => {
+        p.update(field);
+        p.draw();
+      });
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+    }
+
+    init();
+    animate();
+
+    window.addEventListener('resize', init);
+  </script>
+</body>
+
+</html>

@@ -4,20 +4,44 @@
 <head>
   <title>Code.EverythingSings.Art</title>
   <link rel="stylesheet" href="om.css">
+  <link rel="stylesheet" href="navigation.css">
 </head>
 
 <body>
-  <div class="button-container"><a href="http://EverythingSings.Art" id="website">EverythingSings.Art</a></div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
-  <script type="module">import GUI from 'https://cdn.jsdelivr.net/npm/lil-gui@0.17.0/+esm'; window.GUI = GUI;</script>
-  <script src="om.js"></script>
-</body>
+  <header>
+    <nav>
+      <div class="logo">
+        <a href="http://EverythingSings.Art">EverythingSings.Art</a>
+      </div>
+      <div class="nav-items">
+        <div class="dropdown">
+          <a href="#" class="dropdown-toggle">Pages</a>
+          <ul class="dropdown-menu"></ul>
+        </div>
+        <div class="search-container">
+          <input type="text" id="search-input" placeholder="Search...">
+          <ul id="search-results"></ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <body>
+    <div class="button-container"><a href="http://EverythingSings.Art" id="website">EverythingSings.Art</a></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+    <script type="module">
+      import GUI from 'https://cdn.jsdelivr.net/npm/lil-gui@0.17.0/+esm';
+      window.GUI = GUI;
+    </script>
+    <script src="om.js"></script>
+    <script src="navigation.js"></script>
+  </body>
 
 </html>

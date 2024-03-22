@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shared Starscape</title>
+  <style>
+    /* Set a dark background color and remove margins */
+    body {
+      background-color: #000;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    /* Style for the starscape canvas */
+    #starscape {
+      display: block;
+    }
+
+    /* Style for the connection counter */
+    #counter {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Style for the subtle link */
+    #link {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      color: rgba(255, 255, 255, 0.5);
+      font-family: Arial, sans-serif;
+      text-decoration: none;
+      font-size: 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Canvas element for rendering the starscape -->
+  <canvas id="starscape"></canvas>
+
+  <!-- Display the number of connected users -->
+  <div id="counter">Connected: <span id="count">0</span></div>
+
+  <!-- Subtle link to EverythingSings.Art -->
+  <a href="http://EverythingSings.Art" target="_blank" id="link">EverythingSings.Art</a>
+
+  <script>
+    // Get the canvas element and its 2D rendering context
+    const canvas = document.getElementById('starscape');
+    const ctx = canvas.getContext('2d');
+
+    // Set the canvas size to match the window size
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Array to store star objects
+    const stars = [];
+
+    // Maximum number of stars
+    const maxStars = 999999999;
+
+    // Object to store the mouse position
+    const mouse = {
+      x: undefined,
+      y: undefined
+    };
+
+    // Counter for the number of connected users
+    let connectedCount = 0;
+
+    // Function to create a new star object
+    function createStar() {
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height;
+      const radius = Math.random() * 2;
+      const vx = (Math.random() - 0.5) * 0.5;
+      const vy = (Math.random() - 0.5) * 0.5;
+      const brightness = Math.random() * 128 + 127;
+      const color = `rgb(${brightness}, ${brightness}, ${brightness})`;
+      return { x, y, radius, vx, vy, color };
+    }
+
+    // Function to update the position of a star
+    function updateStar(star) {
+      star.x += star.vx;
+      star.y += star.vy;
+
+      // Bounce the star off the edges of the canvas
+      if (star.x < 0 || star.x > canvas.width) {
+        star.vx = -star.vx;
+      }
+      if (star.y < 0 || star.y > canvas.height) {
+        star.vy = -star.vy;
+      }
+    }
+
+    // Function to draw a star on the canvas
+    function drawStar(star) {
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+      ctx.fillStyle = star.color;
+      ctx.fill();
+      ctx.closePath();
+    }
+
+    // Function to connect stars with lines based on mouse proximity
+    function connectStars() {
+      for (let i = 0; i < stars.length; i++) {
+        for (let j = i + 1; j < stars.length; j++) {
+          const dx = stars[i].x - stars[j].x;
+          const dy = stars[i].y - stars[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 100) {
+            const mouseDx = stars[i].x - mouse.x;
+            const mouseDy = stars[i].y - mouse.y;
+            const mouseDistance = Math.sqrt(mouseDx * mouseDx + mouseDy * mouseDy);
+
+            if (mouseDistance < 50) {
+              ctx.beginPath();
+              ctx.moveTo(stars[i].x, stars[i].y);
+              ctx.lineTo(stars[j].x, stars[j].y);
+              ctx.strokeStyle = `rgba(255, 255, 255, ${1 - distance / 100})`;
+              ctx.stroke();
+              ctx.closePath();
+            }
+          }
+        }
+      }
+    }
+
+    // Function to animate the starscape
+    function animate() {
+      // Clear the canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Update and draw the stars
+      stars.forEach(updateStar);
+      stars.forEach(drawStar);
+
+      // Connect stars based on mouse proximity
+      connectStars();
+
+      // Request the next animation frame
+      requestAnimationFrame(animate);
+    }
+
+    // Event listener for mouse movement
+    window.addEventListener('mousemove', (event) => {
+      mouse.x = event.x;
+      mouse.y = event.y;
+    });
+
+    // Event listener for window resize
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    // Simulate adding connected users every 5 seconds
+    setInterval(() => {
+      connectedCount++;
+      document.getElementById('count').textContent = connectedCount;
+
+      // Add a new star for each connected user
+      if (stars.length < maxStars) {
+        stars.push(createStar());
+      }
+    }, 5000);
+
+    // Create initial stars
+    for (let i = 0; i < 100; i++) {
+      stars.push(createStar());
+    }
+
+    // Start the animation
+    animate();
+  </script>
+</body>
+
+</html>

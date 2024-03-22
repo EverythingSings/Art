@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shared Canvas</title>
+  <style>
+    /* Set the canvas to fill the entire viewport */
+    canvas {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Style the link to be subtle and unobtrusive */
+    a {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      color: #888;
+      text-decoration: none;
+      font-family: sans-serif;
+      font-size: 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- The canvas element where the generative art will be drawn -->
+  <canvas id="canvas"></canvas>
+
+  <!-- The subtle link to EverythingSings.Art -->
+  <a href="http://EverythingSings.Art" target="_blank">EverythingSings.Art</a>
+
+  <script>
+    // Get a reference to the canvas element
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Set the canvas dimensions to match the window size
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Define the colors to use for the generative art
+    const colors = ['#ff6b6b', '#f06595', '#cc5de8', '#845ef7', '#5c7cfa', '#339af0', '#22b8cf', '#20c997', '#51cf66', '#94d82d', '#fcc419', '#ff922b'];
+
+    // Define the maximum radius of the circles
+    const maxRadius = 50;
+
+    // Function to generate a random number between min and max (inclusive)
+    function random(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    // Function to generate a new circle
+    function generateCircle() {
+      const x = random(0, canvas.width);
+      const y = random(0, canvas.height);
+      const radius = random(10, maxRadius);
+      const color = colors[random(0, colors.length - 1)];
+
+      // Draw the circle on the canvas
+      ctx.beginPath();
+      ctx.arc(x, y, radius, 0, 2 * Math.PI);
+      ctx.fillStyle = color;
+      ctx.fill();
+    }
+
+    // Generate a new circle every 100ms
+    setInterval(generateCircle, 100);
+
+    // Clear the canvas when the window is resized
+    window.addEventListener('resize', function () {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+
+</html>

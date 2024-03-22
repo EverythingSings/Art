@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Echoes of Connection</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #000;
+      font-family: sans-serif;
+    }
+
+    canvas {
+      display: block;
+      cursor: pointer;
+    }
+
+    #info {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      color: #fff;
+      font-size: 12px;
+    }
+
+    a {
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+  <div id="info">Touch to connect... / <a href="http://EverythingSings.Art">Everything Sings</a></div>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let w, h, particles = [];
+
+    function init() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+
+      for (let i = 0; i < 100; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    function Particle() {
+      this.x = Math.random() * w;
+      this.y = Math.random() * h;
+      this.vx = Math.random() * 4 - 2;
+      this.vy = Math.random() * 4 - 2;
+      this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+      this.size = Math.random() * 3 + 0.5;
+    }
+
+    Particle.prototype.update = function () {
+      this.x += this.vx;
+      this.y += this.vy;
+
+      if (this.x < 0 || this.x > w) this.vx *= -1;
+      if (this.y < 0 || this.y > h) this.vy *= -1;
+    }
+
+    Particle.prototype.draw = function () {
+      ctx.fillStyle = this.color;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function connect(x, y) {
+      for (let i = 0; i < particles.length; i++) {
+        let particle = particles[i];
+        let dx = x - particle.x;
+        let dy = y - particle.y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < 150) {
+          ctx.strokeStyle = particle.color;
+          ctx.lineWidth = 0.3;
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+          ctx.lineTo(particle.x, particle.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    function loop() {
+      ctx.clearRect(0, 0, w, h);
+
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+      }
+
+      requestAnimationFrame(loop);
+    }
+
+    function handleInteraction(e) {
+      let x = e.clientX || e.touches[0].clientX;
+      let y = e.clientY || e.touches[0].clientY;
+      connect(x, y);
+    }
+
+    canvas.addEventListener('mousemove', handleInteraction);
+    canvas.addEventListener('touchstart', handleInteraction);
+    canvas.addEventListener('touchmove', handleInteraction);
+
+    window.addEventListener('resize', init);
+    init();
+    loop();
+  </script>
+</body>
+
+</html>
