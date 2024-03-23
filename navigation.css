@@ -66,6 +66,7 @@ nav {
 .dropdown-menu li {
   list-style: none;
   padding: 4px 0;
+  color: #fafafa;
 }
 
 .dropdown-menu a {
