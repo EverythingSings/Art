@@ -234,11 +234,14 @@ const animate = (sculpture, particleSystem, scene, camera, renderer, composer, c
 
     composer.render();
 
-    buttonElement.style.backgroundColor = currentColor.getStyle();
-    const computedBgColor = window.getComputedStyle(buttonElement).backgroundColor;
-    const rgb = computedBgColor.match(/\d+/g).map(Number);
-    const luminance = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255;
-    buttonElement.style.color = luminance > 0.5 ? '#000000' : '#ffffff';
+    if (buttonElement) {
+      buttonElement.style.backgroundColor = currentColor.getStyle();
+      const computedBgColor = window.getComputedStyle(buttonElement).backgroundColor;
+      const rgb = computedBgColor.match(/\d+/g).map(Number);
+      const luminance = (0.299 * rgb[0] + 0.587 * rgb[1] + 0.114 * rgb[2]) / 255;
+      buttonElement.style.color = luminance > 0.5 ? '#000000' : '#ffffff';
+    }
+
   };
 
   animateLoop(0);
