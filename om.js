@@ -300,10 +300,4 @@ document.addEventListener('DOMContentLoaded', () => {
   onWindowResize(camera, renderer, composer);
   setupGUI(sculpture, particleSystem);
   animate(sculpture, particleSystem, scene, camera, renderer, composer, controls, buttonElement);
-  document.getElementById('title').addEventListener('click', function () {
-    fetch('pages.json')
-      .then(response => response.json())
-      .then(data => window.location.href = data.pages[Math.floor(Math.random() * data.pages.length)])
-      .catch(error => console.error('Error loading the pages list:', error));
-  });
 });
