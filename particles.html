@@ -31,6 +31,38 @@
       font-family: sans-serif;
       font-size: 14px;
     }
+
+    .progress {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      width: 0;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.8);
+      transition: width 0.5s;
+    }
+
+    .message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: sans-serif;
+      font-size: 24px;
+      color: white;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
   </style>
 </head>
 
@@ -39,11 +71,20 @@
     <a href="http://EverythingSings.Art">Everything Sings</a>
   </div>
   <canvas id="canvas"></canvas>
+  <div class="progress">
+    <div class="progress-bar"></div>
+  </div>
+  <div class="message"></div>
 
   <script>
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
+    const progressBar = document.querySelector('.progress-bar');
+    const message = document.querySelector('.message');
+
     let w, h, particles = [];
+    let lastVisit = localStorage.getItem('lastVisit');
+    let visitStreak = parseInt(localStorage.getItem('visitStreak')) || 0;
 
     function init() {
       w = canvas.width = window.innerWidth;
@@ -53,7 +94,23 @@
       for (let i = 0; i < 100; i++) {
         particles.push(new Particle());
       }
-    }
+
+      // Check visit streak
+      const today = new Date().toDateString();
+      if (lastVisit === today) {
+        // User already visited today
+        showMessage(`Welcome back! You're on a ${visitStreak} day streak!`);
+      } else {
+        // User hasn't visited yet today
+        visitStreak = (lastVisit === new Date(Date.now() - 86400000).toDateString()) ? visitStreak + 1 : 1;
+        localStorage.setItem('visitStreak', visitStreak);
+        localStorage.setItem('lastVisit', today);
+        showMessage(`Welcome! You're on a ${visitStreak} day streak!`);
+      }
+
+      // Update progress bar
+      progressBar.style.width = `${(visitStreak / 7) * 100}%`;
+    };
 
     function Particle() {
       this.x = Math.random() * w;
@@ -122,10 +179,17 @@
       }
     }
 
+    function showMessage(text) {
+      if (!message) return;
+      message.textContent = text;
+      message.style.opacity = 1;
+      setTimeout(() => message.style.opacity = 0, 3000);
+    }
+
     init();
     animate();
 
-    window.addEventListener('resize', init);
+    window.addEventListener('resize', init);  
   </script>
 </body>
 
