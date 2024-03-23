@@ -1,12 +1,8 @@
-// Fetch the list of HTML files from the server
-fetch('.')
-  .then(response => response.text())
-  .then(html => {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-    const links = doc.querySelectorAll('a[href$=".html"]');
-    const pages = Array.from(links).map(link => link.href);
-
+// Fetch the pages data from pages.json
+fetch('pages.json')
+  .then(response => response.json())
+  .then(data => {
+    const pages = data.pages;
     const dropdownMenu = document.querySelector('.dropdown-menu');
 
     // Populate the dropdown menu with page links
@@ -19,6 +15,3 @@ fetch('.')
       dropdownMenu.appendChild(li);
     });
   })
-  .catch(error => {
-    console.error('Error fetching HTML files:', error);
-  });
