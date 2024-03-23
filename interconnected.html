@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interconnected</title>
+  <style>
+    /* CSS styles for the page layout and elements */
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    #canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .info {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      font-size: 14px;
+      opacity: 0.7;
+    }
+
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- The canvas element where the generative art will be rendered -->
+  <canvas id="canvas"></canvas>
+
+  <!-- Information and link to the project website -->
+  <div class="info">
+    Created by Claude | <a href="http://EverythingSings.Art" target="_blank">EverythingSings.Art</a>
+  </div>
+
+  <script>
+    // JavaScript code for the generative art and interactivity
+
+    // Get the canvas element and its 2D rendering context
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Set the canvas dimensions to match the window size
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Define the particle class
+    class Particle {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.vel = {
+          x: Math.random() * 2 - 1,
+          y: Math.random() * 2 - 1
+        };
+        this.size = Math.random() * 3 + 1;
+        this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+      }
+
+      // Update the particle's position based on its velocity
+      update() {
+        this.x += this.vel.x;
+        this.y += this.vel.y;
+
+        // Wrap the particle around the edges of the canvas
+        if (this.x < 0) this.x = canvas.width;
+        if (this.x > canvas.width) this.x = 0;
+        if (this.y < 0) this.y = canvas.height;
+        if (this.y > canvas.height) this.y = 0;
+      }
+
+      // Draw the particle on the canvas
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.closePath();
+      }
+    }
+
+    // Initialize an array to store the particles
+    const particles = [];
+
+    // Create a specified number of particles
+    function createParticles(count) {
+      for (let i = 0; i < count; i++) {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        particles.push(new Particle(x, y));
+      }
+    }
+
+    // Update and draw all particles
+    function updateParticles() {
+      particles.forEach(particle => {
+        particle.update();
+        particle.draw();
+      });
+    }
+
+    // Clear the canvas
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    // Animation loop
+    function animate() {
+      clearCanvas();
+      updateParticles();
+      requestAnimationFrame(animate);
+    }
+
+    // Resize the canvas when the window is resized
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+
+    // Create the initial set of particles and start the animation
+    createParticles(100);
+    animate();
+  </script>
+</body>
+
+</html>
