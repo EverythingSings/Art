@@ -1,4 +1,23 @@
 export function initOm() {
+  const config = {
+    cameraZ: 8,
+    count: 7,
+    minRadius: 0.3,
+    maxRadius: 2.4,
+    minTubularSegments: 48,
+    maxTubularSegments: 384,
+    minRadialSegments: 12,
+    maxRadialSegments: 48,
+    minP: 2,
+    maxP: 10,
+    minQ: 3,
+    maxQ: 12
+  };
+
+  const configJSON = document.body.dataset.config;
+  if (configJSON) {
+    Object.assign(config, JSON.parse(configJSON));
+  };
 
 
   const mouse = new THREE.Vector2();
@@ -10,12 +29,10 @@ export function initOm() {
 
   const setupScene = () => {
     const bodyElement = document.body;
-    const configJSON = bodyElement.dataset.config;
-    config = JSON.parse(configJSON ?? '{}');
 
-    scene = new THREE.Scene();
+    const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = config.cameraZ ?? 8;
+    camera.position.z = config.cameraZ;
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
