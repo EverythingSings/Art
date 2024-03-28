@@ -1,3 +1,5 @@
+// om-component.js
+
 import * as THREE from 'https://cdn.skypack.dev/three@0.128.0';
 import { OrbitControls } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/controls/OrbitControls.js';
 import { EffectComposer } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/postprocessing/EffectComposer.js';
@@ -6,7 +8,7 @@ import { ShaderPass } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/p
 import { CopyShader } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/shaders/CopyShader.js';
 import { LuminosityHighPassShader } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/shaders/LuminosityHighPassShader.js';
 import { UnrealBloomPass } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/postprocessing/UnrealBloomPass.js';
-import { GUI } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/libs/lil-gui.module.min.js';
+import { GUI } from 'https://cdn.skypack.dev/three-stdlib/lil-gui';
 
 export function initOm() {
   const config = {
