@@ -22,6 +22,11 @@
     "starscape.html",
     "tapestry.html",
     "universe.html",
-    "particles.html"
+    "particles.html",
+    "artOfLife.html",
+    "graph.html",
+    "breathe.html",
+    "stardust.html",
+    "starfield.html"
   ]
 }

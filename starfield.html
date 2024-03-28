@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Everything Sings</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: black;
+      color: white;
+      font-family: sans-serif;
+      text-align: center;
+    }
+
+    canvas {
+      display: block;
+    }
+
+    a {
+      color: white;
+      font-size: 18px;
+      margin-top: 10px;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+  <audio id="audio"></audio>
+  <a id="link" href="http://EverythingSings.Art" target="_blank">EverythingSings.Art</a>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const audio = document.getElementById('audio');
+
+    const particleCount = 1000;
+    const particles = [];
+
+    const notes = [
+      'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'
+    ];
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    function Particle(x, y) {
+      this.x = x;
+      this.y = y;
+      this.r = Math.random() * 8 + 1;
+      this.vx = Math.random() * 4 - 2;
+      this.vy = Math.random() * 4 - 2;
+      this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+      this.update = function () {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+      }
+      this.draw = function () {
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function init() {
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle(
+          Math.random() * canvas.width,
+          Math.random() * canvas.height
+        ));
+      }
+    }
+
+    function updateAudio(x) {
+      const noteIndex = Math.floor(x / canvas.width * notes.length);
+      const noteName = notes[noteIndex];
+      const freq = 440 * Math.pow(2, (noteIndex - 9) / 12);
+      const osc = audio.context.createOscillator();
+      const gain = audio.context.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      gain.gain.exponentialRampToValueAtTime(
+        0.00001, audio.context.currentTime + 0.5
+      );
+      osc.connect(gain);
+      gain.connect(audio.context.destination);
+      osc.start(0);
+      osc.stop(audio.context.currentTime + 0.5);
+    }
+
+    function updateVisuals(x, y) {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(particle => {
+        particle.update();
+        particle.draw();
+      });
+      for (let i = 0; i < 5; i++) {
+        particles.push(new Particle(x, y));
+      }
+    }
+
+    function loop() {
+      updateVisuals(mouse.x, mouse.y);
+      requestAnimationFrame(loop);
+    }
+
+    const mouse = {
+      x: canvas.width / 2,
+      y: canvas.height / 2
+    };
+
+    canvas.addEventListener('mousemove', function (e) {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      updateAudio(mouse.x);
+    });
+
+    audio.context = new AudioContext();
+    init();
+    loop();
+  </script>
+</body>
+
+</html>

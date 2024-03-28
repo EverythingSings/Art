@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Everything Sings</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .btn {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      z-index: 1;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .quote {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      font-size: 24px;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1s ease;
+      z-index: 1;
+    }
+
+    .quote.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+  <a href="http://EverythingSings.Art" target="_blank" class="btn">Explore More</a>
+  <div class="quote"></div>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const quoteElement = document.querySelector('.quote');
+
+    let w, h;
+    let particles = [];
+    let quoteIndex = 0;
+    const quotes = [
+      "In the tapestry of life, we're all connected.",
+      "Each note resonates in the grand symphony of existence.",
+      "Amidst chaos, there's an underlying harmony that binds us all.",
+      "In the dance of the cosmos, we are all partners.",
+      "The universe is a canvas, and we are the brushstrokes."
+    ];
+
+    function init() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    }
+
+    function createParticles(num) {
+      for (let i = 0; i < num; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    function Particle() {
+      this.x = Math.random() * w;
+      this.y = Math.random() * h;
+      this.r = Math.random() * 4 + 1;
+      this.vx = Math.random() * 2 - 1;
+      this.vy = Math.random() * 2 - 1;
+      this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+      this.alpha = 0;
+      this.fadeInSpeed = Math.random() * 0.05 + 0.01;
+    }
+
+    Particle.prototype.draw = function () {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r * this.alpha, 0, Math.PI * 2, false);
+      ctx.fillStyle = this.color;
+      ctx.globalAlpha = this.alpha;
+      ctx.fill();
+      ctx.closePath();
+      ctx.globalAlpha = 1;
+    }
+
+    Particle.prototype.update = function () {
+      this.x += this.vx;
+      this.y += this.vy;
+
+      if (this.x < 0 || this.x > w) this.vx *= -1;
+      if (this.y < 0 || this.y > h) this.vy *= -1;
+
+      if (this.alpha < 1) {
+        this.alpha += this.fadeInSpeed;
+      }
+    }
+
+    function showQuote() {
+      quoteElement.textContent = quotes[quoteIndex];
+      quoteElement.classList.add('show');
+
+      setTimeout(() => {
+        quoteElement.classList.remove('show');
+        quoteIndex = (quoteIndex + 1) % quotes.length;
+        setTimeout(showQuote, 3000);
+      }, 5000);
+    }
+
+    function render() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, w, h);
+
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].draw();
+        particles[i].update();
+
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 100) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = particles[i].color;
+            ctx.globalAlpha = particles[i].alpha * particles[j].alpha;
+            ctx.stroke();
+            ctx.closePath();
+            ctx.globalAlpha = 1;
+          }
+        }
+      }
+
+      requestAnimationFrame(render);
+    }
+
+    init();
+    createParticles(80);
+    render();
+    showQuote();
+
+    window.addEventListener('resize', init);
+  </script>
+</body>
+
+</html>

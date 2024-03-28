@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mindful Moment</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+      font-family: Arial, sans-serif;
+      color: white;
+      text-align: center;
+    }
+
+    @keyframes gradient {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .container {
+      max-width: 500px;
+      padding: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      border: none;
+      background-color: white;
+      color: #333;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+
+    #quote {
+      font-size: 24px;
+      line-height: 1.6;
+      opacity: 0;
+      transition: opacity 1s;
+    }
+
+    a {
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <button id="startButton">Breathe</button>
+    <div id="quote"></div>
+    <div id="message"></div>
+  </div>
+
+  <script>
+    const quotes = [
+      "Breath is the bridge which connects life to consciousness, which unites your body to your thoughts.",
+      "Feelings come and go like clouds in a windy sky. Conscious breathing is my anchor.",
+      "Breathe and let be.",
+      "Mindfulness isn't difficult, we just need to remember to do it.",
+      "The present moment is filled with joy and happiness. If you are attentive, you will see it."
+    ];
+
+    const startButton = document.getElementById('startButton');
+    const quote = document.getElementById('quote');
+    const message = document.getElementById('message');
+    let breatheInterval;
+
+    function breathe() {
+      startButton.style.display = 'none';
+
+      let breathCount = 0;
+      const totalBreaths = 5;
+
+      breatheInterval = setInterval(() => {
+        document.body.style.animation = breathCount % 2 === 0 ? 'none' : 'gradient 10s ease infinite';
+
+        if (breathCount % 2 === 0) {
+          quote.innerHTML = quotes[Math.floor(Math.random() * quotes.length)];
+          quote.style.opacity = 1;
+        } else {
+          quote.style.opacity = 0;
+        }
+
+        breathCount++;
+
+        if (breathCount > totalBreaths * 2) {
+          clearInterval(breatheInterval);
+          message.innerHTML = `Take a moment to notice how you feel.<br><br>
+                                        <a href="http://EverythingSings.Art" target="_blank">EverythingSings.Art</a>`;
+        }
+      }, 5000);
+    }
+
+    startButton.addEventListener('click', breathe);
+  </script>
+</body>
+
+</html>

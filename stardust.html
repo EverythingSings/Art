@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Cosmic Reflections</title>
+
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #universe {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://images.unsplash.com/photo-1516339901601-2e1b62dc0c45?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2062&q=80');
+      background-size: cover;
+    }
+
+    #centerIcon {
+      width: 300px;
+      height: 300px;
+      background-image: url('https://www.freeiconspng.com/uploads/earth-png-23.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      cursor: pointer;
+      transition: background-image 1.5s;
+    }
+
+    #insights {
+      position: absolute;
+      color: white;
+      font-size: 36px;
+      font-weight: bold;
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: center;
+      width: 100%;
+      padding-top: 100px;
+      top: 25%;
+      transition: opacity 1.5s;
+    }
+
+    #everythingSings {
+      position: absolute;
+      bottom: 40px;
+      background: white;
+      color: black;
+      font-size: 24px;
+      font-family: Arial, Helvetica, sans-serif;
+      padding: 20px 40px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: box-shadow 0.5s;
+      animation: softPulse 3s infinite;
+    }
+
+    #everythingSings:hover {
+      box-shadow: 0 0 20px 10px white;
+    }
+
+    @keyframes softPulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+      }
+
+      70% {
+        box-shadow: 0 0 0 20px rgba(255, 255, 255, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="universe"></div>
+
+  <div id="centerIcon"></div>
+
+  <div id="insights"></div>
+
+  <a id="everythingSings" href="http://EverythingSings.Art" target="_blank">Everything Sings</a>
+
+  <script>
+    const centerIcon = document.getElementById('centerIcon');
+    const insights = document.getElementById('insights');
+    const audio = new Audio('https://cdn.pixabay.com/download/audio/2022/01/20/audio_0464901e1d.mp3');
+
+    const messages = [
+      'We are stardust, the universe experiencing itself.',
+      'In each of us, the cosmos gazes upon itself in wonder.',
+      'Life is the universe\'s way of knowing itself.',
+      'We contain multitudes - atoms forged in the hearts of ancient stars.',
+      'In our mind\'s eye, the universe comes to know its own beauty.',
+      'Humans are the means by which the universe understands itself.',
+      'Our very existence is an expression of cosmic creativity.'
+    ];
+
+    const icons = [
+      'https://www.freeiconspng.com/uploads/earth-png-23.png',
+      'https://www.freeiconspng.com/uploads/tree-icon-png-4.png',
+      'https://www.freeiconspng.com/uploads/brain-neural-cells-thinking-mind-consciousness-512x512-pixel-png-30.png'
+    ];
+
+    let iconIndex = 0;
+    let messageIndex = 0;
+    let audioStarted = false;
+
+    centerIcon.addEventListener('click', function () {
+      if (!audioStarted) {
+        audio.loop = true;
+        audio.play();
+        audioStarted = true;
+      }
+
+      iconIndex = (iconIndex + 1) % icons.length;
+      centerIcon.style.backgroundImage = `url('${icons[iconIndex]}')`;
+
+      insights.style.opacity = 0;
+      setTimeout(function () {
+        messageIndex = (messageIndex + 1) % messages.length;
+        insights.innerText = messages[messageIndex];
+        insights.style.opacity = 1;
+      }, 1000);
+    });
+  </script>
+
+</body>
+
+</html>
