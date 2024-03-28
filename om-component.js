@@ -1,3 +1,13 @@
+import * as THREE from 'https://cdn.skypack.dev/three@0.128.0';
+import { OrbitControls } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/controls/OrbitControls.js';
+import { EffectComposer } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/postprocessing/RenderPass.js';
+import { ShaderPass } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/postprocessing/ShaderPass.js';
+import { CopyShader } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/shaders/CopyShader.js';
+import { LuminosityHighPassShader } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/shaders/LuminosityHighPassShader.js';
+import { UnrealBloomPass } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { GUI } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/libs/lil-gui.module.min.js';
+
 export function initOm() {
   const config = {
     cameraZ: 8,
@@ -267,7 +277,7 @@ export function initOm() {
     animateLoop(0);
   }
 
-  const recreateSculpture = (sculpture) => {
+  const recreateSculpture = (sculpture, scene) => {
     scene.remove(...sculpture.meshes);
     sculpture.meshes = sculpture.createMeshes();
     sculpture.meshes.forEach(mesh => scene.add(mesh));
@@ -277,17 +287,17 @@ export function initOm() {
     const gui = new GUI();
 
     const sculptureFolder = gui.addFolder('Sculpture');
-    sculptureFolder.add(sculpture.config, 'count', 1, 20, 1).onChange(() => recreateSculpture(sculpture));
-    sculptureFolder.add(sculpture.config, 'minRadius', 0.1, 5, 0.1).onChange(() => recreateSculpture(sculpture));
-    sculptureFolder.add(sculpture.config, 'maxRadius', 0.1, 5, 0.1).onChange(() => recreateSculpture(sculpture));
-    sculptureFolder.add(sculpture.config, 'minTubularSegments', 1, 500, 1).onChange(() => recreateSculpture(sculpture));
-    sculptureFolder.add(sculpture.config, 'maxTubularSegments', 1, 500, 1).onChange(() => recreateSculpture(sculpture));
-    sculptureFolder.add(sculpture.config, 'minRadialSegments', 1, 100, 1).onChange(() => recreateSculpture(sculpture));
-    sculptureFolder.add(sculpture.config, 'maxRadialSegments', 1, 100, 1).onChange(() => recreateSculpture(sculpture));
-    sculptureFolder.add(sculpture.config, 'minP', 1, 20, 1).onChange(() => recreateSculpture(sculpture));
-    sculptureFolder.add(sculpture.config, 'maxP', 1, 20, 1).onChange(() => recreateSculpture(sculpture));
-    sculptureFolder.add(sculpture.config, 'minQ', 1, 20, 1).onChange(() => recreateSculpture(sculpture));
-    sculptureFolder.add(sculpture.config, 'maxQ', 1, 20, 1).onChange(() => recreateSculpture(sculpture));
+    sculptureFolder.add(sculpture.config, 'count', 1, 20, 1).onChange(() => recreateSculpture(sculpture, scene));
+    sculptureFolder.add(sculpture.config, 'minRadius', 0.1, 5, 0.1).onChange(() => recreateSculpture(sculpture, scene));
+    sculptureFolder.add(sculpture.config, 'maxRadius', 0.1, 5, 0.1).onChange(() => recreateSculpture(sculpture, scene));
+    sculptureFolder.add(sculpture.config, 'minTubularSegments', 1, 500, 1).onChange(() => recreateSculpture(sculpture, scene));
+    sculptureFolder.add(sculpture.config, 'maxTubularSegments', 1, 500, 1).onChange(() => recreateSculpture(sculpture, scene));
+    sculptureFolder.add(sculpture.config, 'minRadialSegments', 1, 100, 1).onChange(() => recreateSculpture(sculpture, scene));
+    sculptureFolder.add(sculpture.config, 'maxRadialSegments', 1, 100, 1).onChange(() => recreateSculpture(sculpture, scene));
+    sculptureFolder.add(sculpture.config, 'minP', 1, 20, 1).onChange(() => recreateSculpture(sculpture, scene));
+    sculptureFolder.add(sculpture.config, 'maxP', 1, 20, 1).onChange(() => recreateSculpture(sculpture, scene));
+    sculptureFolder.add(sculpture.config, 'minQ', 1, 20, 1).onChange(() => recreateSculpture(sculpture, scene));
+    sculptureFolder.add(sculpture.config, 'maxQ', 1, 20, 1).onChange(() => recreateSculpture(sculpture, scene));
 
     const particlesFolder = gui.addFolder('Particles');
     particlesFolder.add(particleSystem, 'particleCount', 1000, 100000, 1).onChange(() => {
@@ -298,8 +308,7 @@ export function initOm() {
   };
 
   document.addEventListener('DOMContentLoaded', () => {
-    const { scene, camera, renderer, composer, controls } = setupScene();
-    const buttonElement = document.getElementById('website');
+    const { scene, camera, renderer, composer, controls } = setupScene(); const buttonElement = document.getElementById('website');
     createLights(scene);
     const initialColor = new THREE.Color(`hsl(${(Date.now() * 0.0001) % 1 * 360}, 100%, 50%)`);
     const particleSystem = new ParticleSystem(scene, initialColor);
@@ -318,7 +327,7 @@ export function initOm() {
     });
     window.addEventListener('resize', () => onWindowResize(camera, renderer, composer), false);
     onWindowResize(camera, renderer, composer);
-    setupGUI(sculpture, particleSystem);
+    setupGUI(sculpture, particleSystem, scene);
     animate(sculpture, particleSystem, scene, camera, renderer, composer, controls, buttonElement);
   })
 }
