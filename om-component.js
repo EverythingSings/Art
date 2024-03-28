@@ -32,7 +32,7 @@ export function initOm() {
   };
 
 
-  const mouse = new THREE.Vector2();
+  const mouse = new Vector2();
   let scene;
   document.addEventListener('mousemove', (event) => {
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -42,10 +42,10 @@ export function initOm() {
   const setupScene = () => {
     const bodyElement = document.body;
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const scene = new Scene();
+    const camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.z = config.cameraZ;
-    const renderer = new THREE.WebGLRenderer();
+    const renderer = new WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
@@ -56,14 +56,14 @@ export function initOm() {
     controls.minDistance = 1;
     controls.maxDistance = 100;
 
-    const composer = new THREE.EffectComposer(renderer);
-    const renderPass = new THREE.RenderPass(scene, camera);
+    const composer = new EffectComposer(renderer);
+    const renderPass = new RenderPass(scene, camera);
     composer.addPass(renderPass);
 
-    const copyPass = new THREE.ShaderPass(THREE.CopyShader);
+    const copyPass = new ShaderPass(CopyShader);
     composer.addPass(copyPass);
 
-    const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+    const bloomPass = new UnrealBloomPass(new Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
     composer.addPass(bloomPass);
 
     return { scene, camera, renderer, composer, controls };
@@ -78,22 +78,22 @@ export function initOm() {
     }
 
     init() {
-      const geometry = new THREE.InstancedBufferGeometry();
-      const positions = new THREE.BufferAttribute(new Float32Array(4 * 3), 3);
+      const geometry = new InstancedBufferGeometry();
+      const positions = new BufferAttribute(new Float32Array(4 * 3), 3);
       positions.setXYZ(0, -0.5, 0.5, 0.0);
       positions.setXYZ(1, 0.5, 0.5, 0.0);
       positions.setXYZ(2, -0.5, -0.5, 0.0);
       positions.setXYZ(3, 0.5, -0.5, 0.0);
       geometry.setAttribute('position', positions);
 
-      const uvs = new THREE.BufferAttribute(new Float32Array(4 * 2), 2);
+      const uvs = new BufferAttribute(new Float32Array(4 * 2), 2);
       uvs.setXYZ(0, 0.0, 0.0);
       uvs.setXYZ(1, 1.0, 0.0);
       uvs.setXYZ(2, 0.0, 1.0);
       uvs.setXYZ(3, 1.0, 1.0);
       geometry.setAttribute('uv', uvs);
 
-      geometry.setIndex(new THREE.BufferAttribute(new Uint16Array([0, 1, 2, 2, 1, 3]), 1));
+      geometry.setIndex(new BufferAttribute(new Uint16Array([0, 1, 2, 2, 1, 3]), 1));
 
       const offsets = new Float32Array(this.particleCount * 3);
       const colors = new Float32Array(this.particleCount * 3);
@@ -111,14 +111,14 @@ export function initOm() {
         sizes[i] = Math.random() * 0.1 + 0.05;
       }
 
-      geometry.setAttribute('offset', new THREE.InstancedBufferAttribute(offsets, 3));
-      geometry.setAttribute('color', new THREE.InstancedBufferAttribute(colors, 3));
-      geometry.setAttribute('size', new THREE.InstancedBufferAttribute(sizes, 1));
+      geometry.setAttribute('offset', new InstancedBufferAttribute(offsets, 3));
+      geometry.setAttribute('color', new InstancedBufferAttribute(colors, 3));
+      geometry.setAttribute('size', new InstancedBufferAttribute(sizes, 1));
 
-      const material = new THREE.ShaderMaterial({
+      const material = new ShaderMaterial({
         uniforms: {
           time: { value: 0 },
-          mouse: { value: new THREE.Vector2() }
+          mouse: { value: new Vector2() }
         },
         vertexShader: `
         uniform float time;
@@ -146,12 +146,12 @@ export function initOm() {
           gl_FragColor = vec4(vColor, strength);
         }
       `,
-        blending: THREE.AdditiveBlending,
+        blending: AdditiveBlending,
         depthTest: false,
         transparent: true
       });
 
-      this.mesh = new THREE.InstancedMesh(geometry, material, this.particleCount);
+      this.mesh = new InstancedMesh(geometry, material, this.particleCount);
     }
 
     update(time, mouse, sculptureColor) {
@@ -189,7 +189,7 @@ export function initOm() {
       { x: -5, y: -5, z: -5 }
     ];
     lightPositions.forEach(({ x, y, z }) => {
-      const light = new THREE.PointLight(0xffffff, 1, 100);
+      const light = new PointLight(0xffffff, 1, 100);
       light.position.set(x, y, z);
       scene.add(light);
     });
@@ -198,7 +198,7 @@ export function initOm() {
   class Sculpture {
     constructor(scene, config) {
       this.config = config;
-      this.materials = new Array(10).fill().map(() => new THREE.MeshPhongMaterial({
+      this.materials = new Array(10).fill().map(() => new MeshPhongMaterial({
         color: Math.random() * 0xffffff,
         flatShading: false,
         shininess: 75
@@ -210,7 +210,7 @@ export function initOm() {
 
     createMeshes() {
       return this.createRandomGeometries().map((geometry, i) => {
-        const mesh = new THREE.Mesh(geometry, this.materials[i % this.materials.length]);
+        const mesh = new Mesh(geometry, this.materials[i % this.materials.length]);
         return mesh;
       });
     }
@@ -226,7 +226,7 @@ export function initOm() {
         const p = Math.floor(Math.random() * (this.config.maxP - this.config.minP + 1)) + this.config.minP;
         const q = Math.floor(Math.random() * (this.config.maxQ - this.config.minQ + 1)) + this.config.minQ;
 
-        const geometry = new THREE.TorusKnotGeometry(radius, tube, tubularSegments, radialSegments, p, q);
+        const geometry = new TorusKnotGeometry(radius, tube, tubularSegments, radialSegments, p, q);
         geometries.push(geometry);
       }
 
@@ -258,7 +258,7 @@ export function initOm() {
       const deltaTime = time - lastTime;
       lastTime = time;
 
-      const currentColor = new THREE.Color(`hsl(${(time * 0.0001) % 1 * 360}, 100%, 50%)`);
+      const currentColor = new Color(`hsl(${(time * 0.0001) % 1 * 360}, 100%, 50%)`);
       sculpture.update(currentColor);
       particleSystem.update(time * 0.001, mouse, currentColor);
 
@@ -312,7 +312,7 @@ export function initOm() {
   document.addEventListener('DOMContentLoaded', () => {
     const { scene, camera, renderer, composer, controls } = setupScene(); const buttonElement = document.getElementById('website');
     createLights(scene);
-    const initialColor = new THREE.Color(`hsl(${(Date.now() * 0.0001) % 1 * 360}, 100%, 50%)`);
+    const initialColor = new Color(`hsl(${(Date.now() * 0.0001) % 1 * 360}, 100%, 50%)`);
     const particleSystem = new ParticleSystem(scene, initialColor);
     const sculpture = new Sculpture(scene, {
       count: config.count ?? 7,

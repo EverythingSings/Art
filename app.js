@@ -12,28 +12,24 @@ const routes = {
   },
 
   page1: () => {
-    // Render page1 view
     document.getElementById('app-container').innerHTML = '<h1>Page 1</h1>';
   },
 
   page2: () => {
-    // Render page2 view
     document.getElementById('app-container').innerHTML = '<h1>Page 2</h1>';
   },
   // Add more routes and view functions as needed
 };
 
-// Function to handle navigation
 const navigate = (target) => {
   if (routes[target]) {
     routes[target]();
   } else {
-    // Handle invalid route
     document.getElementById('app-container').innerHTML = '<h1>404 - Page Not Found</h1>';
   }
 };
 
-// Event listener for navigation links
+// NAVIGATION LINKS
 document.addEventListener('click', (event) => {
   const target = event.target.getAttribute('data-target');
   if (target) {
@@ -42,6 +38,5 @@ document.addEventListener('click', (event) => {
   }
 });
 
-// Initial view rendering
 navigate('home');
 
