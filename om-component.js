@@ -32,7 +32,7 @@ export function initOm() {
   };
 
 
-  const mouse = new Vector2();
+  // const mouse = new Vector2();
   let scene;
   document.addEventListener('mousemove', (event) => {
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
