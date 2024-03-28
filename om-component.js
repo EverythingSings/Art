@@ -8,7 +8,7 @@ import { ShaderPass } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/p
 import { CopyShader } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/shaders/CopyShader.js';
 import { LuminosityHighPassShader } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/shaders/LuminosityHighPassShader.js';
 import { UnrealBloomPass } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/postprocessing/UnrealBloomPass.js';
-import { GUI } from 'https://cdn.skypack.dev/three-stdlib/lil-gui';
+import { GUI } from 'https://cdn.jsdelivr.net/npm/lil-gui@0.17.0/+esm';
 
 export function initOm() {
   const config = {
