@@ -1,6 +1,7 @@
 // om-component.js
 
-import * as THREE from 'https://cdn.skypack.dev/three@0.128.0';
+import { Scene, PerspectiveCamera, WebGLRenderer, PointLight, Mesh, TorusKnotGeometry, MeshPhongMaterial, InstancedMesh, InstancedBufferGeometry, BufferAttribute, ShaderMaterial, AdditiveBlending, Color, Vector2 } from 'https://cdn.skypack.dev/three@0.128.0';
+
 import { OrbitControls } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/controls/OrbitControls.js';
 import { EffectComposer } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'https://cdn.skypack.dev/three@0.128.0/examples/jsm/postprocessing/RenderPass.js';
@@ -32,7 +33,7 @@ export function initOm() {
   };
 
 
-  // const mouse = new Vector2();
+  const mouse = new Vector2();
   let scene;
   document.addEventListener('mousemove', (event) => {
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
