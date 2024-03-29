@@ -286,7 +286,7 @@ export function initOm() {
     sculpture.meshes.forEach(mesh => scene.add(mesh));
   };
 
-  const setupGUI = (sculpture, particleSystem) => {
+  const setupGUI = (sculpture, particleSystem, scene) => {
     const gui = new GUI();
 
     const sculptureFolder = gui.addFolder('Sculpture');
@@ -319,7 +319,7 @@ export function initOm() {
     const sculpture = new Sculpture(scene, config);
     window.addEventListener('resize', () => onWindowResize(camera, renderer, composer), false);
     onWindowResize(camera, renderer, composer);
-    setupGUI(sculpture, particleSystem);
+    setupGUI(sculpture, particleSystem, scene);
     animate(sculpture, particleSystem, scene, camera, renderer, composer, controls, buttonElement);
   });
 }
