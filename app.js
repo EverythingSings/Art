@@ -1,27 +1,36 @@
 import { initOm } from './om-component.js';
 
+const appContainer = document.getElementById('app-container');
+
 // Define your routes and corresponding view templates or functions
 const routes = {
   home: () => {
-    document.getElementById('app-container').innerHTML = `
+    appContainer.innerHTML = `
       <div id="canvas-container"></div>
     `;
     initOm();
   },
-  page1: () => {
-    document.getElementById('app-container').innerHTML = '<h1>Page 1</h1>';
-  },
-  page2: () => {
-    document.getElementById('app-container').innerHTML = '<h1>Page 2</h1>';
-  },
-  // Add more routes and view functions as needed
 };
 
 const navigate = (target) => {
   if (routes[target]) {
     routes[target]();
   } else {
-    document.getElementById('app-container').innerHTML = '<h1>404 - Page Not Found</h1>';
+    fetch(`${target}.html`)
+      .then(response => {
+        if (response.ok) {
+          return response.text();
+        } else {
+          throw new Error('Page not found');
+        }
+      })
+      .then(html => {
+        appContainer.innerHTML = html;
+      })
+      .catch(() => {
+        appContainer.innerHTML =
+          `<h1 style = "color: #fafafa" > 404 - Page Not Found</h1> `;
+      });
   }
 };
 
@@ -34,11 +43,12 @@ fetch('pages.json')
 
     // Populate the dropdown menu with page links
     pages.forEach(page => {
+      const pageName = page.replace('.html', '');
       const li = document.createElement('li');
       const link = document.createElement('a');
       link.href = 'javascript:void(0)';
-      link.setAttribute('data-target', page.replace('.html', ''));
-      link.textContent = page.replace('.html', '');
+      link.setAttribute('data-target', pageName);
+      link.textContent = pageName;
       li.appendChild(link);
       dropdownMenu.appendChild(li);
     });

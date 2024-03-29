@@ -311,26 +311,15 @@ export function initOm() {
   };
 
   document.addEventListener('DOMContentLoaded', () => {
-    const { scene, camera, renderer, composer, controls } = setupScene(); const buttonElement = document.getElementById('website');
+    const { scene, camera, renderer, composer, controls } = setupScene();
+    const buttonElement = document.getElementById('website');
     createLights(scene);
     const initialColor = new Color(`hsl(${(Date.now() * 0.0001) % 1 * 360}, 100%, 50%)`);
     const particleSystem = new ParticleSystem(scene, initialColor);
-    const sculpture = new Sculpture(scene, {
-      count: config.count ?? 7,
-      minRadius: config.minRadius ?? 0.3,
-      maxRadius: config.maxRadius ?? 2.4,
-      minTubularSegments: config.minTubularSegments ?? 48,
-      maxTubularSegments: config.maxTubularSegments ?? 384,
-      minRadialSegments: config.minRadialSegments ?? 12,
-      maxRadialSegments: config.maxRadialSegments ?? 48,
-      minP: config.minP ?? 2,
-      maxP: config.maxP ?? 10,
-      minQ: config.minQ ?? 3,
-      maxQ: config.maxQ ?? 12
-    });
+    const sculpture = new Sculpture(scene, config);
     window.addEventListener('resize', () => onWindowResize(camera, renderer, composer), false);
     onWindowResize(camera, renderer, composer);
-    setupGUI(sculpture, particleSystem, scene);
+    setupGUI(sculpture, particleSystem);
     animate(sculpture, particleSystem, scene, camera, renderer, composer, controls, buttonElement);
-  })
+  });
 }
