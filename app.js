@@ -28,15 +28,17 @@ const navigate = (target) => {
       })
       .then(html => {
         pageContent.innerHTML = html;
+        if (typeof routes[target] === 'function') {
+          routes[target]();
+        }
       })
       .catch(() => {
         pageContent.innerHTML = `<h1 style="color: #fafafa">404 - Page Not Found</h1>`;
       });
   }
 };
-
 // Fetch the pages data from pages.json
-fetch('pages.json')
+fetch('spa_pages.json')
   .then(response => response.json())
   .then(data => {
     const pages = data.pages;
