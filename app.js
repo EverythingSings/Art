@@ -2,6 +2,9 @@ import { initOm } from './om-component.js';
 
 const appContainer = document.getElementById('app-container');
 
+const pageContent = document.getElementById('page-content');
+
+
 // Define your routes and corresponding view templates or functions
 const routes = {
   home: () => {
@@ -14,6 +17,7 @@ const routes = {
 
 const navigate = (target) => {
   if (routes[target]) {
+    pageContent.innerHTML = '';
     routes[target]();
   } else {
     fetch(`${target}.html`)
@@ -25,11 +29,10 @@ const navigate = (target) => {
         }
       })
       .then(html => {
-        appContainer.innerHTML = html;
+        pageContent.innerHTML = html;
       })
       .catch(() => {
-        appContainer.innerHTML =
-          `<h1 style = "color: #fafafa" > 404 - Page Not Found</h1> `;
+        pageContent.innerHTML = `<h1 style="color: #fafafa">404 - Page Not Found</h1>`;
       });
   }
 };
