@@ -1,14 +1,12 @@
 import { initOm } from './om-component.js';
 
 const appContainer = document.getElementById('app-container');
-
 const pageContent = document.getElementById('page-content');
-
 
 // Define your routes and corresponding view templates or functions
 const routes = {
   home: () => {
-    appContainer.innerHTML = `
+    pageContent.innerHTML = `
       <div id="canvas-container"></div>
     `;
     initOm();
@@ -43,13 +41,12 @@ fetch('pages.json')
   .then(data => {
     const pages = data.pages;
     const dropdownMenu = document.querySelector('.dropdown-menu');
-
     // Populate the dropdown menu with page links
     pages.forEach(page => {
       const pageName = page.replace('.html', '');
       const li = document.createElement('li');
       const link = document.createElement('a');
-      link.href = 'javascript:void(0)';
+      link.href = '#';
       link.setAttribute('data-target', pageName);
       link.textContent = pageName;
       li.appendChild(link);
