@@ -1,4 +1,5 @@
 import { initOm } from './om-component.js';
+import { initializeChatPage } from './chat.js'
 
 const appContainer = document.getElementById('app-container');
 const pageContent = document.getElementById('page-content');
@@ -16,9 +17,7 @@ const routes = {
       .then(response => response.text())
       .then(html => {
         pageContent.innerHTML = html;
-        loadScript('https://js.puter.com/v2/', () => {
-          initializeChatPage();
-        });
+        initializeChatPage();
         loadStylesheet('chat.css');
       })
       .catch(error => {
