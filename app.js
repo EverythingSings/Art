@@ -46,6 +46,7 @@ fetch('spa_pages.json')
     // Populate the dropdown menu with page links
     pages.forEach(page => {
       const pageName = page.replace('.html', '');
+      if (pageName === "index") pageName = "home";
       const li = document.createElement('li');
       const link = document.createElement('a');
       link.href = '#';
