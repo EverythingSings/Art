@@ -11,11 +11,11 @@
   <header>
     <nav>
       <div class="logo">
-        <a href="#" data-target="home">EverythingSings.Art</a>
+        <a href="http://EverythingSings.Art" data-target="home">EverythingSings.Art</a>
       </div>
       <div class="nav-items">
         <div class="dropdown">
-          <a href="#" class="dropdown-toggle">Pages</a>
+          <a href="#" class="dropdown-toggle" onclick="toggleDropdown(event)">Pages</a>
           <ul class="dropdown-menu"></ul>
         </div>
       </div>
@@ -31,6 +31,24 @@
     sandbox="allow-forms allow-popups allow-same-origin allow-scripts"
     src="https://embed.music.apple.com/us/album/create-for-yourself/1731697987?i=1731697988"></iframe>
   <script type="module" src="app.js"></script>
+  <script>
+    function toggleDropdown(event) {
+      event.preventDefault();
+      var dropdown = event.target.parentNode;
+      dropdown.classList.toggle('active');
+    }
+
+    document.addEventListener('click', function (event) {
+      var dropdowns = document.getElementsByClassName('dropdown');
+      for (var i = 0; i < dropdowns.length; i++) {
+        var dropdown = dropdowns[i];
+        if (!dropdown.contains(event.target)) {
+          dropdown.classList.remove('active');
+        }
+      }
+    });
+  </script>
+
 </body>
 
 </html>

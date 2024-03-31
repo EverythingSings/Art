@@ -52,14 +52,13 @@ nav {
   padding: 1rem;
   min-width: 120px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  padding: 12px;
   z-index: 1;
   top: 100%;
   left: 0;
   margin-top: 10px;
 }
 
-.dropdown:hover .dropdown-menu {
+.dropdown.active .dropdown-menu {
   display: block;
 }
 
