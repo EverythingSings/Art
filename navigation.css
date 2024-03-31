@@ -12,7 +12,7 @@ nav {
   min-height: 40px;
 }
 
-.logo a {
+.logo {
   color: #fafafa;
   display: flex;
   align-items: center;
