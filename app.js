@@ -11,6 +11,19 @@ const routes = {
     `;
     initOm();
   },
+  chat: () => {
+    fetch('chat.html')
+      .then(response => response.text())
+      .then(html => {
+        pageContent.innerHTML = html;
+        loadScript('chat.js');
+        loadStylesheet('chat.css');
+        loadScript('https://js.puter.com/v2/');
+      })
+      .catch(error => {
+        console.error('Error loading chat page:', error);
+      });
+  },
 };
 
 const navigate = (target) => {
@@ -80,5 +93,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
+function loadScript(url) {
+  const script = document.createElement('script');
+  script.src = url;
+  document.head.appendChild(script);
+}
+
+function loadStylesheet(url) {
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = url;
+  document.head.appendChild(link);
+}
 
 navigate('home');
