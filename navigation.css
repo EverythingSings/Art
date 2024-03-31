@@ -2,6 +2,10 @@ body {
   font-family: monospace;
 }
 
+a {
+  color: #fafafa
+}
+
 nav {
   display: flex;
   gap: 4rem;
