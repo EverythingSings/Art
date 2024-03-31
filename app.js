@@ -16,9 +16,10 @@ const routes = {
       .then(response => response.text())
       .then(html => {
         pageContent.innerHTML = html;
-        loadScript('chat.js');
+        loadScript('https://js.puter.com/v2/', () => {
+          initializeChatPage();
+        });
         loadStylesheet('chat.css');
-        loadScript('https://js.puter.com/v2/');
       })
       .catch(error => {
         console.error('Error loading chat page:', error);
@@ -78,20 +79,6 @@ document.addEventListener('click', (event) => {
     event.preventDefault();
     navigate(target);
   }
-});
-
-// chat.js
-document.addEventListener('DOMContentLoaded', () => {
-  const chatInput = document.getElementById('chatInput');
-  const chatButton = document.getElementById('chatButton');
-  const chatResponse = document.getElementById('chatResponse');
-
-  chatButton.addEventListener('click', () => {
-    const question = chatInput.value;
-    puter.ai.chat(question).then((response) => {
-      chatResponse.textContent = response;
-    });
-  });
 });
 
 function loadScript(url) {
