@@ -46,7 +46,7 @@ fetch('spa_pages.json')
     // Populate the dropdown menu with page links
     pages.forEach(page => {
 
-      const pageName = page.contains("index")
+      const pageName = page.includes("index")
         ? "home" : page.replace('.html', '');
 
       const li = document.createElement('li');
