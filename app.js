@@ -47,7 +47,7 @@ fetch('spa_pages.json')
     pages.forEach(page => {
 
       const pageName = page.includes("index")
-        ? "home" : page.replace('.html', '');
+        ? initOm() : page.replace('.html', '');
 
       const li = document.createElement('li');
       const link = document.createElement('a');
