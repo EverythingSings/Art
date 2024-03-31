@@ -19,7 +19,7 @@ canvas {
   z-index: 1;
 }
 
-.page-content {
+#page-content {
   padding: 1rem;
   height: 100vh;
   align-items: center;
