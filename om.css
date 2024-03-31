@@ -42,3 +42,13 @@ canvas {
 #title {
   cursor: pointer;
 }
+
+#music-player {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 25%;
+  height: auto;
+  border-radius: 1rem;
+  z-index: 1000;
+}
