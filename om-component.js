@@ -41,14 +41,15 @@ export function initOm() {
   });
 
   const setupScene = () => {
-    const bodyElement = document.body;
+    const pageContent = document.getElementById('page-content');
+
 
     const scene = new Scene();
     const camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.z = config.cameraZ;
     const renderer = new WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
+    pageContent.appendChild(renderer.domElement);
 
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
