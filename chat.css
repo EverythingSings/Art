@@ -4,7 +4,7 @@
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem;
-  background-color: #fafafa;
+  background-color: #333;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -13,13 +13,13 @@
   font-size: 28px;
   text-align: center;
   margin-bottom: 20px;
-  color: #333;
+  color: #fafafa;
 }
 
 .section-title {
   font-size: 24px;
   margin-bottom: 10px;
-  color: #555;
+  color: #fafafa;
 }
 
 .chat-input {
@@ -36,14 +36,14 @@
   flex: 1;
   padding: 2rem;
   font-size: 1rem;
-  border: 1px solid #ccc;
+  border: 1px solid #fafafa;
   border-radius: 4px;
 }
 
 .chat-input button {
   padding: 2rem;
   font-size: 1rem;
-  background-color: var(--primary-color);
+  background-color: #fafafa;
   color: white;
   border: none;
   border-radius: 4px;
@@ -58,11 +58,11 @@
 
 .chat-response {
   padding: 20px;
-  background-color: #fff;
+  background-color: #33333375;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-size: 18px;
-  color: #333;
+  color: #fafafa;
 }
 
 @media screen and (max-width: 600px) {
@@ -83,7 +83,7 @@
 .loading-spinner {
   display: none;
   border: 4px solid #f3f3f3;
-  border-top: 4px solid var(--primary-color);
+  border-top: 4px solid #333;
   border-radius: 50%;
   width: 40px;
   height: 40px;

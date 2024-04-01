@@ -30,6 +30,11 @@ const navigate = (target) => {
   if (routes[target]) {
     pageContent.innerHTML = '';
     routes[target]();
+  } else if (target === 'home') {
+    pageContent.innerHTML = `
+      <div id="canvas-container"></div>
+    `;
+    initOm();
   } else {
     fetch(`${target}.html`)
       .then(response => {
@@ -50,6 +55,7 @@ const navigate = (target) => {
       });
   }
 };
+
 // Fetch the pages data from pages.json
 fetch('spa_pages.json')
   .then(response => response.json())
@@ -58,14 +64,12 @@ fetch('spa_pages.json')
     const dropdownMenu = document.querySelector('.dropdown-menu');
     // Populate the dropdown menu with page links
     pages.forEach(page => {
-
       const pageName = page.replace('.html', '');
-
       const li = document.createElement('li');
       const link = document.createElement('a');
       link.href = '#';
       link.setAttribute('data-target', pageName);
-      link.textContent = pageName;
+      link.textContent = pageName === 'home' ? 'Home' : pageName;
       li.appendChild(link);
       dropdownMenu.appendChild(li);
     });
