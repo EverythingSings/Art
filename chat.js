@@ -6,10 +6,10 @@ async function initializeChatPage() {
 
   if (chatButton) {
     chatButton.addEventListener('click', async () => {
-      const question = "You are a chatbot on the website EverythingSings.Art, The formless art brand building for those oriented towards a rapidly changing future. Try to share as much inspiration and love as possible. " + chatInput.value;
+      const prompt = "You are a chatbot on the website EverythingSings.Art, The formless art brand building for those oriented towards a rapidly changing future. Try to share as much inspiration and love as possible. User Message:" + chatInput.value;
 
       try {
-        const response = await puter.ai.chat(question);
+        const response = await puter.ai.chat(prompt);
         chatResponse.textContent = response;
       } catch (error) {
         console.error('Error:', error);
