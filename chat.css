@@ -3,8 +3,8 @@
 .chat-container {
   max-width: 800px;
   margin: 0 auto;
-  padding: var(--spacing);
-  background-color: var(--background-color);
+  padding: 2rem;
+  background-color: #fafafa;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -29,26 +29,26 @@
 
 .chat-input {
   display: flex;
-  margin-bottom: var(--spacing);
+  margin-bottom: 2rem;
 }
 
 .chat-input input[type="text"] {
   flex: 1;
-  padding: var(--spacing);
+  padding: 2rem;
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
 .chat-input button {
-  padding: var(--spacing);
+  padding: 2rem;
   font-size: 1rem;
   background-color: var(--primary-color);
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin-left: var(--spacing);
+  margin-left: 2rem;
 }
 
 .chat-input button:hover,
@@ -67,7 +67,7 @@
 
 @media screen and (max-width: 600px) {
   .chat-container {
-    padding: var(--spacing) 0.5rem;
+    padding: 2rem 0.5rem;
   }
 }
 
