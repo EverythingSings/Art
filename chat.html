@@ -1,19 +1,20 @@
 <!-- chat.html -->
-<div class="chat-container">
+<header>
   <h1 class="chat-title">AI by Puter</h1>
-
-  <div class="chat-section">
+</header>
+<main class="chat-container">
+  <section class="chat-section">
     <h2 class="section-title">GPT-3.5 Turbo</h2>
     <div class="chat-input">
-      <input type="text" id="chatInput" placeholder="Enter your question...">
-      <button id="chatButton">Send</button>
+      <label for="chatInput" class="visually-hidden">Enter your question</label>
+      <input type="text" id="chatInput" placeholder="Enter your question..." aria-label="Question input">
+      <button id="chatButton" aria-label="Send question">Send</button>
     </div>
-    <div id="chatResponse" class="chat-response"></div>
-    <div class="section-title">
-      <h3>
-        <a href="https://puter.com/?r=6LF2XXBX">Don't have Puter? Get 1GB free by using this
-          link.</a>
-      </h3>
-    </div>
-  </div>
-</div>
+    <div id="chatResponse" class="chat-response" aria-live="polite"></div>
+  </section>
+</main>
+<footer>
+  <p>
+    <a href="https://puter.com/?r=6LF2XXBX">Don't have Puter? Get 1GB free by using this link.</a>
+  </p>
+</footer>
