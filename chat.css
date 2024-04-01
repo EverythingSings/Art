@@ -9,6 +9,10 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.chat-container a {
+  color: #fafafa;
+}
+
 .chat-title {
   font-size: 28px;
   text-align: center;
@@ -44,7 +48,7 @@
   padding: 2rem;
   font-size: 1rem;
   background-color: #fafafa;
-  color: white;
+  color: #333;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -54,6 +58,7 @@
 .chat-input button:hover,
 .chat-input button:focus {
   background-color: #45a049;
+  color: #fafafa;
 }
 
 .chat-response {
