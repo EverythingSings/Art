@@ -56,29 +56,26 @@ const navigate = (target) => {
   }
 };
 
-const pages = ['chat'];
-const dropdownMenu = document.querySelector('.dropdown-menu');
-
-// Populate the dropdown menu with page links
-pages.forEach(page => {
-  const li = document.createElement('li');
-  const link = document.createElement('a');
-  link.href = '#';
-  link.setAttribute('data-target', page);
-  link.textContent = page;
-  li.appendChild(link);
-  dropdownMenu.appendChild(li);
-});
-
-// Add event listener to the dropdown menu items
-dropdownMenu.addEventListener('click', (event) => {
-  const target = event.target.getAttribute('data-target');
-  if (target) {
-    event.preventDefault();
-    navigate(target);
-    document.querySelector('.dropdown').classList.remove('active');
-  }
-});
+fetch('spa_pages.json')
+  .then(response => response.json())
+  .then(data => {
+    const pages = data.pages;
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+    // Populate the dropdown menu with page links
+    pages.forEach(page => {
+      const pageName = page.replace('.html', '');
+      const li = document.createElement('li');
+      const link = document.createElement('a');
+      link.href = '#';
+      link.setAttribute('data-target', pageName);
+      link.textContent = pageName;
+      li.appendChild(link);
+      dropdownMenu.appendChild(li);
+    });
+  })
+  .catch(error => {
+    console.error('Error fetching pages:', error);
+  });
 
 // NAVIGATION LINKS
 document.addEventListener('click', (event) => {

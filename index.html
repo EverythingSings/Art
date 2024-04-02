@@ -12,15 +12,15 @@
 <body>
   <header>
     <nav>
-      <div class="logo">Code.EverythingSings.Art</div>
+      <div class="logo">
+        Code.EverythingSings.Art
+      </div>
       <div class="nav-items">
         <div class="dropdown">
-          <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+          <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false" onclick="toggleDropdown(event)">
             Pages
-            <span class="dropdown-icon"></span>
           </button>
-          <ul class="dropdown-menu" aria-label="Pages">
-            = </ul>
+          <ul class="dropdown-menu" aria-label="Pages"></ul>
         </div>
       </div>
       <h2>
@@ -39,6 +39,20 @@
     src="https://embed.music.apple.com/us/album/create-for-yourself/1731697987?i=1731697988"></iframe>
   <script type="module" src="app.js"></script>
   <script src="https://js.puter.com/v2/"></script>
+  <script>
+    function toggleDropdown(event) {
+      event.preventDefault();
+      var dropdown = event.target.parentNode;
+      dropdown.classList.toggle('active');
+    }
+
+    document.addEventListener('click', function (event) {
+      var dropdown = document.querySelector('.dropdown');
+      if (!dropdown.contains(event.target)) {
+        dropdown.classList.remove('active');
+      }
+    });
+  </script>
 </body>
 
 </html>
