@@ -68,6 +68,25 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-size: 18px;
   color: #fafafa;
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+.chat-response::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chat-response::-webkit-scrollbar-track {
+  background-color: #222;
+}
+
+.chat-response::-webkit-scrollbar-thumb {
+  background-color: #fafafa;
+  border-radius: 4px;
+}
+
+.chat-response::-webkit-scrollbar-thumb:hover {
+  background-color: #ccc;
 }
 
 @media screen and (max-width: 600px) {
