@@ -124,3 +124,7 @@
     transform: rotate(360deg);
   }
 }
+
+.lil-gui {
+  display: none;
+}
