@@ -56,26 +56,20 @@ const navigate = (target) => {
   }
 };
 
-fetch('spa_pages.json')
-  .then(response => response.json())
-  .then(data => {
-    const pages = data.pages;
-    const dropdownMenu = document.querySelector('.dropdown-menu');
-    // Populate the dropdown menu with page links
-    pages.forEach(page => {
-      const pageName = page.replace('.html', '');
-      const li = document.createElement('li');
-      const link = document.createElement('a');
-      link.href = '#';
-      link.setAttribute('data-target', pageName);
-      link.textContent = pageName;
-      li.appendChild(link);
-      dropdownMenu.appendChild(li);
-    });
-  })
-  .catch(error => {
-    console.error('Error fetching pages:', error);
-  });
+const pages = ['chat'];
+const dropdownMenu = document.querySelector('.dropdown-menu');
+// Populate the dropdown menu with page links
+pages.forEach(page => {
+  const pageName = page.replace('.html', '');
+  const li = document.createElement('li');
+  const link = document.createElement('a');
+  link.href = '#';
+  link.setAttribute('data-target', pageName);
+  link.textContent = pageName;
+  li.appendChild(link);
+  dropdownMenu.appendChild(li);
+});
+
 
 // NAVIGATION LINKS
 document.addEventListener('click', (event) => {
