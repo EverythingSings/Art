@@ -72,7 +72,10 @@ fetch('spa_pages.json')
       li.appendChild(link);
       dropdownMenu.appendChild(li);
     });
+  }).catch(error => {
+    console.error('Error fetching pages:', error);
   });
+;
 
 // NAVIGATION LINKS
 document.addEventListener('click', (event) => {
