@@ -56,7 +56,6 @@ const navigate = (target) => {
   }
 };
 
-// Fetch the pages data from pages.json
 fetch('spa_pages.json')
   .then(response => response.json())
   .then(data => {
@@ -69,13 +68,14 @@ fetch('spa_pages.json')
       const link = document.createElement('a');
       link.href = '#';
       link.setAttribute('data-target', pageName);
+      link.textContent = pageName;
       li.appendChild(link);
       dropdownMenu.appendChild(li);
     });
-  }).catch(error => {
+  })
+  .catch(error => {
     console.error('Error fetching pages:', error);
   });
-;
 
 // NAVIGATION LINKS
 document.addEventListener('click', (event) => {
