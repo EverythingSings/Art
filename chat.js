@@ -1,5 +1,7 @@
 // chat.js
 async function initializeChatPage() {
+  // Remove global GUI variable as we don't need it on chat page
+  GUI = null;
   const chatInput = document.getElementById('chatInput');
   const chatButton = document.getElementById('chatButton');
   const chatResponse = document.getElementById('chatResponse');
