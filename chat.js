@@ -99,7 +99,7 @@ async function initializeChatPage() {
       document.body.appendChild(notification);
       setTimeout(() => {
         notification.remove();
-      }, 3000);
+      }, 8888);
     }
   } else {
     console.error("local storage unavailable")
