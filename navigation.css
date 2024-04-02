@@ -72,3 +72,9 @@ nav {
   color: #fafafa;
   text-decoration: none;
 }
+
+@media screen and (max-width: 777px) {
+  nav {
+    flex-direction: column;
+  }
+}

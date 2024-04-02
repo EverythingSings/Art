@@ -13,6 +13,11 @@
   color: #fafafa;
 }
 
+.chat-container a:hover {
+  color: #45a049;
+}
+
+
 .chat-title {
   font-size: 28px;
   text-align: center;
@@ -129,9 +134,6 @@
   display: none;
 }
 
-/* chat.css */
-/* ... existing styles ... */
-
 .chat-actions {
   display: flex;
   justify-content: space-between;
@@ -207,7 +209,7 @@
   top: 20px;
   right: 20px;
   padding: 10px;
-  background-color: #4caf50;
+  background-color: #45a049;
   font-size: x-large;
   color: #fafafa;
   border-radius: 4px;
