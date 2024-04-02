@@ -40,6 +40,12 @@ async function initializeChatPage() {
     saveButton.addEventListener('click', () => {
       const response = chatResponse.textContent;
       const timestamp = new Date().toLocaleString();
+
+      if (!response) {
+        console.error("tried to save empty response")
+        return;
+      }
+
       const message = { content: response, timestamp };
 
       let savedMessages = JSON.parse(localStorage.getItem('savedMessages')) || [];
