@@ -1,20 +1,16 @@
 <!-- chat.html -->
-
-
 <div class="chat-container">
   <h1 class="chat-title">AI by <a href="https://puter.com/?r=6LF2XXBX">Puter</a></h1>
-  <div id="loadingSpinner" class="loading-spinner"></div>
+  <div id="loadingSpinner" class="loading-spinner" aria-label="Loading"></div>
   <h2 class="section-title">GPT-3.5 Turbo</h2>
   <div class="chat-input">
-    <label for="chatInput" class="visually-hidden">Enter your query</label>
-    <input type="text" id="chatInput" placeholder="Enter your query..." aria-label="query input">
+    <label for="chatInput">Enter your query</label>
+    <input type="text" id="chatInput" placeholder="Enter your query..." aria-label="Query input">
     <button id="chatButton" aria-label="Send query">Send</button>
   </div>
-  <div id="chatResponse" class="chat-response" aria-live="polite">
-  </div>
+  <div id="chatResponse" class="chat-response" aria-live="polite"></div>
   <p>
     <a href="https://puter.com/?r=6LF2XXBX">Don't have Puter? Get 1GB free by using this link.</a> AI can produce false
     information.
   </p>
-
 </div>

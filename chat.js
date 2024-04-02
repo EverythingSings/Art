@@ -22,6 +22,14 @@ async function initializeChatPage() {
 
       loadingSpinner.style.display = 'none'; // Hide loading spinner
     });
+
+    chatInput.addEventListener('keydown', async (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        chatButton.click();
+      }
+    });
   }
 }
+
 export { initializeChatPage };

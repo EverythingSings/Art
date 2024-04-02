@@ -32,7 +32,6 @@ nav {
 
 .dropdown {
   position: relative;
-  margin-right: 20px;
   font-size: 18px;
 }
 
@@ -44,6 +43,7 @@ nav {
   background-color: #555;
   cursor: pointer;
   padding: 1rem;
+  width: auto;
 }
 
 .dropdown-menu {

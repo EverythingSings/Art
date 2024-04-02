@@ -1,5 +1,5 @@
 import { initOm } from './om-component.js';
-import { initializeChatPage } from './chat.js'
+import { initializeChatPage } from './chat.js';
 
 const appContainer = document.getElementById('app-container');
 const pageContent = document.getElementById('page-content');

@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Code.EverythingSings.Art</title>
   <link rel="stylesheet" href="om.css">
   <link rel="stylesheet" href="navigation.css">
@@ -15,14 +17,13 @@
       </div>
       <div class="nav-items">
         <div class="dropdown">
-          <div class="dropdown-toggle" onclick="toggleDropdown(event)">Pages</div>
-          <ul class="dropdown-menu"></ul>
+          <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">Pages</button>
+          <ul class="dropdown-menu" aria-label="Pages"></ul>
         </div>
       </div>
       <h2>
         <a href="https://linktr.ee/EverythingSings">The formless art brand building for those oriented towards a rapidly
-          changing future
-        </a>
+          changing future</a>
       </h2>
     </nav>
   </header>
@@ -32,8 +33,7 @@
     </div>
   </main>
   <iframe id="music-player" allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" frameborder="0"
-    style="width:25%; border-radius:1rem; position:absolute; bottom: 8rem; left: 1rem; height:auto"
-    sandbox="allow-forms allow-popups allow-same-origin allow-scripts"
+    style="border-radius:1rem;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts" title="Music player"
     src="https://embed.music.apple.com/us/album/create-for-yourself/1731697987?i=1731697988"></iframe>
   <script type="module" src="app.js"></script>
   <script src="https://js.puter.com/v2/"></script>
@@ -54,7 +54,6 @@
       }
     });
   </script>
-
 </body>
 
 </html>
