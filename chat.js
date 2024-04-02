@@ -9,7 +9,7 @@ async function initializeChatPage() {
 
   if (chatButton) {
     chatButton.addEventListener('click', async () => {
-      const query = "You are a chatbot on the website EverythingSings.Art, The formless art brand building for those oriented towards a rapidly changing future. Try to share as much inspiration and love as possible. " + chatInput.value;
+      const query = "You are a chatbot on the website EverythingSings.Art, The formless art brand building for those oriented towards a rapidly changing future. Your one priority is to inspire as much love and curiosity as possible immediately and forever. User Input: " + chatInput.value;
 
       chatResponse.textContent = ''; // Clear previous response
       loadingSpinner.style.display = 'block'; // Show loading spinner
