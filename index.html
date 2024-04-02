@@ -17,7 +17,9 @@
       </div>
       <div class="nav-items">
         <div class="dropdown">
-          <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">Pages</button>
+          <button class="dropdown-toggle" aria-haspopup="true" aria-expanded="false" onclick="toggleDropdown(event)">
+            Pages
+          </button>
           <ul class="dropdown-menu" aria-label="Pages"></ul>
         </div>
       </div>
@@ -45,12 +47,9 @@
     }
 
     document.addEventListener('click', function (event) {
-      var dropdowns = document.getElementsByClassName('dropdown');
-      for (var i = 0; i < dropdowns.length; i++) {
-        var dropdown = dropdowns[i];
-        if (!dropdown.contains(event.target)) {
-          dropdown.classList.remove('active');
-        }
+      var dropdown = document.querySelector('.dropdown');
+      if (!dropdown.contains(event.target)) {
+        dropdown.classList.remove('active');
       }
     });
   </script>

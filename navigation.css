@@ -49,17 +49,13 @@ nav {
 .dropdown-menu {
   display: none;
   position: absolute;
-  border-radius: 1rem;
-  color: #fafafa;
-  background-color: #555;
-  margin: 1rem;
-  padding: 1rem;
-  min-width: 120px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
   top: 100%;
-  left: 0;
-  margin-top: 10px;
+  right: 0;
+  background-color: #101010;
+  padding: 0.5rem 0;
+  list-style: none;
+  min-width: 150px;
+  z-index: 1;
 }
 
 .dropdown.active .dropdown-menu {
