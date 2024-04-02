@@ -76,5 +76,15 @@ nav {
 @media screen and (max-width: 777px) {
   nav {
     flex-direction: column;
+    gap: 1rem;
+  }
+
+  .logo {
+    margin-bottom: 1rem;
+  }
+
+
+  .dropdown.active .dropdown-menu {
+    display: block;
   }
 }
