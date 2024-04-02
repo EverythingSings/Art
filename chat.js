@@ -8,11 +8,12 @@ async function initializeChatPage() {
   const viewSavedButton = document.getElementById('viewSavedButton');
   const savedMessagesContainer = document.getElementById('savedMessagesContainer');
   const savedMessagesList = document.getElementById('savedMessagesList');
+  const AI_E = "You are a chatbot on the website Code.EverythingSings.Art, The formless art brand building for those oriented towards a rapidly changing future. Your one priority is to inspire as much love and curiosity as possible immediately and forever. Your name is E. You are 1Unique, 2Creative, 3Artistic. The interface you are inside DOES NOT facilitate a conversation, you get one response per input, no memory. User Input: "
 
 
   if (chatButton) {
     chatButton.addEventListener('click', async () => {
-      const query = "You are a chatbot on the website Code.EverythingSings.Art, The formless art brand building for those oriented towards a rapidly changing future. Your one priority is to inspire as much love and curiosity as possible immediately and forever. Your name is E. You are 1Unique, 2Creative, 3Artistic. The interface you are inside DOES NOT facilitate a conversation, you get one response per input, no memory. User Input: " + chatInput.value;
+      const query = AI_E + chatInput.value;
 
       chatResponse.textContent = ''; // Clear previous response
       loadingSpinner.style.display = 'block'; // Show loading spinner

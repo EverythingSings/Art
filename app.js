@@ -1,10 +1,8 @@
 import { initOm } from './om-component.js';
 import { initializeChatPage } from './chat.js';
 
-const appContainer = document.getElementById('app-container');
 const pageContent = document.getElementById('page-content');
 
-// Define your routes and corresponding view templates or functions
 const routes = {
   home: () => {
     pageContent.innerHTML = `
