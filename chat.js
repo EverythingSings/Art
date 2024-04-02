@@ -4,6 +4,11 @@ async function initializeChatPage() {
   const chatButton = document.getElementById('chatButton');
   const chatResponse = document.getElementById('chatResponse');
   const loadingSpinner = document.getElementById('loadingSpinner');
+  const saveButton = document.getElementById('saveButton');
+  const viewSavedButton = document.getElementById('viewSavedButton');
+  const savedMessagesContainer = document.getElementById('savedMessagesContainer');
+  const savedMessagesList = document.getElementById('savedMessagesList');
+
 
   if (chatButton) {
     chatButton.addEventListener('click', async () => {
@@ -30,6 +35,66 @@ async function initializeChatPage() {
       }
     });
   }
+
+
+  saveButton.addEventListener('click', () => {
+    const response = chatResponse.textContent;
+    const timestamp = new Date().toLocaleString();
+    const message = { content: response, timestamp };
+
+    let savedMessages = JSON.parse(localStorage.getItem('savedMessages')) || [];
+    savedMessages.push(message);
+    localStorage.setItem('savedMessages', JSON.stringify(savedMessages));
+
+    showNotification('Message saved successfully!');
+  });
+
+  viewSavedButton.addEventListener('click', () => {
+    savedMessagesContainer.style.display = savedMessagesContainer.style.display === 'none' ? 'block' : 'none';
+    renderSavedMessages();
+  });
+
+  function renderSavedMessages() {
+    savedMessagesList.innerHTML = '';
+    const savedMessages = JSON.parse(localStorage.getItem('savedMessages')) || [];
+
+    savedMessages.forEach((message, index) => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <div class="message-content">${message.content}</div>
+        <div class="message-timestamp">${message.timestamp}</div>
+        <button class="delete-button" data-index="${index}">Delete</button>
+      `;
+      savedMessagesList.appendChild(li);
+    });
+
+    const deleteButtons = savedMessagesList.querySelectorAll('.delete-button');
+    deleteButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const index = parseInt(button.getAttribute('data-index'));
+        deleteMessage(index);
+      });
+    });
+  }
+
+  function deleteMessage(index) {
+    const savedMessages = JSON.parse(localStorage.getItem('savedMessages')) || [];
+    savedMessages.splice(index, 1);
+    localStorage.setItem('savedMessages', JSON.stringify(savedMessages));
+    renderSavedMessages();
+    showNotification('Message deleted successfully!');
+  }
+
+  function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.classList.add('notification');
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    setTimeout(() => {
+      notification.remove();
+    }, 3000);
+  }
 }
+
 
 export { initializeChatPage };
