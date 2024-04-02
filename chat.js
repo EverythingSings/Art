@@ -39,12 +39,13 @@ async function initializeChatPage() {
   if (storageAvailable) {
     saveButton.addEventListener('click', () => {
       const response = chatResponse.textContent;
-      const timestamp = new Date().toLocaleString();
-
       if (!response) {
-        console.error("tried to save empty response")
+        showNotification('Failed to save response.');
+        console.error("tried to save falsey response")
         return;
       }
+
+      const timestamp = new Date().toLocaleString();
 
       const message = { content: response, timestamp };
 
