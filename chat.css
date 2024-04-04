@@ -224,6 +224,10 @@
     flex-direction: column;
   }
 
+  .chat-input input[type="text"] {
+    width: 75%;
+  }
+
   .chat-input input[type="text"],
   .chat-input button {
     width: 100%;
