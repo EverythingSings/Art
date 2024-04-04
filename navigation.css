@@ -17,6 +17,11 @@ nav {
   min-height: 40px;
 }
 
+nav a:hover {
+  color: #45a049;
+}
+
+
 .logo {
   color: #fafafa;
   display: flex;
@@ -28,8 +33,7 @@ nav {
 
 .nav-items {
   display: flex;
-  align-items: center;
-  margin-left: auto;
+  margin: auto auto auto auto;
 }
 
 .dropdown {
@@ -40,10 +44,11 @@ nav {
 .dropdown-toggle {
   color: #fafafa;
   text-decoration: none;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
+  padding: 1rem 2rem;
+  border-radius: 0.75rem;
   background-color: #555;
   cursor: pointer;
+  font-size: 2rem;
 }
 
 .dropdown-menu {
