@@ -1,5 +1,7 @@
 import { initOm } from './om-component.js';
 import { initializeChatPage } from './chat.js';
+import { initializeWritingPage } from './writing.js';
+const pages = ['chat', 'writing'];
 
 const pageContent = document.getElementById('page-content');
 
@@ -20,6 +22,18 @@ const routes = {
       })
       .catch(error => {
         console.error('Error loading chat page:', error);
+      });
+  },
+  writing: () => {
+    fetch('writing.html')
+      .then(response => response.text())
+      .then(html => {
+        pageContent.innerHTML = html;
+        initializeWritingPage();
+        loadStylesheet('writing.css');
+      })
+      .catch(error => {
+        console.error('Error loading writing page:', error);
       });
   },
 };
@@ -54,7 +68,6 @@ const navigate = (target) => {
   }
 };
 
-const pages = ['chat'];
 const dropdownMenu = document.querySelector('.dropdown-menu');
 // Populate the dropdown menu with page links
 pages.forEach(page => {
