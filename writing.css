@@ -2,6 +2,8 @@
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
+  font-size: 1rem;
+  width: 100%;
 }
 
 .article-item {
@@ -25,7 +27,6 @@
   max-height: 75vh;
   overflow-y: auto;
   font-family: Arial, sans-serif;
-  font-size: 1.25rem;
   line-height: 1.6;
   color: #ccc;
 }
@@ -37,4 +38,12 @@
 
 #article-content p {
   margin-bottom: 20px;
+}
+
+.lil-gui {
+  display: none;
+}
+
+#music-player {
+  display: none;
 }

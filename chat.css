@@ -134,6 +134,11 @@
   display: none;
 }
 
+#music-player {
+  display: none;
+}
+
+
 .chat-actions {
   display: flex;
   justify-content: space-between;
