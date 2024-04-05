@@ -2,7 +2,7 @@
 
 .chat-container {
   max-width: 800px;
-  margin: 0 auto;
+  margin: 1rem auto;
   padding: 2rem;
   background-color: #333;
   border-radius: 10px;
@@ -14,7 +14,7 @@
 }
 
 .chat-container a:hover {
-  color: #45a049;
+  color: #4F86F7;
 }
 
 
