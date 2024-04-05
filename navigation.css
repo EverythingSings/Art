@@ -51,6 +51,11 @@ nav a:hover {
   font-size: 2rem;
 }
 
+.dropdown-toggle:hover {
+  color: #4F86F7;
+}
+
+
 .dropdown-menu {
   display: none;
   position: absolute;
