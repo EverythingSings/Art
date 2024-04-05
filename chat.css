@@ -73,7 +73,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-size: 18px;
   color: #fafafa;
-  max-height: 50vh;
+  max-height: 20vh;
   overflow-y: auto;
 }
 
@@ -157,7 +157,7 @@
 }
 
 .saved-messages-container {
-  max-height: 50vh;
+  max-height: 10vh;
   overflow-y: auto;
   margin-top: 20px;
   padding: 10px;
