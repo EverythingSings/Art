@@ -62,7 +62,7 @@
 
 .chat-input button:hover,
 .chat-input button:focus {
-  background-color: #45a049;
+  background-color: #4F86F7;
   color: #fafafa;
 }
 
@@ -73,7 +73,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-size: 18px;
   color: #fafafa;
-  max-height: 75vh;
+  max-height: 50vh;
   overflow-y: auto;
 }
 
@@ -111,8 +111,8 @@
 
 .loading-spinner {
   display: none;
-  border: 4px solid #45a049;
-  border-top: 4px solid #45a04925;
+  border: 4px solid #4F86F7;
+  border-top: 4px solid #4F86F725;
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -152,15 +152,34 @@
 
 .chat-actions button:hover,
 .chat-actions button:focus {
-  background-color: #45a049;
+  background-color: #4F86F7;
   color: #fafafa;
 }
 
 .saved-messages-container {
+  max-height: 50vh;
+  overflow-y: auto;
   margin-top: 20px;
   padding: 10px;
   background-color: #333;
   border-radius: 4px;
+}
+
+.saved-messages-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.saved-messages-container::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+.saved-messages-container::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+.saved-messages-container::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
 }
 
 .saved-messages-list {
@@ -207,7 +226,7 @@
   top: 20px;
   right: 20px;
   padding: 10px;
-  background-color: #45a049;
+  background-color: #4F86F7;
   font-size: x-large;
   color: #fafafa;
   border-radius: 4px;
