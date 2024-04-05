@@ -52,10 +52,11 @@ function fetchArticleContent(articleId) {
 
 function displayArticleContent(articleContent) {
   const articleContentElement = document.getElementById('article-content');
-  articleContentElement.innerHTML = `
+  const formattedContent = `
     <h2>${articleContent.title}</h2>
-    <p>${articleContent.content}</p>
+    ${articleContent.content.split('\n').map(paragraph => `<p>${paragraph}</p>`).join('')}
   `;
+  articleContentElement.innerHTML = formattedContent;
 }
 
 function displayErrorMessage(message) {

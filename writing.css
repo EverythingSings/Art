@@ -17,3 +17,24 @@
 .error-message {
   color: red;
 }
+
+#article-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  max-height: 75vh;
+  overflow-y: auto;
+  font-family: Arial, sans-serif;
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: #ccc;
+}
+
+#article-content h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+#article-content p {
+  margin-bottom: 20px;
+}
