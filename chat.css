@@ -162,7 +162,7 @@
 }
 
 .saved-messages-container {
-  max-height: 10vh;
+  max-height: 20vh;
   overflow-y: auto;
   margin-top: 20px;
   padding: 10px;
