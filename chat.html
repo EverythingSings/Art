@@ -1,33 +1,27 @@
+<!-- chat.html -->
 <div class="chat-container">
-  <header>
-    <h1 class="chat-title">AI by <a href="https://puter.com/?r=6LF2XXBX">Puter</a></h1>
-  </header>
-  <main>
-    <div id="loadingSpinner" class="loading-spinner" aria-label="Loading"></div>
-    <section>
-      <h2 class="section-title">GPT-3.5 Turbo</h2>
-      <div class="chat-input">
-        <input type="text" id="chatInput" placeholder="Enter your query..." aria-label="Query input">
-        <button id="chatButton" aria-label="Send query">Send</button>
-      </div>
-      <div id="chatResponse" class="chat-response" aria-live="polite"></div>
-    </section>
-    <footer>
-      <p>
-        <a href="https://puter.com/?r=6LF2XXBX">Don't have Puter? Get 1GB free by using this link.</a> AI can produce
-        false
-        information. This AI is named E, and E lacks a memory at the moment. Your messages (if saved) use <a
-          href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage">local storage
-          inside your browser</a>.
-      </p>
-      <div class="chat-actions">
-        <button id="saveButton" aria-label="Save response">Save Response</button>
-        <button id="viewSavedButton" aria-label="View saved messages">View Saved Messages</button>
-      </div>
-      <div id="savedMessagesContainer" class="saved-messages-container" style="display: none;">
-        <h3>Saved Messages</h3>
-        <ul id="savedMessagesList" class="saved-messages-list"></ul>
-      </div>
-    </footer>
-  </main>
+  <h1 class="chat-title">AI by <a href="https://puter.com/?r=6LF2XXBX">Puter</a></h1>
+  <div id="loadingSpinner" class="loading-spinner" aria-label="Loading"></div>
+  <h2 class="section-title">GPT-3.5 Turbo</h2>
+  <div class="chat-input">
+    <input type="text" id="chatInput" placeholder="Enter your query..." aria-label="Query input">
+    <button id="chatButton" aria-label="Send query">Send</button>
+  </div>
+  <div id="chatResponse" class="chat-response" aria-live="polite"></div>
+  <h3>
+    <a href="https://puter.com/?r=6LF2XXBX">Don't have Puter? Get 1GB free by using this link.</a> AI can produce false
+    information. This AI is named E, and E lacks a memory at the moment. Your messages (if saved) use <a
+      href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage">local storage
+      inside your browser</a>.
+  </h3>
+  <div class="chat-actions">
+    <button id="saveButton" aria-label="Save response">Save Response</button>
+    <button id="viewSavedButton" aria-label="View saved messages">View Saved Messages</button>
+  </div>
+  <div id="savedMessagesContainer" class="saved-messages-container" style="display: none;">
+    <h3>Saved Messages</h3>
+    <ul id="savedMessagesList" class="saved-messages-list"></ul>
+  </div>
+</div>
+
 </div>

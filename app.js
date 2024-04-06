@@ -1,86 +1,101 @@
 import { initOm } from './om-component.js';
 import { initializeChatPage } from './chat.js';
 import { initializeWritingPage } from './writing.js';
-
-const routes = {
-  home: {
-    template: `<div id="canvas-container"></div>`,
-    init: initOm
-  },
-  chat: {
-    template: 'chat.html',
-    init: initializeChatPage,
-    stylesheet: 'chat.css'
-  },
-  writing: {
-    template: 'writing.html',
-    init: initializeWritingPage,
-    stylesheet: 'writing.css'
-  }
-};
+const pages = ['chat', 'writing'];
 
 const pageContent = document.getElementById('page-content');
 
-const navigate = async (target) => {
-  if (routes[target]) {
-    const { template, init, stylesheet } = routes[target];
+const routes = {
+  home: () => {
+    pageContent.innerHTML = `
+      <div id="canvas-container"></div>
+    `;
+    initOm();
+  },
+  chat: () => {
+    fetch('chat.html')
+      .then(response => response.text())
+      .then(html => {
+        pageContent.innerHTML = html;
+        initializeChatPage();
+        loadStylesheet('chat.css');
+      })
+      .catch(error => {
+        console.error('Error loading chat page:', error);
+      });
+  },
+  writing: () => {
+    fetch('writing.html')
+      .then(response => response.text())
+      .then(html => {
+        pageContent.innerHTML = html;
+        initializeWritingPage();
+        loadStylesheet('writing.css');
+      })
+      .catch(error => {
+        console.error('Error loading writing page:', error);
+      });
+  },
+};
 
-    if (typeof template === 'string') {
-      try {
-        const response = await fetch(template);
+const navigate = (target) => {
+  if (routes[target]) {
+    pageContent.innerHTML = '';
+    routes[target]();
+  } else if (target === 'home') {
+    pageContent.innerHTML = `
+      <div id="canvas-container"></div>
+    `;
+    initOm();
+  } else {
+    fetch(`${target}.html`)
+      .then(response => {
         if (response.ok) {
-          const html = await response.text();
-          pageContent.innerHTML = html;
-          if (typeof init === 'function') {
-            init();
-          }
-          if (stylesheet) {
-            loadStylesheet(stylesheet);
-          }
+          return response.text();
         } else {
           throw new Error('Page not found');
         }
-      } catch (error) {
-        console.error(`Error loading ${target} page:`, error);
+      })
+      .then(html => {
+        pageContent.innerHTML = html;
+        if (typeof routes[target] === 'function') {
+          routes[target]();
+        }
+      })
+      .catch(() => {
         pageContent.innerHTML = `<h1 style="color: #fafafa">404 - Page Not Found</h1>`;
-      }
-    } else {
-      pageContent.innerHTML = template;
-      if (typeof init === 'function') {
-        init();
-      }
-    }
-  } else {
-    pageContent.innerHTML = `<h1 style="color: #fafafa">404 - Page Not Found</h1>`;
+      });
   }
 };
 
-const populateDropdownMenu = () => {
-  const dropdownMenu = document.querySelector('.dropdown-menu');
-  Object.keys(routes).forEach(route => {
-    const li = document.createElement('li');
-    const link = document.createElement('a');
-    link.href = '#';
-    link.setAttribute('data-target', route);
-    link.textContent = route;
-    li.appendChild(link);
-    dropdownMenu.appendChild(li);
-  });
-};
-
-document.addEventListener('DOMContentLoaded', () => {
-  populateDropdownMenu();
-
-  document.addEventListener('click', (event) => {
-    const target = event.target.getAttribute('data-target');
-    if (target) {
-      event.preventDefault();
-      navigate(target);
-    }
-  });
-
-  navigate('home');
+const dropdownMenu = document.querySelector('.dropdown-menu');
+// Populate the dropdown menu with page links
+pages.forEach(page => {
+  const pageName = page.replace('.html', '');
+  const li = document.createElement('li');
+  const link = document.createElement('a');
+  link.href = '#';
+  link.setAttribute('data-target', pageName);
+  link.textContent = pageName;
+  li.appendChild(link);
+  dropdownMenu.appendChild(li);
 });
+
+
+// NAVIGATION LINKS
+document.addEventListener('click', (event) => {
+  const target = event.target.getAttribute('data-target');
+  if (target) {
+    event.preventDefault();
+    navigate(target);
+  }
+});
+
+function loadScript(url) {
+  const script = document.createElement('script');
+  script.src = url;
+  document.head.appendChild(script);
+}
 
 function loadStylesheet(url) {
   const link = document.createElement('link');
@@ -88,3 +103,5 @@ function loadStylesheet(url) {
   link.href = url;
   document.head.appendChild(link);
 }
+
+navigate('home');
