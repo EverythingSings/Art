@@ -5,6 +5,8 @@ body {
   background-color: #101010;
   color: #fafafa;
   position: relative;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 canvas {
