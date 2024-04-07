@@ -1,7 +1,8 @@
 import { initOm } from './om-component.js';
 import { initializeChatPage } from './chat.js';
 import { initializeWritingPage } from './writing.js';
-const pages = ['chat', 'writing'];
+import { initializeBoids } from './boids.js';
+const pages = ['chat', 'writing', 'boids'];
 
 const pageContent = document.getElementById('page-content');
 
@@ -34,6 +35,18 @@ const routes = {
       })
       .catch(error => {
         console.error('Error loading writing page:', error);
+      });
+  },
+  boids: () => {
+    fetch('boids.html')
+      .then(response => response.text())
+      .then(html => {
+        pageContent.innerHTML = html;
+        initializeBoids();
+        loadStylesheet('boids.css');
+      })
+      .catch(error => {
+        console.error('Error loading boids page:', error);
       });
   },
 };
