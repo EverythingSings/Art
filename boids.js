@@ -1,18 +1,22 @@
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer();
+import { Scene, PerspectiveCamera, WebGLRenderer, Mesh } from 'https://cdn.skypack.dev/three@0.128.0';
+
+
+
+const scene = new Scene();
+const camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.getElementById('boids-container').appendChild(renderer.domElement);
 
 // Create boids
 const numBoids = 200;
 const boids = [];
-const boidGeometry = new THREE.ConeGeometry(0.2, 0.5, 8);
-const boidMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+const boidGeometry = new ConeGeometry(0.2, 0.5, 8);
+const boidMaterial = new MeshBasicMaterial({ color: 0xffffff });
 for (let i = 0; i < numBoids; i++) {
-  const boid = new THREE.Mesh(boidGeometry, boidMaterial);
+  const boid = new Mesh(boidGeometry, boidMaterial);
   boid.position.set(Math.random() * 40 - 20, Math.random() * 40 - 20, Math.random() * 40 - 20);
-  boid.velocity = new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
+  boid.velocity = new Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize();
   scene.add(boid);
   boids.push(boid);
 }
@@ -36,9 +40,9 @@ function animate() {
   // Update boid positions and velocities
   for (let i = 0; i < numBoids; i++) {
     const boid = boids[i];
-    let separation = new THREE.Vector3();
-    let alignment = new THREE.Vector3();
-    let cohesion = new THREE.Vector3();
+    let separation = new Vector3();
+    let alignment = new Vector3();
+    let cohesion = new Vector3();
     let numSeparation = 0;
     let numAlignment = 0;
     let numCohesion = 0;
