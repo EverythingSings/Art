@@ -3,6 +3,7 @@ export function initializeWritingPage() {
     .then(articles => {
       displayArticleList(articles);
       handleArticleClick();
+      initReadingLevelPicker();
     })
     .catch(error => {
       console.error('Error fetching articles:', error);
