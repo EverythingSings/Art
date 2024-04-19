@@ -72,6 +72,10 @@ nav a:hover {
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.6), -5px -5px 10px rgba(255, 255, 255, 0.1);
 }
 
+.dropdown.active .dropdown-menu {
+  display: block;
+}
+
 .dropdown-menu li {
   list-style: none;
   padding: 0.25rem 0;
