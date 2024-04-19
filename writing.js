@@ -3,7 +3,9 @@ export function initializeWritingPage() {
     .then(articles => {
       displayArticleList(articles);
       handleArticleClick();
-      initReadingLevelPicker();
+      initReadingLevelPicker('.picker', function (selectedLevel) {
+        console.log('Selected reading level:', selectedLevel);
+      });
     })
     .catch(error => {
       console.error('Error fetching articles:', error);

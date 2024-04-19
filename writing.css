@@ -49,6 +49,8 @@
 }
 
 .picker {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -56,52 +58,47 @@
   height: 20vh;
   max-width: 400px;
   max-height: 120px;
-  background-color: #f1f1f1;
+  background-color: #2c2c2c;
   border-radius: 10px;
   box-shadow:
-    5px 5px 10px rgba(163, 177, 198, 0.6),
-    -5px -5px 10px rgba(255, 255, 255, 0.6);
+    5px 5px 10px rgba(0, 0, 0, 0.6),
+    -5px -5px 10px rgba(255, 255, 255, 0.1);
 }
 
 .picker-container {
   display: flex;
   flex-direction: column;
   width: 50vw;
-  align-items: start
+  align-items: start;
+  color: #fafafa;
 }
 
 .option {
   width: 28%;
   height: 80%;
-  background-color: #e0e5ec;
+  background-color: #2c2c2c;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 4vw;
   font-weight: bold;
-  color: #4d4d4d;
+  color: #fafafa;
   cursor: pointer;
   box-shadow:
-    5px 5px 10px rgba(163, 177, 198, 0.6),
-    -5px -5px 10px rgba(255, 255, 255, 0.6);
+    5px 5px 10px rgba(0, 0, 0, 0.6),
+    -5px -5px 10px rgba(255, 255, 255, 0.1);
   transition: box-shadow 0.3s ease;
 }
 
 .option:hover {
   box-shadow:
-    2px 2px 5px rgba(163, 177, 198, 0.6),
-    -2px -2px 5px rgba(255, 255, 255, 0.6);
+    2px 2px 5px rgba(0, 0, 0, 0.6),
+    -2px -2px 5px rgba(255, 255, 255, 0.1);
 }
 
 .option.selected {
   box-shadow:
-    inset 2px 2px 5px rgba(163, 177, 198, 0.6),
-    inset -2px -2px 5px rgba(255, 255, 255, 0.6);
-}
-
-@media screen and (min-width: 768px) {
-  .option {
-    font-size: 1.5rem;
-  }
+    inset 2px 2px 5px rgba(0, 0, 0, 0.6),
+    inset -2px -2px 5px rgba(255, 255, 255, 0.1);
 }
