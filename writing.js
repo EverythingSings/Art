@@ -52,16 +52,20 @@ function handleArticleClick() {
 
 function initReadingLevelPicker(selector, callback) {
   const pickerElement = document.querySelector(selector);
-  const options = pickerElement.querySelectorAll('.option');
 
-  options.forEach(option => {
-    option.addEventListener('click', () => {
-      options.forEach(opt => opt.classList.remove('selected'));
-      option.classList.add('selected');
-      selectedLevel = option.dataset.level;
-      callback(selectedLevel);
+  if (pickerElement) {
+
+    const options = pickerElement.querySelectorAll('.option');
+
+    options.forEach(option => {
+      option.addEventListener('click', () => {
+        options.forEach(opt => opt.classList.remove('selected'));
+        option.classList.add('selected');
+        selectedLevel = option.dataset.level;
+        callback(selectedLevel);
+      });
     });
-  });
+  } else { console.debug("No element: ", selector) }
 }
 
 initReadingLevelPicker('.picker', function (selectedLevel) {
