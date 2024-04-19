@@ -3,13 +3,13 @@ export function initializeWritingPage() {
     .then(articles => {
       displayArticleList(articles);
       handleArticleClick();
-      initReadingLevelPicker('.picker', function (selectedLevel) {
-        console.log('Selected reading level:', selectedLevel);
-      });
+      // initReadingLevelPicker('.picker', function (selectedLevel) {
+      //   console.log('Selected reading level:', selectedLevel);
+      // });
     })
     .catch(error => {
-      console.error('Error fetching articles:', error);
-      displayErrorMessage('Failed to load articles. Please try again later.');
+      console.error('Error:', error);
+      displayErrorMessage('There was an error initializing the Writing page.');
     });
 }
 
