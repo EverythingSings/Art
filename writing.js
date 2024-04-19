@@ -3,15 +3,17 @@ export function initializeWritingPage() {
     .then(articles => {
       displayArticleList(articles);
       handleArticleClick();
-      // initReadingLevelPicker('.picker', function (selectedLevel) {
-      //   console.log('Selected reading level:', selectedLevel);
-      // });
+      initReadingLevelPicker('.picker', function (selectedLevel) {
+        console.log('Selected reading level:', selectedLevel);
+      });
     })
     .catch(error => {
       console.error('Error:', error);
       displayErrorMessage('There was an error initializing the Writing page.');
     });
 }
+
+let selectedLevel = "beginner";
 
 function fetchArticles() {
   return fetch('articles.json')
@@ -51,7 +53,6 @@ function handleArticleClick() {
 function initReadingLevelPicker(selector, callback) {
   const pickerElement = document.querySelector(selector);
   const options = pickerElement.querySelectorAll('.option');
-  let selectedLevel = null;
 
   options.forEach(option => {
     option.addEventListener('click', () => {
@@ -63,13 +64,13 @@ function initReadingLevelPicker(selector, callback) {
   });
 }
 
-// initReadingLevelPicker('.picker', function (selectedLevel) {
-//   console.log('Selected reading level:', selectedLevel);
-// });
+initReadingLevelPicker('.picker', function (selectedLevel) {
+  console.log('Selected reading level:', selectedLevel);
+});
 
 
 function fetchArticleContent(articleId) {
-  return fetch(`article-${articleId}.json`)
+  return fetch(`article-${articleId}-${selectedLevel}.json`)
     .then(response => response.json());
 }
 
