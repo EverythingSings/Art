@@ -98,7 +98,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const dropdown = document.querySelector('.dropdown');
   const dropdownToggle = document.querySelector('.dropdown-toggle');
 
-  dropdownToggle.addEventListener('click', function () {
+  dropdownToggle.addEventListener('click', function (event) {
+    event.preventDefault();
     dropdown.classList.toggle('active');
   });
 
@@ -108,7 +109,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 });
-
 
 // NAVIGATION LINKS
 document.addEventListener('click', (event) => {
