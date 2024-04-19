@@ -45,6 +45,26 @@ function handleArticleClick() {
   });
 }
 
+function initReadingLevelPicker(selector, callback) {
+  const pickerElement = document.querySelector(selector);
+  const options = pickerElement.querySelectorAll('.option');
+  let selectedLevel = null;
+
+  options.forEach(option => {
+    option.addEventListener('click', () => {
+      options.forEach(opt => opt.classList.remove('selected'));
+      option.classList.add('selected');
+      selectedLevel = option.dataset.level;
+      callback(selectedLevel);
+    });
+  });
+}
+
+initReadingLevelPicker('.picker', function (selectedLevel) {
+  console.log('Selected reading level:', selectedLevel);
+});
+
+
 function fetchArticleContent(articleId) {
   return fetch(`article-${articleId}.json`)
     .then(response => response.json());

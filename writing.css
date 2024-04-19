@@ -47,3 +47,61 @@
 #music-player {
   display: none;
 }
+
+.picker {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 90%;
+  height: 20vh;
+  max-width: 400px;
+  max-height: 120px;
+  background-color: #f1f1f1;
+  border-radius: 10px;
+  box-shadow:
+    5px 5px 10px rgba(163, 177, 198, 0.6),
+    -5px -5px 10px rgba(255, 255, 255, 0.6);
+}
+
+.picker-container {
+  display: flex;
+  flex-direction: column;
+  width: 50vw;
+  align-items: start
+}
+
+.option {
+  width: 28%;
+  height: 80%;
+  background-color: #e0e5ec;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 4vw;
+  font-weight: bold;
+  color: #4d4d4d;
+  cursor: pointer;
+  box-shadow:
+    5px 5px 10px rgba(163, 177, 198, 0.6),
+    -5px -5px 10px rgba(255, 255, 255, 0.6);
+  transition: box-shadow 0.3s ease;
+}
+
+.option:hover {
+  box-shadow:
+    2px 2px 5px rgba(163, 177, 198, 0.6),
+    -2px -2px 5px rgba(255, 255, 255, 0.6);
+}
+
+.option.selected {
+  box-shadow:
+    inset 2px 2px 5px rgba(163, 177, 198, 0.6),
+    inset -2px -2px 5px rgba(255, 255, 255, 0.6);
+}
+
+@media screen and (min-width: 768px) {
+  .option {
+    font-size: 1.5rem;
+  }
+}
