@@ -94,6 +94,21 @@ pages.forEach(page => {
   dropdownMenu.appendChild(li);
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+  const dropdown = document.querySelector('.dropdown');
+  const dropdownToggle = document.querySelector('.dropdown-toggle');
+
+  dropdownToggle.addEventListener('click', function () {
+    dropdown.classList.toggle('active');
+  });
+
+  document.addEventListener('click', function (event) {
+    if (!dropdown.contains(event.target)) {
+      dropdown.classList.remove('active');
+    }
+  });
+});
+
 
 // NAVIGATION LINKS
 document.addEventListener('click', (event) => {
