@@ -115,7 +115,11 @@ document.addEventListener('click', (event) => {
   const target = event.target.getAttribute('data-target');
   if (target) {
     event.preventDefault();
-    navigate(target);
+    if (routes[target]) {
+      navigate(target);
+    } else {
+      console.error(`Route not found for target: ${target}`);
+    }
   }
 });
 
