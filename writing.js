@@ -61,9 +61,9 @@ function initReadingLevelPicker(selector, callback) {
   });
 }
 
-initReadingLevelPicker('.picker', function (selectedLevel) {
-  console.log('Selected reading level:', selectedLevel);
-});
+// initReadingLevelPicker('.picker', function (selectedLevel) {
+//   console.log('Selected reading level:', selectedLevel);
+// });
 
 
 function fetchArticleContent(articleId) {
