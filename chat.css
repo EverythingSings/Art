@@ -94,11 +94,6 @@
   background-color: #ccc;
 }
 
-@media screen and (max-width: 600px) {
-  .chat-container {
-    padding: 2rem 0.5rem;
-  }
-}
 
 .visually-hidden {
   position: absolute;
