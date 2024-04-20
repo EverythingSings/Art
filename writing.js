@@ -90,6 +90,8 @@ function displayArticleContent(articleContent) {
     ${articleContent.content.split('\n').map(paragraph => `<p>${paragraph}</p>`).join('')}
   `;
   articleContentElement.innerHTML = formattedContent;
+
+  articleContentElement.scrollTop = 0;
 }
 
 function displayErrorMessage(message) {
