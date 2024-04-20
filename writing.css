@@ -54,9 +54,8 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 90%;
+  width: auto;
   height: 20vh;
-  max-width: 400px;
   max-height: 120px;
   background-color: #1c1c1c;
   border-radius: 10px;
