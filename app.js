@@ -2,7 +2,7 @@ import { initOm } from './om-component.js';
 import { initializeChatPage } from './chat.js';
 import { initializeWritingPage } from './writing.js';
 import { initializeBoids } from './boids.js';
-const pages = ['chat', 'writing'];
+const pages = ['EveAI', 'Blog'];
 
 const pageContent = document.getElementById('page-content');
 
