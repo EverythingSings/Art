@@ -2,7 +2,7 @@ import { initOm } from './om-component.js';
 import { initializeChatPage } from './chat.js';
 import { initializeWritingPage } from './writing.js';
 import { initializeBoids } from './boids.js';
-const pages = ['EveAI', 'Blog'];
+const pages = ['chat', 'writing'];
 
 const pageContent = document.getElementById('page-content');
 
@@ -81,6 +81,20 @@ const navigate = (target) => {
   }
 };
 
+function getPageTitle(pageName) {
+
+  switch (pageName) {
+    case 'writing':
+      return "Blog";
+
+    case 'chat':
+      return "EveAI";
+
+    default:
+      return pageName;
+  }
+}
+
 const dropdownMenu = document.querySelector('.dropdown-menu');
 // Populate the dropdown menu with page links
 pages.forEach(page => {
@@ -89,7 +103,10 @@ pages.forEach(page => {
   const link = document.createElement('a');
   link.href = '#';
   link.setAttribute('data-target', pageName);
-  link.textContent = pageName;
+
+
+
+  link.textContent = getPageTitle(pageName);
   li.appendChild(link);
   dropdownMenu.appendChild(li);
 });
