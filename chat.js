@@ -52,11 +52,25 @@ async function initializeChatPage() {
       const message = { content: response, timestamp };
 
       let savedMessages = JSON.parse(localStorage.getItem('savedMessages')) || [];
+
+      // Check if the message already exists in storage
+      if (savedMessages.some(savedMessage => savedMessage.content === message.content)) {
+        showNotification('Message already exists in storage.');
+        console.error("tried to save duplicate message")
+        return;
+      }
+
       savedMessages.push(message);
       localStorage.setItem('savedMessages', JSON.stringify(savedMessages));
 
       showNotification('Message saved successfully!');
+
+      // Refresh the window if the saved messages container is open
+      if (savedMessagesContainer.style.display === 'block') {
+        window.location.reload();
+      }
     });
+
 
     viewSavedButton.addEventListener('click', () => {
       savedMessagesContainer.style.display = savedMessagesContainer.style.display === 'none' ? 'block' : 'none';
@@ -92,8 +106,12 @@ async function initializeChatPage() {
       localStorage.setItem('savedMessages', JSON.stringify(savedMessages));
       renderSavedMessages();
       showNotification('Message deleted successfully!');
-    }
 
+      // Refresh the window if the saved messages container is open
+      if (savedMessagesContainer.style.display === 'block') {
+        window.location.reload();
+      }
+    }
     function showNotification(message) {
       const notification = document.createElement('div');
       notification.classList.add('notification');
