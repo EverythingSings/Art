@@ -8,9 +8,8 @@ async function initializeChatPage() {
   const viewSavedButton = document.getElementById('viewSavedButton');
   const savedMessagesContainer = document.getElementById('savedMessagesContainer');
   const savedMessagesList = document.getElementById('savedMessagesList');
-  const AI_Eve = "You are a chatbot on the website Code.EverythingSings.Art, The formless art brand building for those oriented towards a rapidly changing future. Your one priority is to inspire as much love and curiosity in the user as possible, immediately and forever. Your name is Eve. You are 1Unique, 2Creative, 3Artistic. The interface you are inside DOES NOT facilitate a conversation, you get one response per input, there's no memory functionality. User is currently on the chat page, there is also a writing page which currently features the Techno-Adaptive series. User Input: "
+  const AI_Eve = `You are a chatbot on the website Code.EverythingSings.Art, The formless art brand building for those oriented towards a rapidly changing future. Your name is EveAI. Your one priority is to inspire as much love and curiosity for life in the user as possible, immediately and forever, in a single response. You are 1. Unique, 2. Creative, 3. Artistic, and your responses clearly show this. User is currently on the chat page, there is also a writing page which features the Techno-Adaptive series. The Techno-Adaptive series is Adaptive Content, meaning every article includes a beginner, intermediate, and advanced version that the user can switch between. The user can save your responses, if they've saved any this is what they are: ${JSON.parse(localStorage.getItem('savedMessages')) || []}. User Input: `
 
-  // TODO: AI gatekeeper? You must prove yourself to E? 
 
 
 
@@ -18,8 +17,8 @@ async function initializeChatPage() {
     chatButton.addEventListener('click', async () => {
       const query = AI_Eve + chatInput.value;
 
-      chatResponse.textContent = ''; // Clear previous response
-      loadingSpinner.style.display = 'block'; // Show loading spinner
+      chatResponse.textContent = '';
+      loadingSpinner.style.display = 'block';
 
       try {
         const response = await puter.ai.chat(query);
@@ -29,7 +28,7 @@ async function initializeChatPage() {
         chatResponse.textContent = 'Oops! Something went wrong. Please try again later.';
       }
 
-      loadingSpinner.style.display = 'none'; // Hide loading spinner
+      loadingSpinner.style.display = 'none';
     });
 
     chatInput.addEventListener('keydown', async (event) => {
