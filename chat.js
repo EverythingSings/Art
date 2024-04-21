@@ -64,11 +64,6 @@ async function initializeChatPage() {
       localStorage.setItem('savedMessages', JSON.stringify(savedMessages));
 
       showNotification('Message saved successfully!');
-
-      // Refresh the window if the saved messages container is open
-      if (savedMessagesContainer.style.display === 'block') {
-        window.location.reload();
-      }
     });
 
 
@@ -107,10 +102,6 @@ async function initializeChatPage() {
       renderSavedMessages();
       showNotification('Message deleted successfully!');
 
-      // Refresh the window if the saved messages container is open
-      if (savedMessagesContainer.style.display === 'block') {
-        window.location.reload();
-      }
     }
     function showNotification(message) {
       const notification = document.createElement('div');
