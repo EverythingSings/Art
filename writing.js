@@ -118,10 +118,23 @@ function handleSeriesSwitch() {
       fetchArticles()
         .then(articles => {
           displayArticleList(articles, series);
+          return articles;
+        })
+        .then(articles => {
+          const filteredArticles = articles.filter(article => article.series === series);
+          if (filteredArticles.length > 0) {
+            articleId = filteredArticles[0].id;
+            return fetchArticleContent();
+          } else {
+            throw new Error('No articles found for the selected series.');
+          }
+        })
+        .then(articleContent => {
+          displayArticleContent(articleContent);
         })
         .catch(error => {
           console.error('Error:', error);
-          displayErrorMessage('There was an error loading the articles.');
+          displayErrorMessage('There was an error loading the articles or displaying the first article.');
         });
     });
   });
