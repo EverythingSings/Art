@@ -22,19 +22,6 @@ function fetchArticles() {
     .then(response => response.json());
 }
 
-function displayArticleList(articles) {
-  const articleList = document.getElementById('article-list');
-  articleList.innerHTML = '';
-
-  articles.forEach(article => {
-    const articleElement = document.createElement('div');
-    articleElement.classList.add('article-item');
-    articleElement.dataset.articleId = article.id;
-    articleElement.textContent = article.title;
-    articleList.appendChild(articleElement);
-  });
-}
-
 function handleArticleClick() {
   const articleList = document.getElementById('article-list');
   articleList.addEventListener('click', event => {
@@ -84,6 +71,7 @@ function fetchArticleContent() {
   return fetch(`${seriesPrefix}-${articleId}-${selectedLevel}.json`)
     .then(response => response.json());
 }
+
 function displayArticleList(articles) {
   const articleList = document.getElementById('article-list');
   articleList.innerHTML = '';
