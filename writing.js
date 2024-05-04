@@ -81,7 +81,8 @@ function displayArticleContent(articleContent) {
   articleContentElement.appendChild(titleElement);
 
   const contentElement = document.createElement('div');
-  contentElement.innerHTML = articleContent.content;
+  const formattedContent = articleContent.content.replace(/\n/g, '<br>');
+  contentElement.innerHTML = formattedContent;
   articleContentElement.appendChild(contentElement);
 }
 
