@@ -72,6 +72,19 @@ function fetchArticleContent() {
     .then(response => response.json());
 }
 
+function displayArticleContent(articleContent) {
+  const articleContentElement = document.getElementById('article-content');
+  articleContentElement.innerHTML = '';
+
+  const titleElement = document.createElement('h2');
+  titleElement.textContent = articleContent.title;
+  articleContentElement.appendChild(titleElement);
+
+  const contentElement = document.createElement('div');
+  contentElement.innerHTML = articleContent.content;
+  articleContentElement.appendChild(contentElement);
+}
+
 function displayArticleList(articles, selectedSeries) {
   const articleList = document.getElementById('article-list');
   articleList.innerHTML = '';
