@@ -72,11 +72,10 @@ function fetchArticleContent() {
     .then(response => response.json());
 }
 
-function displayArticleList(articles) {
+function displayArticleList(articles, selectedSeries) {
   const articleList = document.getElementById('article-list');
   articleList.innerHTML = '';
 
-  const selectedSeries = document.querySelector('.series-link.active').dataset.series;
   const filteredArticles = articles.filter(article => article.series === selectedSeries);
 
   filteredArticles.forEach(article => {
@@ -87,6 +86,8 @@ function displayArticleList(articles) {
     articleList.appendChild(articleElement);
   });
 }
+
+
 function displayErrorMessage(message) {
   const articleContentElement = document.getElementById('article-content');
   articleContentElement.innerHTML = `<p class="error-message">${message}</p>`;
@@ -101,17 +102,14 @@ function handleSeriesSwitch() {
       seriesLinks.forEach(link => link.classList.remove('active'));
       event.target.classList.add('active');
 
-      const technoAdaptiveContent = document.querySelector('.techno-adaptive-content');
-      const bookReviewsContent = document.querySelector('.book-reviews-content');
-
-      if (series === 'techno-adaptive') {
-        technoAdaptiveContent.style.display = 'block';
-        bookReviewsContent.style.display = 'none';
-      } else if (series === 'book-reviews') {
-        technoAdaptiveContent.style.display = 'none';
-        bookReviewsContent.style.display = 'block';
-      }
+      fetchArticles()
+        .then(articles => {
+          displayArticleList(articles, series);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          displayErrorMessage('There was an error loading the articles.');
+        });
     });
   });
 }
-
