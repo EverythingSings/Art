@@ -6,6 +6,7 @@ export function initializeWritingPage() {
       initReadingLevelPicker('.picker', function (selectedLevel) {
         console.log('Selected reading level:', selectedLevel);
       });
+      handleSeriesSwitch();
     })
     .catch(error => {
       console.error('Error:', error);
@@ -98,3 +99,27 @@ function displayErrorMessage(message) {
   const articleContentElement = document.getElementById('article-content');
   articleContentElement.innerHTML = `<p class="error-message">${message}</p>`;
 }
+
+function handleSeriesSwitch() {
+  const seriesLinks = document.querySelectorAll('.series-link');
+  seriesLinks.forEach(link => {
+    link.addEventListener('click', event => {
+      event.preventDefault();
+      const series = event.target.dataset.series;
+      seriesLinks.forEach(link => link.classList.remove('active'));
+      event.target.classList.add('active');
+
+      const technoAdaptiveContent = document.querySelector('.techno-adaptive-content');
+      const bookReviewsContent = document.querySelector('.book-reviews-content');
+
+      if (series === 'techno-adaptive') {
+        technoAdaptiveContent.style.display = 'block';
+        bookReviewsContent.style.display = 'none';
+      } else if (series === 'book-reviews') {
+        technoAdaptiveContent.style.display = 'none';
+        bookReviewsContent.style.display = 'block';
+      }
+    });
+  });
+}
+
