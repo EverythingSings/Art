@@ -40,7 +40,8 @@ function handleArticleClick() {
   articleList.addEventListener('click', event => {
     articleId = event.target.dataset.articleId;
     if (articleId) {
-      fetchArticleContent()
+      const series = document.querySelector('.series-link.active').dataset.series;
+      fetchArticleContent(series)
         .then(articleContent => {
           displayArticleContent(articleContent);
         })
@@ -51,7 +52,6 @@ function handleArticleClick() {
     }
   });
 }
-
 function initReadingLevelPicker(selector, callback) {
   const pickerElement = document.querySelector(selector);
 
@@ -80,21 +80,25 @@ initReadingLevelPicker('.picker', function (selectedLevel) {
 
 
 function fetchArticleContent() {
-  return fetch(`article-${articleId}-${selectedLevel}.json`)
+  const seriesPrefix = document.querySelector('.series-link.active').dataset.series;
+  return fetch(`${seriesPrefix}-${articleId}-${selectedLevel}.json`)
     .then(response => response.json());
 }
+function displayArticleList(articles) {
+  const articleList = document.getElementById('article-list');
+  articleList.innerHTML = '';
 
-function displayArticleContent(articleContent) {
-  const articleContentElement = document.getElementById('article-content');
-  const formattedContent = `
-    <h2>${articleContent.title}</h2>
-    ${articleContent.content.split('\n').map(paragraph => `<p>${paragraph}</p>`).join('')}
-  `;
-  articleContentElement.innerHTML = formattedContent;
+  const selectedSeries = document.querySelector('.series-link.active').dataset.series;
+  const filteredArticles = articles.filter(article => article.series === selectedSeries);
 
-  articleContentElement.scrollTop = 0;
+  filteredArticles.forEach(article => {
+    const articleElement = document.createElement('div');
+    articleElement.classList.add('article-item');
+    articleElement.dataset.articleId = article.id;
+    articleElement.textContent = article.title;
+    articleList.appendChild(articleElement);
+  });
 }
-
 function displayErrorMessage(message) {
   const articleContentElement = document.getElementById('article-content');
   articleContentElement.innerHTML = `<p class="error-message">${message}</p>`;

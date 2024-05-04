@@ -1,14 +1,22 @@
 [
   {
     "id": 1,
-    "title": "The Techno-Adaptive Cycle"
+    "title": "Techno-Adaptive Cycle",
+    "series": "techno-adaptive"
   },
   {
     "id": 2,
-    "title": "The Techno-Adaptive Curve"
+    "title": "Techno-Adaptive Curve",
+    "series": "techno-adaptive"
   },
   {
     "id": 3,
-    "title":"The Techno-Adaptive Circle"
+    "title": "Techno-Adaptive Circle",
+    "series": "techno-adaptive"
+  }, 
+  {
+    "id": 4,
+    "title": "Test",
+    "series": "book-reviews"
   }
 ]

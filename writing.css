@@ -39,6 +39,24 @@
   flex: 1;
 }
 
+@media (max-width: 768px) {
+  .writing-container {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .sidebar {
+    flex: none;
+    margin-bottom: 20px;
+    padding-right: 0;
+  }
+
+  .main-content {
+    flex: 1;
+  }
+}
+
+/* Rest of the CSS code remains the same */
 .article-item {
   cursor: pointer;
   padding: 10px;
