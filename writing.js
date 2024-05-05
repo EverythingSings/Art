@@ -1,19 +1,33 @@
 export function initializeWritingPage() {
   fetchArticles()
     .then(articles => {
-      displayArticleList(articles);
+      const defaultSeries = "techno-adaptive";
+      displayArticleList(articles, defaultSeries);
       handleArticleClick();
       initReadingLevelPicker('.picker', function (selectedLevel) {
         console.log('Selected reading level:', selectedLevel);
       });
       handleSeriesSwitch();
+
+      // Fetch and display the content of the first article in the default series
+      const filteredArticles = articles.filter(article => article.series === defaultSeries);
+      if (filteredArticles.length > 0) {
+        articleId = filteredArticles[0].id;
+        fetchArticleContent()
+          .then(articleContent => {
+            displayArticleContent(articleContent);
+          })
+          .catch(error => {
+            console.error('Error fetching article content:', error);
+            displayErrorMessage('Failed to load article content. Please try again later.');
+          });
+      }
     })
     .catch(error => {
       console.error('Error:', error);
       displayErrorMessage('There was an error initializing the Writing page.');
     });
 }
-
 let selectedLevel = "beginner";
 let articleId = 1;
 
