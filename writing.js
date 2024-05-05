@@ -39,6 +39,7 @@ function handleArticleClick() {
     }
   });
 }
+
 function initReadingLevelPicker(selector, callback) {
   const pickerElement = document.querySelector(selector);
 
