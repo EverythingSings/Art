@@ -21,16 +21,26 @@
   },
   {
     "id": 5,
-    "title": "104: Reality Hunger - David Shields",
+    "title": "102: Swift Design Patterns - Paul Hudson",
     "series": "book-reviews"
   },
   {
     "id": 6,
+    "title": "103: Dogs of War - Adrian Tchaikovsky",
+    "series":"book-reviews"
+  },
+  {
+    "id": 7,
+    "title": "104: Reality Hunger - David Shields",
+    "series": "book-reviews"
+  },
+  {
+    "id": 8,
     "title": "105: The Creative Act: A Way of Being - Rick Rubin",
     "series": "book-reviews"
   },
   {
-    "id": 7,
+    "id": 9,
     "title": "106: What Is ChatGPT Doing... and Why Does It Work? - Stephen Wolfram",
     "series": "book-reviews"
   }
