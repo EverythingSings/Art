@@ -1,4 +1,7 @@
 export function initializeWritingPage() {
+
+  const errorMessage = "Failed to load article content. Please try selecting a different reading level, or try again later"
+
   fetchArticles()
     .then(articles => {
       const defaultSeries = "techno-adaptive";
@@ -19,7 +22,7 @@ export function initializeWritingPage() {
           })
           .catch(error => {
             console.error('Error fetching article content:', error);
-            displayErrorMessage('Failed to load article content. Please try again later.');
+            displayErrorMessage(errorMessage);
           });
       }
     })
@@ -48,7 +51,7 @@ function handleArticleClick() {
         })
         .catch(error => {
           console.error('Error fetching article content:', error);
-          displayErrorMessage('Failed to load article content. Please try selecting a different reading level, or try again later.');
+          displayErrorMessage(errorMessage);
         });
     }
   });
