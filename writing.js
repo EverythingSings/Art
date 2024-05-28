@@ -48,7 +48,7 @@ function handleArticleClick() {
         })
         .catch(error => {
           console.error('Error fetching article content:', error);
-          displayErrorMessage('Failed to load article content. Please try again later.');
+          displayErrorMessage('Failed to load article content. Please try selecting a different reading level, or try again later.');
         });
     }
   });
