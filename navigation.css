@@ -1,9 +1,15 @@
-body {
-  font-family: monospace;
+:root {
+  --main-bg-color: #333;
+  --main-text-color: #fafafa;
+  --highlight-color: #4F86F7;
+  --font-family: monospace;
+  --padding: 1rem;
+  --border-radius: 0.75rem;
+  --box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.6), -5px -5px 10px rgba(255, 255, 255, 0.1);
 }
 
-nav a {
-  color: #fafafa;
+body {
+  font-family: var(--font-family);
 }
 
 nav {
@@ -11,19 +17,22 @@ nav {
   flex-wrap: wrap;
   gap: 1rem;
   align-items: center;
-  padding: 1rem;
-  background-color: #333;
-  color: #fafafa;
+  padding: var(--padding);
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
   min-height: 40px;
 }
 
-nav a:hover {
-  color: #4F86F7;
+nav a {
+  color: var(--main-text-color);
 }
 
+nav a:hover {
+  color: var(--highlight-color);
+}
 
 .logo {
-  color: #fafafa;
+  color: var(--main-text-color);
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -42,19 +51,19 @@ nav a:hover {
 }
 
 .dropdown-toggle {
-  color: #fafafa;
+  color: var(--main-text-color);
   text-decoration: none;
   padding: 1rem 2rem;
-  border-radius: 0.75rem;
-  background-color: #1c1c1c;
+  border-radius: var(--border-radius);
+  background-color: var(--main-bg-color);
   cursor: pointer;
   font-size: 2rem;
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.6), -5px -5px 10px rgba(255, 255, 255, 0.1);
+  box-shadow: var(--box-shadow);
   transition: box-shadow 0.3s ease;
 }
 
 .dropdown-toggle:hover {
-  color: #4F86F7;
+  color: var(--highlight-color);
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6), -2px -2px 5px rgba(255, 255, 255, 0.1);
 }
 
@@ -63,13 +72,13 @@ nav a:hover {
   position: absolute;
   top: 100%;
   right: 0;
-  background-color: #1c1c1c;
+  background-color: var(--main-bg-color);
   padding: 1rem;
   list-style: none;
   min-width: 150px;
-  border-radius: 0.5rem;
+  border-radius: var(--border-radius);
   z-index: 1;
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.6), -5px -5px 10px rgba(255, 255, 255, 0.1);
+  box-shadow: var(--box-shadow);
 }
 
 .dropdown.active .dropdown-menu {
@@ -82,13 +91,13 @@ nav a:hover {
 }
 
 .dropdown-menu a {
-  color: #fafafa;
+  color: var(--main-text-color);
   text-decoration: none;
   font-size: 1.5rem;
 }
 
 .dropdown-menu a:hover {
-  color: #4F86F7;
+  color: var(--highlight-color);
 }
 
 @media screen and (max-width: 768px) {

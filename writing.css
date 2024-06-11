@@ -1,15 +1,28 @@
+:root {
+  --main-bg-color: #1c1c1c;
+  --main-text-color: #ccc;
+  --highlight-color: #4F86F7;
+  --error-color: red;
+  --font-family: Arial, sans-serif;
+  --font-size: 1rem;
+  --padding: 20px;
+  --margin: 0 auto;
+  --border-radius: 10px;
+  --box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.6), -5px -5px 10px rgba(255, 255, 255, 0.1);
+}
+
 .writing-container {
   display: flex;
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  font-size: 1rem;
+  margin: var(--margin);
+  padding: var(--padding);
+  font-size: var(--font-size);
   width: 100%;
 }
 
 .sidebar {
   flex: 0 0 200px;
-  padding-right: 20px;
+  padding-right: var(--padding);
 }
 
 .sidebar h3 {
@@ -26,12 +39,12 @@
 }
 
 .sidebar a {
-  color: #ccc;
+  color: var(--main-text-color);
   text-decoration: none;
 }
 
 .sidebar a.active {
-  color: #4F86F7;
+  color: var(--highlight-color);
   font-weight: bold;
 }
 
@@ -56,7 +69,6 @@
   }
 }
 
-/* Rest of the CSS code remains the same */
 .article-item {
   cursor: pointer;
   padding: 10px;
@@ -64,22 +76,22 @@
 }
 
 .article-item:hover {
-  color: #4F86F7;
+  color: var(--highlight-color);
 }
 
 .error-message {
-  color: red;
+  color: var(--error-color);
 }
 
 #article-content {
-  max-width: 1000px; 
-  margin: 0 auto;
-  padding: 20px;
-  max-height: 60vh; 
+  max-width: 1000px;
+  margin: var(--margin);
+  padding: var(--padding);
+  max-height: 60vh;
   overflow-y: auto;
-  font-family: Arial, sans-serif;
+  font-family: var(--font-family);
   line-height: 1.6;
-  color: #ccc;
+  color: var(--main-text-color);
 }
 
 #article-content h2 {
@@ -91,14 +103,6 @@
   margin-bottom: 20px;
 }
 
-.lil-gui {
-  display: none;
-}
-
-#music-player {
-  display: none;
-}
-
 .picker {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -108,24 +112,24 @@
   width: auto;
   height: 10vh;
   max-height: 60px;
-  background-color: #1c1c1c;
-  border-radius: 10px;
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.6), -5px -5px 10px rgba(255, 255, 255, 0.1);
+  background-color: var(--main-bg-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
 }
 
 .option {
   width: 20%;
   height: 60%;
-  background-color: #1c1c1c;
+  background-color: var(--main-bg-color);
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 18px; 
+  font-size: 18px;
   font-weight: bold;
   color: #fafafa;
   cursor: pointer;
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.6), -5px -5px 10px rgba(255, 255, 255, 0.1);
+  box-shadow: var(--box-shadow);
   transition: box-shadow 0.3s ease;
 }
 
@@ -138,19 +142,6 @@
 }
 
 @media (max-width: 600px) {
-  .writing-container {
-    padding: 10px;
-  }
-
-  #article-content {
-    padding: 10px;
-    max-height: 70vh;
-  }
-
-  #article-content h2 {
-    font-size: 1.2rem;
-  }
-
   .picker {
     flex-wrap: wrap;
     height: auto;
@@ -160,8 +151,17 @@
 
   .option {
     width: 40%;
-    height: 80px; 
+    height: 80px;
     margin-bottom: 10px;
     font-size: 16px;
+  }
+
+  #article-content {
+    padding: 10px;
+    max-height: 70vh;
+  }
+
+  #article-content h2 {
+    font-size: 1.2rem;
   }
 }

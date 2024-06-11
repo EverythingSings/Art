@@ -1,9 +1,17 @@
-/* styles.css */
+:root {
+  --main-bg-color: #101010;
+  --main-text-color: #fafafa;
+  --highlight-color: #4F86F7;
+  --font-family: Montserrat, sans-serif;
+  --padding: 1rem;
+  --border-radius: 0.5rem;
+}
+
 body {
   margin: 0;
   overflow: hidden;
-  background-color: #101010;
-  color: #fafafa;
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
   position: relative;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
@@ -30,7 +38,7 @@ canvas {
 
 #website {
   color: black;
-  font-family: montserrat;
+  font-family: var(--font-family);
   font-weight: bolder;
   text-decoration: none;
   padding: 16px 24px;
@@ -46,9 +54,6 @@ canvas {
   margin: 2rem;
   color: white;
   font-size: 48px;
-}
-
-#title {
   cursor: pointer;
 }
 
