@@ -1,16 +1,16 @@
 /* chat.css */
 
 :root {
-  --main-bg-color: #333;
+  --main-bg-color: #101010;
   --main-text-color: #fafafa;
   --highlight-color: #4F86F7;
   --error-color: red;
-  --font-family: Arial, sans-serif;
+  --font-family: Montserrat, sans-serif;
   --font-size: 1rem;
-  --padding: 20px;
-  --margin: 1rem auto;
-  --border-radius: 10px;
-  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --padding: 1rem;
+  --margin: 0 auto;
+  --border-radius: 0.5rem;
+  --box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.6), -5px -5px 10px rgba(255, 255, 255, 0.1);
 }
 
 .chat-container {

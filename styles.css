@@ -1,8 +1,8 @@
 body {
   margin: 0;
   overflow-x: hidden;
-  background-color: #101010;
-  color: #fafafa;
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
   position: relative;
 }
 
@@ -30,17 +30,17 @@ canvas {
 
 #website {
   color: black;
-  font-family: montserrat;
+  font-family: var(--font-family);
   font-weight: bolder;
   text-decoration: none;
   padding: 1rem 1.5rem;
   background-color: rgba(194, 194, 194, 0.5);
-  border-radius: 0.5rem;
+  border-radius: var(--border-radius);
 }
 
 #title {
   position: absolute;
-  border-radius: 0.5rem;
+  border-radius: var(--border-radius);
   background-color: #10101075;
   padding: 1.5rem;
   margin: 1.5rem;
@@ -59,8 +59,27 @@ canvas {
   width: 90%;
   max-width: 400px;
   height: auto; 
-  border-radius: 0.5rem;
+  border-radius: var(--border-radius);
   z-index: 1000;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  padding: var(--padding);
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
+  min-height: 40px;
+}
+
+nav a {
+  color: var(--main-text-color);
+}
+
+nav a:hover {
+  color: var(--highlight-color);
 }
 
 @media screen and (min-width: 768px) {

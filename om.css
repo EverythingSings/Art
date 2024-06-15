@@ -5,6 +5,7 @@
   --font-family: Montserrat, sans-serif;
   --padding: 1rem;
   --border-radius: 0.5rem;
+  --box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.6), -5px -5px 10px rgba(255, 255, 255, 0.1);
 }
 
 body {
@@ -71,4 +72,23 @@ canvas {
   #music-player {
     display: none;
   }
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  padding: var(--padding);
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
+  min-height: 40px;
+}
+
+nav a {
+  color: var(--main-text-color);
+}
+
+nav a:hover {
+  color: var(--highlight-color);
 }

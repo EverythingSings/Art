@@ -1,13 +1,13 @@
 :root {
-  --main-bg-color: #1c1c1c;
-  --main-text-color: #ccc;
+  --main-bg-color: #101010;
+  --main-text-color: #fafafa;
   --highlight-color: #4F86F7;
   --error-color: red;
-  --font-family: Arial, sans-serif;
+  --font-family: Montserrat, sans-serif;
   --font-size: 1rem;
-  --padding: 20px;
+  --padding: 1rem;
   --margin: 0 auto;
-  --border-radius: 10px;
+  --border-radius: 0.5rem;
   --box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.6), -5px -5px 10px rgba(255, 255, 255, 0.1);
 }
 
@@ -164,4 +164,23 @@
   #article-content h2 {
     font-size: 1.2rem;
   }
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  padding: var(--padding);
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
+  min-height: 40px;
+}
+
+nav a {
+  color: var(--main-text-color);
+}
+
+nav a:hover {
+  color: var(--highlight-color);
 }
