@@ -184,3 +184,24 @@ nav a {
 nav a:hover {
   color: var(--highlight-color);
 }
+
+.game-elements {
+  margin-top: 20px;
+  color: var(--main-text-color);
+}
+
+#points, #achievements {
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+  width: 100%;
+  background-color: #ccc;
+  border-radius: var(--border-radius);
+}
+
+.progress-bar-fill {
+  height: 20px;
+  background-color: var(--highlight-color);
+  border-radius: var(--border-radius);
+}

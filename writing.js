@@ -16,6 +16,29 @@ export function initializeWritingPage() {
 
 let selectedLevel = "intermediate";
 let articleId = 1;
+let points = 0;
+let achievements = [];
+let lastLoadedArticleId = null;
+let lastLoadedLevel = null;
+
+function updatePoints(newPoints) {
+  points += newPoints;
+  document.getElementById('points').textContent = `Points: ${points}`;
+  updateProgressBar();
+}
+
+function addAchievement(achievement) {
+  if (!achievements.includes(achievement)) {
+    achievements.push(achievement);
+    document.getElementById('achievements').textContent = `Achievements: ${achievements.join(', ')}`;
+  }
+}
+
+function updateProgressBar() {
+  const progressBarFill = document.querySelector('.progress-bar-fill');
+  const progress = (points / 100) * 10; 
+  progressBarFill.style.width = `${progress}%`;
+}
 
 function fetchArticles() {
   return fetch('articles.json')
@@ -41,9 +64,19 @@ function setupPage(articles, defaultSeries) {
 }
 
 function loadArticleContent(series, articleId, level) {
+  if (articleId === lastLoadedArticleId && level === lastLoadedLevel) {
+    return; // Do not load the same article again with the same level
+  }
+
   fetchArticleContent(series, articleId, level)
     .then(articleContent => {
       displayArticleContent(articleContent);
+      if (articleId !== lastLoadedArticleId || level !== lastLoadedLevel) {
+        updatePoints(1); 
+        if (points >= 50) addAchievement('First 50 Points');
+      }
+      lastLoadedArticleId = articleId; // Update the last loaded article ID
+      lastLoadedLevel = level; // Update the last loaded level
     })
     .catch(error => {
       console.error(`Error fetching article content for level ${level}:`, error);
