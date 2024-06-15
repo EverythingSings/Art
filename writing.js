@@ -17,17 +17,25 @@ export function initializeWritingPage() {
 let selectedLevel = "intermediate";
 let articleId = 1;
 let points = parseInt(localStorage.getItem('points')) || 0;
+let prestigeCount = parseInt(localStorage.getItem('prestigeCount')) || 0;
 let achievements = [];
 let lastLoadedArticleId = null;
 let lastLoadedLevel = null;
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('points').textContent = `Points: ${points}`;
+  document.getElementById('prestige').textContent = `Prestige: ${prestigeCount}`;
   updateProgressBar();
 });
 
 function updatePoints(newPoints) {
   points += newPoints;
+  if (points >= 100) {
+    points = 0;
+    prestigeCount += 1;
+    localStorage.setItem('prestigeCount', prestigeCount);
+    document.getElementById('prestige').textContent = `Prestige: ${prestigeCount}`;
+  }
   localStorage.setItem('points', points);
   document.getElementById('points').textContent = `Points: ${points}`;
   updateProgressBar();
@@ -37,6 +45,45 @@ function addAchievement(achievement) {
   if (!achievements.includes(achievement)) {
     achievements.push(achievement);
     document.getElementById('achievements').textContent = `Achievements: ${achievements.join(', ')}`;
+  }
+}
+
+function checkForAchievements() {
+  if (points >= 50 && !achievements.includes('First 50 Points')) {
+    addAchievement('First 50 Points');
+  }
+  if (points >= 100 && !achievements.includes('Century Club')) {
+    addAchievement('Century Club');
+  }
+  if (prestigeCount >= 1 && !achievements.includes('Prestigious')) {
+    addAchievement('Prestigious');
+  }
+  if (prestigeCount >= 5 && !achievements.includes('Prestige Master')) {
+    addAchievement('Prestige Master');
+  }
+  if (achievements.length >= 5 && !achievements.includes('Achievement Hunter')) {
+    addAchievement('Achievement Hunter');
+  }
+  if (lastLoadedArticleId === 1 && !achievements.includes('First Article Read')) {
+    addAchievement('First Article Read');
+  }
+  if (selectedLevel === 'advanced' && !achievements.includes('Advanced Reader')) {
+    addAchievement('Advanced Reader');
+  }
+  if (selectedLevel === 'beginner' && !achievements.includes('Beginner Reader')) {
+    addAchievement('Beginner Reader');
+  }
+  if (selectedLevel === 'intermediate' && !achievements.includes('Intermediate Reader')) {
+    addAchievement('Intermediate Reader');
+  }
+  if (achievements.length >= 10 && !achievements.includes('Achievement Collector')) {
+    addAchievement('Achievement Collector');
+  }
+  if (achievements.length >= 20 && !achievements.includes('Achievement Hoarder')) {
+    addAchievement('Achievement Hoarder');
+  }
+  if (achievements.length >= 30 && !achievements.includes('Achievement Overlord')) {
+    addAchievement('Achievement Overlord');
   }
 }
 
@@ -79,7 +126,7 @@ function loadArticleContent(series, articleId, level) {
       displayArticleContent(articleContent);
       if (articleId !== lastLoadedArticleId || level !== lastLoadedLevel) {
         updatePoints(1); 
-        if (points >= 50) addAchievement('First 50 Points');
+        checkForAchievements();
       }
       lastLoadedArticleId = articleId; // Update the last loaded article ID
       lastLoadedLevel = level; // Update the last loaded level
