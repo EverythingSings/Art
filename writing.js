@@ -1,37 +1,20 @@
-export function initializeWritingPage() {
+const errorMessage = "Failed to load article content. Please try selecting a different reading level, or try again later.";
 
-  const errorMessage = "Failed to load article content. Please try selecting a different reading level, or try again later"
+
+export function initializeWritingPage() {
 
   fetchArticles()
     .then(articles => {
       const defaultSeries = "techno-adaptive";
-      displayArticleList(articles, defaultSeries);
-      handleArticleClick();
-      initReadingLevelPicker('.picker', function (selectedLevel) {
-        console.log('Selected reading level:', selectedLevel);
-      });
-      handleSeriesSwitch();
-
-      // Fetch and display the content of the first article in the default series
-      const filteredArticles = articles.filter(article => article.series === defaultSeries);
-      if (filteredArticles.length > 0) {
-        articleId = filteredArticles[0].id;
-        fetchArticleContent()
-          .then(articleContent => {
-            displayArticleContent(articleContent);
-          })
-          .catch(error => {
-            console.error('Error fetching article content:', error);
-            displayErrorMessage(errorMessage);
-          });
-      }
+      setupPage(articles, defaultSeries);
     })
     .catch(error => {
       console.error('Error:', error);
       displayErrorMessage('There was an error initializing the Writing page.');
     });
 }
-let selectedLevel = "beginner";
+
+let selectedLevel = "intermediate";
 let articleId = 1;
 
 function fetchArticles() {
@@ -39,90 +22,103 @@ function fetchArticles() {
     .then(response => response.json());
 }
 
+function fetchArticleContent(series, articleId, level) {
+  return fetch(`${series}-${articleId}-${level}.json`)
+    .then(response => response.json());
+}
+
+function setupPage(articles, defaultSeries) {
+  displayArticleList(articles, defaultSeries);
+  handleArticleClick();
+  initReadingLevelPicker('.picker', onReadingLevelChange);
+  handleSeriesSwitch();
+
+  const filteredArticles = articles.filter(article => article.series === defaultSeries);
+  if (filteredArticles.length > 0) {
+    articleId = filteredArticles[0].id;
+    loadArticleContent(defaultSeries, articleId, selectedLevel);
+  }
+}
+
+function loadArticleContent(series, articleId, level) {
+  fetchArticleContent(series, articleId, level)
+    .then(articleContent => {
+      displayArticleContent(articleContent);
+    })
+    .catch(error => {
+      console.error(`Error fetching article content for level ${level}:`, error);
+      const availableLevels = ["beginner", "intermediate", "advanced"].filter(l => l !== level);
+      let found = false;
+
+      (async function tryOtherLevels() {
+        for (let i = 0; i < availableLevels.length; i++) {
+          try {
+            const articleContent = await fetchArticleContent(series, articleId, availableLevels[i]);
+            displayArticleContent(articleContent);
+            selectedLevel = availableLevels[i];
+            updateReadingLevelPicker(selectedLevel);
+            found = true;
+            break;
+          } catch (err) {
+            console.error(`Error fetching article content for level ${availableLevels[i]}:`, err);
+          }
+        }
+        if (!found) {
+          displayErrorMessage(errorMessage);
+        }
+      })();
+    });
+}
+
+function updateReadingLevelPicker(level) {
+  const pickerElement = document.querySelector('.picker');
+  if (pickerElement) {
+    const options = pickerElement.querySelectorAll('.option');
+    options.forEach(option => {
+      option.classList.remove('selected');
+      if (option.dataset.level === level) {
+        option.classList.add('selected');
+      }
+    });
+  }
+}
+
 function handleArticleClick() {
   const articleList = document.getElementById('article-list');
   articleList.addEventListener('click', event => {
-    articleId = event.target.dataset.articleId;
-    if (articleId) {
+    const clickedArticleId = event.target.dataset.articleId;
+    if (clickedArticleId) {
+      articleId = clickedArticleId;
       const series = document.querySelector('.series-link.active').dataset.series;
-      fetchArticleContent(series)
-        .then(articleContent => {
-          displayArticleContent(articleContent);
-        })
-        .catch(error => {
-          console.error('Error fetching article content:', error);
-          displayErrorMessage(errorMessage);
-        });
+      loadArticleContent(series, articleId, selectedLevel);
     }
   });
 }
 
 function initReadingLevelPicker(selector, callback) {
   const pickerElement = document.querySelector(selector);
-
   if (pickerElement) {
-
     const options = pickerElement.querySelectorAll('.option');
-
     options.forEach(option => {
+      if (option.dataset.level === selectedLevel) {
+        option.classList.add('selected');
+      }
       option.addEventListener('click', () => {
         options.forEach(opt => opt.classList.remove('selected'));
         option.classList.add('selected');
         selectedLevel = option.dataset.level;
-        fetchArticleContent()
-          .then(articleContent => {
-            displayArticleContent(articleContent);
-          })
+        const series = document.querySelector('.series-link.active').dataset.series;
+        loadArticleContent(series, articleId, selectedLevel);
         callback(selectedLevel);
       });
     });
-  } else { console.debug("No element: ", selector) }
+  } else {
+    console.debug("No element: ", selector);
+  }
 }
 
-initReadingLevelPicker('.picker', function (selectedLevel) {
+function onReadingLevelChange(selectedLevel) {
   console.log('Selected reading level:', selectedLevel);
-});
-
-
-function fetchArticleContent() {
-  const seriesPrefix = document.querySelector('.series-link.active').dataset.series;
-  return fetch(`${seriesPrefix}-${articleId}-${selectedLevel}.json`)
-    .then(response => response.json());
-}
-
-function displayArticleContent(articleContent) {
-  const articleContentElement = document.getElementById('article-content');
-  articleContentElement.innerHTML = '';
-
-  const titleElement = document.createElement('h2');
-  titleElement.textContent = articleContent.title;
-  articleContentElement.appendChild(titleElement);
-
-  const contentElement = document.createElement('div');
-  const formattedContent = articleContent.content.replace(/\n/g, '<br>');
-  contentElement.innerHTML = formattedContent;
-  articleContentElement.appendChild(contentElement);
-}
-
-function displayArticleList(articles, selectedSeries) {
-  const articleList = document.getElementById('article-list');
-  articleList.innerHTML = '';
-
-  const filteredArticles = articles.filter(article => article.series === selectedSeries);
-
-  filteredArticles.forEach(article => {
-    const articleElement = document.createElement('div');
-    articleElement.classList.add('article-item');
-    articleElement.dataset.articleId = article.id;
-    articleElement.textContent = article.title;
-    articleList.appendChild(articleElement);
-  });
-}
-
-
-function displayErrorMessage(message) {
-  const articleContentElement = document.getElementById('article-content');
-  articleContentElement.innerHTML = `<p class="error-message">${message}</p>`;
 }
 
 function handleSeriesSwitch() {
@@ -137,13 +133,10 @@ function handleSeriesSwitch() {
       fetchArticles()
         .then(articles => {
           displayArticleList(articles, series);
-          return articles;
-        })
-        .then(articles => {
           const filteredArticles = articles.filter(article => article.series === series);
           if (filteredArticles.length > 0) {
             articleId = filteredArticles[0].id;
-            return fetchArticleContent();
+            return fetchArticleContent(series, articleId, selectedLevel);
           } else {
             throw new Error('No articles found for the selected series.');
           }
@@ -153,8 +146,81 @@ function handleSeriesSwitch() {
         })
         .catch(error => {
           console.error('Error:', error);
-          displayErrorMessage('There was an error loading the articles or displaying the first article.');
+          displayErrorMessage(errorMessage);
         });
     });
   });
 }
+
+function displayArticleContent(articleContent) {
+  const articleContentElement = document.getElementById('article-content');
+  articleContentElement.innerHTML = '';
+
+  const titleElement = document.createElement('h2');
+  titleElement.textContent = articleContent.title;
+  articleContentElement.appendChild(titleElement);
+
+  const contentElement = document.createElement('div');
+  const formattedContent = articleContent.content.replace(/\n/g, '<br><br>');
+  contentElement.innerHTML = formattedContent;
+  articleContentElement.appendChild(contentElement);
+}
+
+function displayArticleList(articles, selectedSeries) {
+  const articleList = document.getElementById('article-list');
+  articleList.innerHTML = '';
+
+  const filteredArticles = articles.filter(article => article.series === selectedSeries);
+  filteredArticles.forEach(article => {
+    const articleElement = document.createElement('div');
+    articleElement.classList.add('article-item');
+    articleElement.dataset.articleId = article.id;
+    articleElement.textContent = article.title;
+
+    // const bookmarkButton = document.createElement('button');
+    // bookmarkButton.textContent = 'Bookmark';
+    // bookmarkButton.addEventListener('click', () => bookmarkArticle(article));
+    // articleElement.appendChild(bookmarkButton);
+
+    articleList.appendChild(articleElement);
+  });
+}
+
+function displayErrorMessage(message) {
+  const articleContentElement = document.getElementById('article-content');
+  articleContentElement.innerHTML = `<p class="error-message">${message}</p>`;
+}
+
+// function bookmarkArticle(article) {
+//   let bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+//   if (!bookmarks.some(b => b.id === article.id)) {
+//     bookmarks.push(article);
+//     localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+//     alert('Article bookmarked!');
+//     displayBookmarkedArticles(); // Update the display after bookmarking
+//   } else {
+//     alert('Article already bookmarked.');
+//   }
+// }
+
+// function getBookmarkedArticles() {
+//   const bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+//   console.log('Bookmarked Articles:', bookmarks); // Check the structure
+//   return bookmarks;
+// }
+
+// function displayBookmarkedArticles() {
+//   const bookmarks = getBookmarkedArticles();
+//   const bookmarkList = document.getElementById('bookmark-list');
+//   bookmarkList.innerHTML = '';
+
+//   bookmarks.forEach(article => {
+//     const articleElement = document.createElement('div');
+//     articleElement.classList.add('article-item');
+//     articleElement.dataset.articleId = article.id;
+//     articleElement.textContent = article.title;
+//     bookmarkList.appendChild(articleElement);
+//   });
+// }
+
+// document.addEventListener('DOMContentLoaded', displayBookmarkedArticles);
