@@ -16,13 +16,19 @@ export function initializeWritingPage() {
 
 let selectedLevel = "intermediate";
 let articleId = 1;
-let points = 0;
+let points = parseInt(localStorage.getItem('points')) || 0;
 let achievements = [];
 let lastLoadedArticleId = null;
 let lastLoadedLevel = null;
 
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('points').textContent = `Points: ${points}`;
+  updateProgressBar();
+});
+
 function updatePoints(newPoints) {
   points += newPoints;
+  localStorage.setItem('points', points);
   document.getElementById('points').textContent = `Points: ${points}`;
   updateProgressBar();
 }
